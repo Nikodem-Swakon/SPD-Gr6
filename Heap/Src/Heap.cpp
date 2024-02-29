@@ -1,5 +1,6 @@
 #include "../Inc/Heap.hpp"
 #include <assert.h>
+#include <string>
 
 namespace Structure
 {
@@ -36,5 +37,28 @@ namespace Structure
             m_elements.push_back(elems[i]);
 
         m_heapSize = m_elements.size();
+    }
+
+    /*
+        Prints heap elements, beginning from elemId.
+    */
+    void Heap::PrintHeap(int elemId, std::string sp, std::string sn)
+    {
+        std::string s;
+
+      if(elemId < m_heapSize)
+      {
+        s = sp;
+        if(sn == TAB) s [s.length() - 2] = ' ';
+        PrintHeap( 2 * elemId + 2, s + TAB, TAB);
+
+        s = s.substr (0, sp.length() - 2);
+
+        std::cout << s << sn << m_elements[elemId] << std::endl;
+
+        s = sp;
+        if(sn == TAB) s [s.length() - 2] = ' ';
+        PrintHeap(2 * elemId + 1, s + TAB, TAB);
+      }
     }
 } // namespace Structure

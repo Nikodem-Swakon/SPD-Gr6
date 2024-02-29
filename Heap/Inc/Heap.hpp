@@ -5,7 +5,9 @@
 #define HEAP_HPP
 #include <iostream>
 #include <vector>
+#include <string>
 
+#define TAB "   "
 namespace Structure
 {
     class Heap
@@ -27,7 +29,7 @@ namespace Structure
         int ExtractMaximum();
         void HeapSort();
         void BuildHeap(std::vector<int> elems);
-
+        void PrintHeap( int elemId, std::string sp = "", std::string sn = "");
 
         int GetLeftChildId(int elemId);
         int GetRightChildId(int elemId);
