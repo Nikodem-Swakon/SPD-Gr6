@@ -7,7 +7,7 @@
 #include <vector>
 #include <string>
 
-#define TAB "   "
+#define TAB "   " // 
 namespace Structure
 {
     class Heap
@@ -24,7 +24,7 @@ namespace Structure
         /* Public methods */
         Heap();
         ~Heap();
-        void Insert();
+        void Insert(int elem);
         int GetMaximum();
         int ExtractMaximum();
         void HeapSort();
