@@ -1,10 +1,11 @@
 #include "../Inc/Heap.hpp"
 #include <assert.h>
 #include <string>
+#include <algorithm>
 
 namespace Structure
 {
-        Heap::Heap()
+    Heap::Heap()
     {
         m_heapSize = 0;
     }
@@ -15,67 +16,93 @@ namespace Structure
 
     int Heap::GetLeftChildId(int elemId)
     {
-        assert(2* elemId + 1 < m_heapSize);
-        return 2* elemId + 1;
+        assert(2 * elemId + 1 < m_heapSize);
+        return 2 * elemId + 1;
     }
 
     int Heap::GetRightChildId(int elemId)
     {
-        assert(2* elemId + 2 < m_heapSize);
-        return 2* elemId + 2;
+        assert(2 * elemId + 2 < m_heapSize);
+        return 2 * elemId + 2;
     }
 
     int Heap::GetParentId(int elemId)
     {
         assert(elemId > 0);
-        return (elemId - 1)/2;
-    }    
+        return (elemId - 1) / 2;
+    }
 
     void Heap::BuildHeap(std::vector<int> elems)
     {
-        for(int i = 0; i < elems.size(); i++)
+        for (int i = 0; i < elems.size(); i++)
             m_elements.push_back(elems[i]);
 
         m_heapSize = m_elements.size();
     }
 
     /*
-        Prints heap elements, beginning from elemId.
+        Prints heap elements, beginning from the directed elem.
     */
     void Heap::PrintHeap(int elemId, std::string sp, std::string sn)
     {
         std::string s;
 
-      if(elemId < m_heapSize)
-      {
-        s = sp;
-        if(sn == TAB) s [s.length() - 2] = ' ';
-        PrintHeap( 2 * elemId + 2, s + TAB, TAB);
+        if (elemId < m_heapSize)
+        {
+            s = sp;
+            if (sn == TAB)
+                s[s.length() - 2] = ' ';
+            PrintHeap(2 * elemId + 2, s + TAB, TAB);
 
-        s = s.substr (0, sp.length() - 2);
+            s = s.substr(0, sp.length() - 2);
 
-        std::cout << s << sn << m_elements[elemId] << std::endl;
+            std::cout << s << sn << m_elements[elemId] << std::endl;
 
-        s = sp;
-        if(sn == TAB) s [s.length() - 2] = ' ';
-        PrintHeap(2 * elemId + 1, s + TAB, TAB);
-      }
+            s = sp;
+            if (sn == TAB)
+                s[s.length() - 2] = ' ';
+            PrintHeap(2 * elemId + 1, s + TAB, TAB);
+        }
     }
 
     void Heap::Insert(int elem)
     {
         int i, j;
 
-         i = m_heapSize++;
-         j = (i - 1) / 2;
+        i = m_heapSize++;
+        j = (i - 1) / 2;
 
-         while(i > 0 && m_elements[j] < elem)
-         {
-           m_elements[i] = m_elements[j];
-           i = j;
-           j = (i - 1) / 2;
-         }
+        while (i > 0 && m_elements[j] < elem)
+        {
+            m_elements[i] = m_elements[j];
+            i = j;
+            j = (i - 1) / 2;
+        }
 
-         m_elements[i] = elem;
+        m_elements[i] = elem;
+    }
+
+    void Heap::Heapify(int elemId)
+    {
+        int largest = elemId;   // Initialize largest as root Since we are using 0 based indexing
+        int l = GetLeftChildId(elemId);
+        int r = GetRightChildId(elemId); 
+
+        // If left child is larger than root
+        if (l < m_heapSize && m_elements[l] > m_elements[largest])
+            largest = l;
+
+        // If right child is larger than largest so far
+        if (r < m_heapSize && m_elements[r] > m_elements[largest])
+            largest = r;
+
+        // If largest is not root
+        if (largest != elemId)
+        {
+            std::swap(m_elements[elemId], m_elements[largest]);
+
+            // Recursively heapify the affected sub-tree
+            Heapify(largest);
+        }
     }
 } // namespace Structure

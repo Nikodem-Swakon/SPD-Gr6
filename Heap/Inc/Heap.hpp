@@ -7,7 +7,7 @@
 #include <vector>
 #include <string>
 
-#define TAB "   " // 
+#define TAB "   " // fills up empty space between the left edge and the leafs
 namespace Structure
 {
     class Heap
@@ -18,7 +18,6 @@ namespace Structure
         int m_heapSize;
 
         /* Private methods */
-        void Heapify();
 
     public:
         /* Public methods */
@@ -29,11 +28,12 @@ namespace Structure
         int ExtractMaximum();
         void HeapSort();
         void BuildHeap(std::vector<int> elems);
-        void PrintHeap( int elemId, std::string sp = "", std::string sn = "");
+        void PrintHeap(int elemId, std::string sp = "", std::string sn = "");
 
         int GetLeftChildId(int elemId);
         int GetRightChildId(int elemId);
         int GetParentId(int elemId);
+        void Heapify(int elemId = 0);
     };
 
 } // namespace Structure
