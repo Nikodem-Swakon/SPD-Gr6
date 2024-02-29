@@ -1,0 +1,3 @@
+/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build/CMakeFiles/Heap.dir
+/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build/CMakeFiles/edit_cache.dir
+/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build/CMakeFiles/rebuild_cache.dir
