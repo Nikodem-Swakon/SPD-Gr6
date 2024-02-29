@@ -12,7 +12,7 @@ namespace Structure
     {
     }
 
-    int Heap::GetLefSChildId(int elemId)
+    int Heap::GetLeftChildId(int elemId)
     {
         assert(2* elemId + 1 < m_heapSize);
         return 2* elemId + 1;

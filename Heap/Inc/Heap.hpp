@@ -18,7 +18,6 @@ namespace Structure
         /* Private methods */
         void Heapify();
 
-
     public:
         /* Public methods */
         Heap();
@@ -30,7 +29,7 @@ namespace Structure
         void BuildHeap(std::vector<int> elems);
 
 
-        int GetLefSChildId(int elemId);
+        int GetLeftChildId(int elemId);
         int GetRightChildId(int elemId);
         int GetParentId(int elemId);
     };
