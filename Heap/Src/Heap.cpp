@@ -16,19 +16,16 @@ namespace Structure
 
     int Heap::GetLeftChildId(int elemId)
     {
-        assert(2 * elemId + 1 < m_heapSize);
         return 2 * elemId + 1;
     }
 
     int Heap::GetRightChildId(int elemId)
     {
-        assert(2 * elemId + 2 < m_heapSize);
         return 2 * elemId + 2;
     }
 
     int Heap::GetParentId(int elemId)
     {
-        assert(elemId > 0);
         return (elemId - 1) / 2;
     }
 
@@ -88,6 +85,43 @@ namespace Structure
     int Heap::GetMaximum()
     {
         return m_elements[0];
+    }
+
+    void Heap::Heapify(int elemId)
+    {
+        int largest = elemId;   // Initialize largest as root Since we are using 0 based indexing
+        int l = GetLeftChildId(elemId);
+        int r = GetRightChildId(elemId); 
+
+        // If left child is larger than root
+        if (l < m_heapSize && m_elements[l] > m_elements[largest])
+            largest = l;
+
+        // If right child is larger than largest so far
+        if (r < m_heapSize && m_elements[r] > m_elements[largest])
+            largest = r;
+
+        // If largest is not root
+        if (largest != elemId)
+        {
+            std::swap(m_elements[elemId], m_elements[largest]);
+
+            // Recursively heapify the affected sub-tree
+            Heapify(largest);
+        }
+    }
+
+    void Heap::Heapify()
+    {
+        // find the last paren
+        int parent = GetParentId(m_heapSize);
+        // heapify for all farents
+        while(parent >= 0)
+        {
+            Heapify(parent);
+            parent--;
+        }
+        
     }
 
 } // namespace Structure

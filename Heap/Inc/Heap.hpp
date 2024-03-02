@@ -10,6 +10,7 @@
 #define TAB "   " // fills up empty space between the left edge and the leafs
 namespace Structure
 {
+    void HeapSort();
     class Heap
     {
     private:
@@ -25,14 +26,15 @@ namespace Structure
         ~Heap();
         void Insert(int elem);
         int GetMaximum();
-        int ExtractMaximum();
-        void HeapSort();
         void BuildHeap(std::vector<int> elems);
         void PrintHeap(int elemId, std::string sp = "", std::string sn = "");
 
         int GetLeftChildId(int elemId);
         int GetRightChildId(int elemId);
         int GetParentId(int elemId);
+        void Heapify(int elemId);
+        void Heapify();
+
     };
 
 } // namespace Structure

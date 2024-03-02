@@ -22,7 +22,7 @@ int main()
 
     // std::cout << std::endl << "Heapify" << std::endl;
 
-    // heap.Heapify();
-    // heap.PrintHeap(0);
+    heap.Heapify();
+    heap.PrintHeap(0);
 
 }
