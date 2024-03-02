@@ -4,12 +4,13 @@
 #include <cctype>
 #include <vector>
 #include <string>
+#include <algorithm> //std::sort
 
 void extract(const std::string& line, std::vector<int>& values) {
     
     std::istringstream iss(line);
     int value;
-    iss >> value;  //skipping the first value in line
+    //iss >> value;  //skipping the first value in line
     while (iss >> value) {
         
             values.push_back(value);
@@ -17,6 +18,13 @@ void extract(const std::string& line, std::vector<int>& values) {
     
     }
 }
+
+//                Algorytmy sortowania           //
+// Najkrótszy czas dostępności 
+bool compareThirdValue(const std::vector<int>& a, const std::vector<int>& b) {
+    return a[2] < b[2];
+}
+
 
 
 int main() {
@@ -55,11 +63,13 @@ int main() {
 
     file.close(); 
 
+    std::sort(Machine.begin(), Machine.end(), compareThirdValue);
         
-        for (size_t i = 0; i < Machine.size(); ++i) {
-        std::cout << "Machine_nr" << i + 1 << " = ";
-        for (int value : Machine[i]) {
-            std::cout << value << " ";
+ // Print sorted machines
+    for (const auto& machine : Machine) {
+        std::cout << "Machine nr "<<machine[0]<<":  ";
+        for (size_t i = 1; i < machine.size(); ++i) {
+            std::cout << machine[i] << " ";
         }
         std::cout << std::endl;
     }
