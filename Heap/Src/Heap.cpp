@@ -35,7 +35,10 @@ namespace Structure
     void Heap::BuildHeap(std::vector<int> elems)
     {
         for (int i = 0; i < elems.size(); i++)
-            m_elements.push_back(elems[i]);
+        {
+            Insert(elems[i]);
+        }
+            
 
         m_heapSize = m_elements.size();
     }
@@ -78,8 +81,7 @@ namespace Structure
             i = j;
             j = (i - 1) / 2;
         }
-
-        m_elements[i] = elem;
+        m_elements.push_back(elem);
     }
 
     void Heap::Heapify(int elemId)
