@@ -69,24 +69,19 @@ namespace Structure
 
     void Heap::Insert(int elem)
     {
-        std::cout << "================================" << std::endl;
         int i, j;
 
         m_elements.push_back(elem);
         i = m_heapSize++;
         j = (i - 1) / 2;
-        std:: cout << "i " << i << " j " << j << std::endl;
 
         while (i > 0 && m_elements[j] < elem)
         {
-            std:: cout << "m_elements[j] " << m_elements[j]  << " elem " << elem << std::endl;
             m_elements[i] = m_elements[j];
             i = j;
             j = (i - 1) / 2;
         }
         m_elements[i] = elem;
-
-        PrintHeap(0);
     }
 
     void Heap::Heapify(int elemId)

@@ -3,7 +3,7 @@
 
 int main()
 {
-    std::cout << "Hello World" << std::endl;
+    std::cout << "Main with mannual tests." << std::endl;
 
     Structure::Heap heap;
     heap.BuildHeap({1, 56, 89, 2 , 43, 33, 1, 5, 10});
