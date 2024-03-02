@@ -53,10 +53,10 @@ RM = /usr/local/Cellar/cmake/3.22.3/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap"
+CMAKE_SOURCE_DIR = "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build"
+CMAKE_BINARY_DIR = "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Heap.dir/depend.make
@@ -72,30 +72,30 @@ include CMakeFiles/Heap.dir/flags.make
 CMakeFiles/Heap.dir/main.cpp.o: CMakeFiles/Heap.dir/flags.make
 CMakeFiles/Heap.dir/main.cpp.o: ../main.cpp
 CMakeFiles/Heap.dir/main.cpp.o: CMakeFiles/Heap.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Heap.dir/main.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Heap.dir/main.cpp.o -MF CMakeFiles/Heap.dir/main.cpp.o.d -o CMakeFiles/Heap.dir/main.cpp.o -c "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/main.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Heap.dir/main.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Heap.dir/main.cpp.o -MF CMakeFiles/Heap.dir/main.cpp.o.d -o CMakeFiles/Heap.dir/main.cpp.o -c "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/main.cpp"
 
 CMakeFiles/Heap.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Heap.dir/main.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/main.cpp" > CMakeFiles/Heap.dir/main.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/main.cpp" > CMakeFiles/Heap.dir/main.cpp.i
 
 CMakeFiles/Heap.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Heap.dir/main.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/main.cpp" -o CMakeFiles/Heap.dir/main.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/main.cpp" -o CMakeFiles/Heap.dir/main.cpp.s
 
 CMakeFiles/Heap.dir/Src/Heap.cpp.o: CMakeFiles/Heap.dir/flags.make
 CMakeFiles/Heap.dir/Src/Heap.cpp.o: ../Src/Heap.cpp
 CMakeFiles/Heap.dir/Src/Heap.cpp.o: CMakeFiles/Heap.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Heap.dir/Src/Heap.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Heap.dir/Src/Heap.cpp.o -MF CMakeFiles/Heap.dir/Src/Heap.cpp.o.d -o CMakeFiles/Heap.dir/Src/Heap.cpp.o -c "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/Src/Heap.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Heap.dir/Src/Heap.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Heap.dir/Src/Heap.cpp.o -MF CMakeFiles/Heap.dir/Src/Heap.cpp.o.d -o CMakeFiles/Heap.dir/Src/Heap.cpp.o -c "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/Src/Heap.cpp"
 
 CMakeFiles/Heap.dir/Src/Heap.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Heap.dir/Src/Heap.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/Src/Heap.cpp" > CMakeFiles/Heap.dir/Src/Heap.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/Src/Heap.cpp" > CMakeFiles/Heap.dir/Src/Heap.cpp.i
 
 CMakeFiles/Heap.dir/Src/Heap.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Heap.dir/Src/Heap.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/Src/Heap.cpp" -o CMakeFiles/Heap.dir/Src/Heap.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/Src/Heap.cpp" -o CMakeFiles/Heap.dir/Src/Heap.cpp.s
 
 # Object files for target Heap
 Heap_OBJECTS = \
@@ -109,7 +109,7 @@ Heap: CMakeFiles/Heap.dir/main.cpp.o
 Heap: CMakeFiles/Heap.dir/Src/Heap.cpp.o
 Heap: CMakeFiles/Heap.dir/build.make
 Heap: CMakeFiles/Heap.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable Heap"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable Heap"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Heap.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -121,6 +121,6 @@ CMakeFiles/Heap.dir/clean:
 .PHONY : CMakeFiles/Heap.dir/clean
 
 CMakeFiles/Heap.dir/depend:
-	cd "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap" "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap" "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build" "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build" "/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build/CMakeFiles/Heap.dir/DependInfo.cmake" --color=$(COLOR)
+	cd "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap" "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap" "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build" "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build" "//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/build/CMakeFiles/Heap.dir/DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/Heap.dir/depend
 

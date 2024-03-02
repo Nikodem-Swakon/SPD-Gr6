@@ -1,5 +1,5 @@
 CMakeFiles/Heap.dir/main.cpp.o: \
-  /Users/asialalala/Documents/Studia/semestr\ 6/SPD/SPD-Gr6/Heap/main.cpp \
+  //Users/asialalala/Documents/Studia/semestr\ 6/SPD/SPD-Gr6/Heap/main.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/iostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/__config \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/__config_site \
@@ -414,6 +414,6 @@ CMakeFiles/Heap.dir/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/sys/_types/_fsfilcnt_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/_types/_nl_item.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/__bsd_locale_defaults.h \
-  /Users/asialalala/Documents/Studia/semestr\ 6/SPD/SPD-Gr6/Heap/Inc/Heap.hpp \
+  //Users/asialalala/Documents/Studia/semestr\ 6/SPD/SPD-Gr6/Heap/Inc/Heap.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/vector \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/__split_buffer

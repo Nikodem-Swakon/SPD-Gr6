@@ -14,6 +14,8 @@ int main()
     // std::cout << std::endl << "Heap" << std::endl;
     heap.PrintHeap(0);
 
+    std::cout << "Max elem " << heap.GetMaximum() << std::endl;
+
     // std::cout << std::endl << "Element instert" << std::endl;
     // heap.Insert(0);
     // heap.PrintHeap(0);

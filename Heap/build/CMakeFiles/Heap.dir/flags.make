@@ -4,7 +4,7 @@
 # compile CXX with /Library/Developer/CommandLineTools/usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/Inc"
+CXX_INCLUDES = -I"//Users/asialalala/Documents/Studia/semestr 6/SPD/SPD-Gr6/Heap/Inc"
 
 CXX_FLAGS =  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.7 -std=gnu++11
 

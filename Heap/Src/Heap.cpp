@@ -85,4 +85,9 @@ namespace Structure
         m_elements[i] = elem;
     }
 
+    int Heap::GetMaximum()
+    {
+        return m_elements[0];
+    }
+
 } // namespace Structure

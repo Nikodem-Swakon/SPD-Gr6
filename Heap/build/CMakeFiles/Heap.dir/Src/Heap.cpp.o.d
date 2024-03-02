@@ -1,6 +1,6 @@
 CMakeFiles/Heap.dir/Src/Heap.cpp.o: \
-  /Users/asialalala/Documents/Studia/semestr\ 6/SPD/SPD-Gr6/Heap/Src/Heap.cpp \
-  /Users/asialalala/Documents/Studia/semestr\ 6/SPD/SPD-Gr6/Heap/Src/../Inc/Heap.hpp \
+  //Users/asialalala/Documents/Studia/semestr\ 6/SPD/SPD-Gr6/Heap/Src/Heap.cpp \
+  //Users/asialalala/Documents/Studia/semestr\ 6/SPD/SPD-Gr6/Heap/Src/../Inc/Heap.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/iostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/__config \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/__config_site \
