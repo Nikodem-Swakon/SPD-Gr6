@@ -75,6 +75,7 @@ namespace Structure
         i = m_heapSize++;
         j = (i - 1) / 2;
 
+        // while the elem is greater ten parent
         while (i > 0 && m_elements[j] < elem)
         {
             m_elements[i] = m_elements[j];
@@ -84,27 +85,4 @@ namespace Structure
         m_elements[i] = elem;
     }
 
-    void Heap::Heapify(int elemId)
-    {
-        int largest = elemId;   // Initialize largest as root Since we are using 0 based indexing
-        int l = GetLeftChildId(elemId);
-        int r = GetRightChildId(elemId); 
-
-        // If left child is larger than root
-        if (l < m_heapSize && m_elements[l] > m_elements[largest])
-            largest = l;
-
-        // If right child is larger than largest so far
-        if (r < m_heapSize && m_elements[r] > m_elements[largest])
-            largest = r;
-
-        // If largest is not root
-        if (largest != elemId)
-        {
-            std::swap(m_elements[elemId], m_elements[largest]);
-
-            // Recursively heapify the affected sub-tree
-            Heapify(largest);
-        }
-    }
 } // namespace Structure

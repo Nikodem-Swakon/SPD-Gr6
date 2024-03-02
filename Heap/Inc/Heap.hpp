@@ -33,7 +33,6 @@ namespace Structure
         int GetLeftChildId(int elemId);
         int GetRightChildId(int elemId);
         int GetParentId(int elemId);
-        void Heapify(int elemId = 0);
     };
 
 } // namespace Structure
