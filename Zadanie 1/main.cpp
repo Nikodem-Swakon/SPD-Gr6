@@ -21,8 +21,8 @@ void extract(const std::string& line, std::vector<int>& values) {
 
 //                Algorytmy sortowania           //
 // Najkrótszy czas dostępności 
-bool compareThirdValue(const std::vector<int>& a, const std::vector<int>& b) {
-    return a[2] < b[2];
+bool compareReleaseTimeValue(const std::vector<int>& a, const std::vector<int>& b) {
+    return a[1] < b[1];
 }
 
 
@@ -63,14 +63,56 @@ int main() {
 
     file.close(); 
 
-    std::sort(Machine.begin(), Machine.end(), compareThirdValue);
+    std::sort(Machine.begin(), Machine.end(), compareReleaseTimeValue);
         
  // Print sorted machines
+    /*
     for (const auto& machine : Machine) {
         std::cout << "Machine nr "<<machine[0]<<":  ";
         for (size_t i = 1; i < machine.size(); ++i) {
             std::cout << machine[i] << " ";
         }
+        std::cout << std::endl;
+    }
+    */
+        //Time-Graph output
+        //int cooldown=0;
+        int Offset=0;
+        int PRE=0;
+        int MID=0;
+        std::cout<<"            Time-Graph          "<<std::endl;
+        std::cout<<"________________________________"<<std::endl;
+        for (const auto& machine : Machine) {
+        
+        std::cout<<"Offset:"<<Offset<<std::endl;
+        std::cout << "Machine nr "<<machine[0]<<"]";
+
+        if(Offset+PRE+MID>=machine[1]){
+            for(int x =0; x<MID+PRE-machine[1];x++){
+            std::cout<<" ";
+        }
+        Offset=MID+PRE-machine[1];
+        }else{Offset=MID+PRE-machine[1]+Offset;}
+        
+        PRE=machine[1];
+        MID=machine[2];
+        
+        //Offset+=machine[2];
+        //cooldown =machine [3];
+
+        if(machine[1]>0){std::cout<<"<";}
+        for (int i=0;i<machine[1]-1;i++){
+            std::cout<<"-";
+        }
+        
+        for (int j=0;j<machine[2];j++){
+            std::cout<<"%";
+        }
+        
+        for(int k=0;k<machine[3]-1;k++){
+            std::cout<<"-";
+        }
+        if(machine[3]>0){std::cout<<">";}
         std::cout << std::endl;
     }
 
