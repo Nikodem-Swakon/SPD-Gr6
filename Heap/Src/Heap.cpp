@@ -5,6 +5,7 @@
 
 namespace Structure
 {
+    /////////////////////////// METHODS
     Heap::Heap()
     {
         m_heapSize = 0;
@@ -29,7 +30,7 @@ namespace Structure
         return (elemId - 1) / 2;
     }
 
-    void Heap::BuildHeap(std::vector<int> elems)
+    void Heap::BuildHeap(std::vector<int> &elems)
     {
         for (int i = 0; i < elems.size(); i++)
         {
@@ -87,7 +88,7 @@ namespace Structure
         return m_elements[0];
     }
 
-    void Heap::Heapify(int elemId)
+    void Heap::HeapifyDown(int elemId)
     {
         int largest = elemId;   // Initialize largest as root Since we are using 0 based indexing
         int l = GetLeftChildId(elemId);
@@ -107,21 +108,64 @@ namespace Structure
             std::swap(m_elements[elemId], m_elements[largest]);
 
             // Recursively heapify the affected sub-tree
-            Heapify(largest);
+            HeapifyDown(largest);
         }
     }
 
-    void Heap::Heapify()
+    void Heap::Heapify(int elemId)
     {
-        // find the last paren
-        int parent = GetParentId(m_heapSize);
         // heapify for all farents
-        while(parent >= 0)
+       
+        while(elemId >= 0)
         {
-            Heapify(parent);
-            parent--;
+            HeapifyDown(elemId);
+            elemId--;
         }
         
     }
+
+
+    void Heap::HeapSort()
+    {
+        // find last elem n heap
+        int last = m_heapSize - 1;
+        if(last > 0)
+            std::swap(m_elements[0], m_elements[last]);
+        int max = m_elements[last];
+        m_heapSize = last;
+
+            std::cout << "After swap, max elem is on " << last << " position." << std::endl;
+            std::cout << "Its parent is node number " << GetParentId(last) << std::endl;
+            PrintHeap(0);
+
+
+        // find the last paren
+        int parent = GetParentId(last);
+        Heapify(parent - 1);    // to not heapify the elem which is replaced
+
+
+            std::cout << "After heapSort "<< std::endl;
+        PrintHeap(0);
+    }
+
+    void Heap::InserVector(std::vector<int> &elems)
+    {
+        m_elements = elems;
+    }
+
+    /////////////////////////// PUBLIC FUNCTION
+    // sort algorithm
+    void HeapSort(std::vector<int> &elems)
+    {
+        Heap heap;
+        heap.InserVector(elems);
+
+            std::cout << "Heap" <<std::endl;
+            heap.PrintHeap(0);
+
+        heap.HeapSort();
+        
+    }
+
 
 } // namespace Structure
