@@ -80,11 +80,12 @@ int main() {
         int Offset=0;
         int PRE=0;
         int MID=0;
+        std::vector<int> time;
         std::cout<<"            Time-Graph          "<<std::endl;
         std::cout<<"________________________________"<<std::endl;
         for (const auto& machine : Machine) {
         
-        std::cout<<"Offset:"<<Offset<<std::endl;
+        //std::cout<<"Offset:"<<Offset<<std::endl;
         std::cout << "Machine nr "<<machine[0]<<"]";
 
         if(Offset+PRE+MID>=machine[1]){
@@ -93,6 +94,7 @@ int main() {
             std::cout<<" ";
             } 
         Offset=MID+PRE+Offset-machine[1];
+        time.push_back(Offset+machine[1]+machine[2]+machine[3]);
         }
         
         PRE=machine[1];
@@ -116,6 +118,14 @@ int main() {
         if(machine[3]>0){std::cout<<">";}
         std::cout << std::endl;
     }
+    auto maxtime = max_element(time.begin(), time.end());
+    int total_time = *maxtime;
+    std::cout<<"Elapsed time]";
+    for (int y=0;y<total_time;y++){
+        std::cout<<"=";
+    }
+    std::cout<<std::endl;
+    std::cout<<total_time<<" time units"<<std::endl;
 
     return 0;
 }
