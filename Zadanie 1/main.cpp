@@ -88,11 +88,12 @@ int main() {
         std::cout << "Machine nr "<<machine[0]<<"]";
 
         if(Offset+PRE+MID>=machine[1]){
-            for(int x =0; x<MID+PRE-machine[1];x++){
+        //Offset=MID+PRE-machine[1];
+            for(int x =0; x<MID+PRE+Offset-machine[1];x++){
             std::cout<<" ";
-        }
+            } 
         Offset=MID+PRE-machine[1];
-        }else{Offset=MID+PRE-machine[1]+Offset;}
+        }
         
         PRE=machine[1];
         MID=machine[2];
