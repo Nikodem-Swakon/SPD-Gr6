@@ -30,7 +30,7 @@ namespace Structure
         return (elemId - 1) / 2;
     }
 
-    void Heap::BuildHeap(std::vector<int> &elems)
+    void Heap::BuildHeap(std::vector<int> elems)
     {
         for (int i = 0; i < elems.size(); i++)
         {
@@ -129,22 +129,20 @@ namespace Structure
     {
         // find last elem n heap
         int last = m_heapSize - 1;
-        if(last > 0)
-            std::swap(m_elements[0], m_elements[last]);
-        int max = m_elements[last];
-        m_heapSize = last;
 
-            std::cout << "After swap, max elem is on " << last << " position." << std::endl;
-            std::cout << "Its parent is node number " << GetParentId(last) << std::endl;
-            PrintHeap(0);
+        while(last > 0 )
+        {
+            if(last > 0)
+                std::swap(m_elements[0], m_elements[last]);
+            int max = m_elements[last];
+            m_heapSize = last;
 
-
-        // find the last paren
-        int parent = GetParentId(last);
-        Heapify(parent - 1);    // to not heapify the elem which is replaced
-
-
-            std::cout << "After heapSort "<< std::endl;
+            // find the last paren
+            int parent = GetParentId(last);
+            Heapify(parent - 1);    // to not heapify the elem which is replaced
+            last = m_heapSize - 1;
+        }
+        
         PrintHeap(0);
         return m_elements;
     }
@@ -157,10 +155,9 @@ namespace Structure
         Heap heap;
         heap.BuildHeap(elems);
 
-            std::cout << "Heap" <<std::endl;
-            heap.PrintHeap(0);
-
         std::vector<int> sortedVec = heap.HeapSort();
+
+        // rewrite vector elements
         for(int i = 0; i < elems.size(); i++)
         {
             elems[i] = sortedVec[i];

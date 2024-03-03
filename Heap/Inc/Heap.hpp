@@ -26,7 +26,7 @@ namespace Structure
         ~Heap();
         void Insert(int elem);
         int GetMaximum();
-        void BuildHeap(std::vector<int> &elems);
+        void BuildHeap(std::vector<int> elems);
         void PrintHeap(int elemId, std::string sp = "", std::string sn = "");
 
         int GetLeftChildId(int elemId);
