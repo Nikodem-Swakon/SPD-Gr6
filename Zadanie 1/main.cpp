@@ -92,7 +92,7 @@ int main() {
             for(int x =0; x<MID+PRE+Offset-machine[1];x++){
             std::cout<<" ";
             } 
-        Offset=MID+PRE-machine[1];
+        Offset=MID+PRE+Offset-machine[1];
         }
         
         PRE=machine[1];
