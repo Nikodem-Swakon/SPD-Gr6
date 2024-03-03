@@ -34,7 +34,7 @@ namespace Structure
         int GetParentId(int elemId);
         void HeapifyDown(int elemId);
         void Heapify(int elemId);
-        void HeapSort();
+        std::vector<int> HeapSort();
         bool Empty() {return m_heapSize == 0;};
         void InserVector(std::vector<int> &elems);
 

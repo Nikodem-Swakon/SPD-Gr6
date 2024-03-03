@@ -125,7 +125,7 @@ namespace Structure
     }
 
 
-    void Heap::HeapSort()
+    std::vector<int> Heap::HeapSort()
     {
         // find last elem n heap
         int last = m_heapSize - 1;
@@ -146,24 +146,25 @@ namespace Structure
 
             std::cout << "After heapSort "<< std::endl;
         PrintHeap(0);
+        return m_elements;
     }
 
-    void Heap::InserVector(std::vector<int> &elems)
-    {
-        m_elements = elems;
-    }
 
     /////////////////////////// PUBLIC FUNCTION
     // sort algorithm
     void HeapSort(std::vector<int> &elems)
     {
         Heap heap;
-        heap.InserVector(elems);
+        heap.BuildHeap(elems);
 
             std::cout << "Heap" <<std::endl;
             heap.PrintHeap(0);
 
-        heap.HeapSort();
+        std::vector<int> sortedVec = heap.HeapSort();
+        for(int i = 0; i < elems.size(); i++)
+        {
+            elems[i] = sortedVec[i];
+        }
         
     }
 
