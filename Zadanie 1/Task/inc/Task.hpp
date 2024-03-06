@@ -11,6 +11,7 @@ public:
     /* public methods */
     Task();
     Task(double pj, double rj, double qj);
+    Task(const Task& task);
     ~Task();
-    Task &operator=(const Task *task);
+    Task &operator=(const Task &task) noexcept;
 };
