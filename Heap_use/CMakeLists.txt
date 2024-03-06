@@ -3,7 +3,7 @@ project(Heap_use LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_subdirectory(Src)
+add_subdirectory(Heap)
 
 add_executable(Heap_use main.cpp )
 
