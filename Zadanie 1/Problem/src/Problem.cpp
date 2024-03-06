@@ -28,3 +28,24 @@ void Problem::DisplayTasks()
 
     std::cout << "Number od tasks " << m_tasksNr << std::endl;
 }
+
+// it is example algorithm, just to test classes
+Solution Problem::ExampleAlgorith() const
+{
+    std::vector<Task> rankedTasks;
+
+    for (int i = 0; i < m_tasksNr; i++)
+    {
+        rankedTasks.push_back(m_tasks[i]);
+    }
+
+    double criterion = CountCriterion(rankedTasks);
+
+    Solution solution(criterion, rankedTasks);
+}
+
+// it measures the criterion Cmax
+double Problem::CountCriterion(std::vector<Task> rankedTasks) const
+{
+    return 0;
+}
