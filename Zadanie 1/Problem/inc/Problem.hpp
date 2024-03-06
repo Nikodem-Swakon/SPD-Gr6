@@ -21,9 +21,7 @@ public:
     Problem(std::vector<Task> tasks);
     ~Problem();
 
-    void GenerateInstance();
-    void ReadFromFile(std::ifstream file);
-    
+    void GenerateInstance();    
     Solution AlgorithmSortRj() const;
     Solution AlgorithmSortQj() const;
     Solution AlgorithmCompleteReview() const;

@@ -39,7 +39,7 @@ void Solution::DisplaySolution()
  std::cout << "Tasks in the solution." << std::endl;
     for (int i = 0; i < m_rankedTasks.size(); i++)
     {
-        std::cout << "task2: pj " << m_rankedTasks[i].GetPj() << " rj " << m_rankedTasks[i].GetRj() << " qj " << m_rankedTasks[i].GetQj() << std::endl;
+        std::cout << "task: pj " << m_rankedTasks[i].GetPj() << " rj " << m_rankedTasks[i].GetRj() << " qj " << m_rankedTasks[i].GetQj() <<  " taskId "  << m_rankedTasks[i].GetTaskId()  <<  std::endl;
     }
 
     std::cout << "Criterion  " << m_criterion << std::endl;
