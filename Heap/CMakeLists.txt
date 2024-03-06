@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(Heap LANGUAGES CXX)
+project(Heap_use LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(Heap main.cpp Src/Heap.cpp)
+add_subdirectory(Src)
+
+add_executable(Heap_use main.cpp )
+
+target_link_libraries(Heap_use PRIVATE Heap)
 
 target_include_directories(Heap PUBLIC ${CMAKE_SOURCE_DIR}/Inc)
