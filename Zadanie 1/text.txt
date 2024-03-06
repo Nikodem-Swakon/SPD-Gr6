@@ -1,4 +1,4 @@
-Machine || Release time || Work time || Cooldown time
+Task || Release time || Work time || Cooldown time
 1   10  5   7
 2   13  6   26 
 3   11  7   24 

@@ -1,135 +1,101 @@
 #include <iostream>
+#include <vector>
 #include <fstream>
 #include <sstream>
 #include <cctype>
-#include <vector>
 #include <string>
-#include <algorithm> //std::sort
 
-void extract(const std::string& line, std::vector<int>& values) {
-    
+#include "Task.hpp"
+#include "Solution.hpp"
+#include "Problem.hpp"
+
+#define FILE_PATH "../text.txt"
+
+void extract(const std::string &line, Task &task)
+{
+
     std::istringstream iss(line);
     int value;
-    //iss >> value;  //skipping the first value in line
-    while (iss >> value) {
-        
-            values.push_back(value);
-            //std::cout << "Number: " << value << std::endl;
-    
+    std::vector<int> values;
+    while (iss >> value)
+    { // read all values in the line
+        values.push_back(value);
     }
+    task.SetTaskId(values[0]);
+    task.SetRj(values[1]);
+    task.SetPj(values[2]);
+    task.SetQj(values[3]);
 }
 
-//                Algorytmy sortowania           //
-// Najkrótszy czas dostępności 
-bool compareReleaseTimeValue(const std::vector<int>& a, const std::vector<int>& b) {
-    return a[1] < b[1];
-}
+int ReadFromFile(std::ifstream &file, std::vector<Task> &tasksVec)
+{
 
-bool compareCooldownTimeValue(const std::vector<int>& a, const std::vector<int>& b) {
-    return a[3] > b[3];
-}
-
-
-int main() {
-    
-    std::ifstream file("text.txt");       // Open the input file
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         std::cerr << "Failed to open the file." << std::endl;
         return 1;
     }
 
-    std::vector<std::vector<int>> Machine;  //vector of vectors
+    // std::vector<std::vector<int>> Machine;  //vector of vectors
 
-    std::string line;                     // For skipping first line 
-    bool isFirstLine = true;              // For skipping first line 
-    //int machnie_nr = 0;                   // Number of lines used for number of machine numbers
-    //int numColumns = 0;
-    while (std::getline(file, line)) {    // Read file line by line
-    
-    
-        if (isFirstLine) {                // For skipping first line  
+    std::string line;        // For skipping first line
+    bool isFirstLine = true; // For skipping first line
+
+    while (std::getline(file, line))
+    { // Read file line by line
+
+        if (isFirstLine)
+        { // For skipping first line
             std::istringstream iss(line);
             std::string word;
-            while (iss >> word) {
+            while (iss >> word)
+            {
                 //++numColumns;
             }
-            isFirstLine = false;          // For skipping first line 
-            continue;                     // Skip the first line
+            isFirstLine = false; // For skipping first line
+            continue;            // Skip the first line
         }
-        //++machnie_nr;                     // Machine number (line nr - 1)
-        //std::cout<<(machine_nr)<<std::endl;
-        //std::cout<<(numColumns)<<std::endl;
-        std::vector<int> values;
-        extract(line, values);                    // Extract numbers from the line
-        Machine.push_back(values);
+
+        Task task;
+        extract(line, task); // Extract numbers from the line
+        tasksVec.push_back(task);
     }
 
-    file.close(); 
+    file.close();
+    return 0;
+}
 
-    //std::sort(Machine.begin(), Machine.end(), compareReleaseTimeValue); // RJ - Release time value sorting
-    std::sort(Machine.begin(), Machine.end(), compareCooldownTimeValue); // QJ - Cooldown time value sorting
-        
- // Print sorted machines
-    /*
-    for (const auto& machine : Machine) {
-        std::cout << "Machine nr "<<machine[0]<<":  ";
-        for (size_t i = 1; i < machine.size(); ++i) {
-            std::cout << machine[i] << " ";
-        }
-        std::cout << std::endl;
+int main(int argc, char *argv[])
+{
+    //  TO BE DELETED task test
+    std::cout << "Hello SPD." << std::endl;
+    Task task1;
+    std::cout << "task1: pj " << task1.GetPj() << " rj " << task1.GetRj() << " qj " << task1.GetQj() << " taskId " << task1.GetTaskId() << std::endl;
+    Task task2(0, 1, 2, 3);
+    std::cout << "task2: pj " << task2.GetPj() << " rj " << task2.GetRj() << " qj " << task2.GetQj() << " taskId " << task2.GetTaskId() << std::endl;
+    Task task3(task2);
+    std::cout << "task3: pj " << task3.GetPj() << " rj " << task3.GetRj() << " qj " << task3.GetQj() << " taskId " << task3.GetTaskId() << std::endl;
+
+    //  TO BE DELETED problem test
+    std::vector<Task> taskVector = {task1, task2, task3};
+
+    Problem problem(taskVector);
+    problem.DisplayTasks();
+
+    //  TO BE DELETED solution test
+    Solution solution = problem.ExampleAlgorith();
+    solution.DisplaySolution();
+
+    // READ FROM FILE TEST
+
+    std::ifstream file(FILE_PATH); // Open the input file
+    std::vector<Task> taskVector2;
+    if (ReadFromFile(file, taskVector2) == 1)
+        return 1;
+
+    for (int i = 0; i < taskVector2.size(); i++)
+    {
+        std::cout << "task: pj " << taskVector2[i].GetPj() << " rj " << taskVector2[i].GetRj() << " qj " << taskVector2[i].GetQj() << " taskId " << taskVector2[i].GetTaskId() << std::endl;
     }
-    */
-        //Time-Graph output
-        //int cooldown=0;
-        int Offset=0;
-        int PRE=0;
-        int MID=0;
-        std::vector<int> time;
-        std::cout<<"           Gantt chart           "<<std::endl;
-        std::cout<<"_________________________________"<<std::endl;
-        for (const auto& machine : Machine) {
-        
-        //std::cout<<"Offset:"<<Offset<<std::endl;
-        std::cout << "Task nr "<<machine[0]<<"]";
-
-        if(Offset+PRE+MID>=machine[1]){
-        //Offset=MID+PRE-machine[1];
-            for(int x =0; x<MID+PRE+Offset-machine[1];x++){
-            std::cout<<" ";
-            } 
-        Offset=MID+PRE+Offset-machine[1];
-        }
-        time.push_back(Offset+machine[1]+machine[2]+machine[3]); // FUNKCJA KRYTERIUM
-        PRE=machine[1];
-        MID=machine[2];
-        
-        //Offset+=machine[2];
-        //cooldown =machine [3];
-
-        if(machine[1]>0){std::cout<<"<";}
-        for (int i=0;i<machine[1]-1;i++){
-            std::cout<<"-";
-        }
-        
-        for (int j=0;j<machine[2];j++){
-            std::cout<<"%";
-        }
-        
-        for(int k=0;k<machine[3]-1;k++){
-            std::cout<<"-";
-        }
-        if(machine[3]>0){std::cout<<">";}
-        std::cout << std::endl;
-    }
-    ///////////////////////////////////////FUNKCJA KRYTERIUM (???)////////////////////////////////////
-    auto maxtime = max_element(time.begin(), time.end());
-    int total_time = *maxtime;
-    std::cout<<"Task time]";
-    for (int y=0;y<total_time;y++){
-        std::cout<<"=";
-    }
-    std::cout<<std::endl;
-    std::cout<<total_time<<" time units"<<std::endl;
-
     return 0;
 }
