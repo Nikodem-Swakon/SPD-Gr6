@@ -14,4 +14,8 @@ public:
     Task(const Task& task);
     ~Task();
     Task &operator=(const Task &task) noexcept;
+
+    double GetPj(){return m_pj;};
+    double GetRj(){return m_rj;};
+    double GetQj(){return m_qj;};
 };
