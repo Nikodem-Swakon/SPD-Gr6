@@ -14,7 +14,7 @@ private:
 
 public:
     /* public methods */
-    Problem(std::vector<Task> tasks, int tasksNr);
+    Problem(std::vector<Task> tasks);
     ~Problem();
 
     void GenerateInstance();
@@ -22,4 +22,5 @@ public:
     void AlgorithmSortRj();
     void AlgorithmSortQj();
     void AlgorithmCompleteReview();
+    void DisplayTasks();
 };
