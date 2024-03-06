@@ -25,6 +25,9 @@ bool compareReleaseTimeValue(const std::vector<int>& a, const std::vector<int>& 
     return a[1] < b[1];
 }
 
+bool compareCooldownTimeValue(const std::vector<int>& a, const std::vector<int>& b) {
+    return a[3] > b[3];
+}
 
 
 int main() {
@@ -63,7 +66,8 @@ int main() {
 
     file.close(); 
 
-    std::sort(Machine.begin(), Machine.end(), compareReleaseTimeValue);
+    //std::sort(Machine.begin(), Machine.end(), compareReleaseTimeValue); // RJ - Release time value sorting
+    std::sort(Machine.begin(), Machine.end(), compareCooldownTimeValue); // QJ - Cooldown time value sorting
         
  // Print sorted machines
     /*
