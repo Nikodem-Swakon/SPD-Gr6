@@ -6,70 +6,76 @@
 #include <string>
 #include <algorithm> //std::sort
 
-void extract(const std::string& line, std::vector<int>& values) {
-    
+void extract(const std::string &line, std::vector<int> &values)
+{
+
     std::istringstream iss(line);
     int value;
-    //iss >> value;  //skipping the first value in line
-    while (iss >> value) {
-        
-            values.push_back(value);
-            //std::cout << "Number: " << value << std::endl;
-    
+    // iss >> value;  //skipping the first value in line
+    while (iss >> value)
+    {
+
+        values.push_back(value);
+        // std::cout << "Number: " << value << std::endl;
     }
 }
 
 //                Algorytmy sortowania           //
-// Najkrótszy czas dostępności 
-bool compareReleaseTimeValue(const std::vector<int>& a, const std::vector<int>& b) {
+// Najkrótszy czas dostępności
+bool compareReleaseTimeValue(const std::vector<int> &a, const std::vector<int> &b)
+{
     return a[1] < b[1];
 }
 
-bool compareCooldownTimeValue(const std::vector<int>& a, const std::vector<int>& b) {
+bool compareCooldownTimeValue(const std::vector<int> &a, const std::vector<int> &b)
+{
     return a[3] > b[3];
 }
 
+int main()
+{
 
-int main() {
-    
-    std::ifstream file("text.txt");       // Open the input file
-    if (!file.is_open()) {
+    std::ifstream file("text.txt"); // Open the input file
+    if (!file.is_open())
+    {
         std::cerr << "Failed to open the file." << std::endl;
         return 1;
     }
 
-    std::vector<std::vector<int>> Machine;  //vector of vectors
+    std::vector<std::vector<int>> Machine; // vector of vectors
 
-    std::string line;                     // For skipping first line 
-    bool isFirstLine = true;              // For skipping first line 
-    //int machnie_nr = 0;                   // Number of lines used for number of machine numbers
-    //int numColumns = 0;
-    while (std::getline(file, line)) {    // Read file line by line
-    
-    
-        if (isFirstLine) {                // For skipping first line  
+    std::string line;        // For skipping first line
+    bool isFirstLine = true; // For skipping first line
+    // int machnie_nr = 0;                   // Number of lines used for number of machine numbers
+    // int numColumns = 0;
+    while (std::getline(file, line))
+    { // Read file line by line
+
+        if (isFirstLine)
+        { // For skipping first line
             std::istringstream iss(line);
             std::string word;
-            while (iss >> word) {
+            while (iss >> word)
+            {
                 //++numColumns;
             }
-            isFirstLine = false;          // For skipping first line 
-            continue;                     // Skip the first line
+            isFirstLine = false; // For skipping first line
+            continue;            // Skip the first line
         }
         //++machnie_nr;                     // Machine number (line nr - 1)
-        //std::cout<<(machine_nr)<<std::endl;
-        //std::cout<<(numColumns)<<std::endl;
+        // std::cout<<(machine_nr)<<std::endl;
+        // std::cout<<(numColumns)<<std::endl;
         std::vector<int> values;
-        extract(line, values);                    // Extract numbers from the line
+        extract(line, values); // Extract numbers from the line
         Machine.push_back(values);
     }
 
-    file.close(); 
+    file.close();
 
-    //std::sort(Machine.begin(), Machine.end(), compareReleaseTimeValue); // RJ - Release time value sorting
+    // std::sort(Machine.begin(), Machine.end(), compareReleaseTimeValue); // RJ - Release time value sorting
     std::sort(Machine.begin(), Machine.end(), compareCooldownTimeValue); // QJ - Cooldown time value sorting
-        
- // Print sorted machines
+
+    // Print sorted machines
     /*
     for (const auto& machine : Machine) {
         std::cout << "Machine nr "<<machine[0]<<":  ";
@@ -79,57 +85,70 @@ int main() {
         std::cout << std::endl;
     }
     */
-        //Time-Graph output
-        //int cooldown=0;
-        int Offset=0;
-        int PRE=0;
-        int MID=0;
-        std::vector<int> time;
-        std::cout<<"           Gantt chart           "<<std::endl;
-        std::cout<<"_________________________________"<<std::endl;
-        for (const auto& machine : Machine) {
-        
-        //std::cout<<"Offset:"<<Offset<<std::endl;
-        std::cout << "Task nr "<<machine[0]<<"]";
+    // Time-Graph output
+    // int cooldown=0;
+    int Offset = 0;
+    int PRE = 0;
+    int MID = 0;
+    std::vector<int> time;
+    std::cout << "           Gantt chart           " << std::endl;
+    std::cout << "_________________________________" << std::endl;
+    for (const auto &machine : Machine)
+    {
 
-        if(Offset+PRE+MID>=machine[1]){
-        //Offset=MID+PRE-machine[1];
-            for(int x =0; x<MID+PRE+Offset-machine[1];x++){
-            std::cout<<" ";
-            } 
-        Offset=MID+PRE+Offset-machine[1];
-        }
-        time.push_back(Offset+machine[1]+machine[2]+machine[3]); // FUNKCJA KRYTERIUM
-        PRE=machine[1];
-        MID=machine[2];
-        
-        //Offset+=machine[2];
-        //cooldown =machine [3];
+        // std::cout<<"Offset:"<<Offset<<std::endl;
+        std::cout << "Task nr " << machine[0] << "]";
 
-        if(machine[1]>0){std::cout<<"<";}
-        for (int i=0;i<machine[1]-1;i++){
-            std::cout<<"-";
+        if (Offset + PRE + MID >= machine[1])
+        {
+            // Offset=MID+PRE-machine[1];
+            for (int x = 0; x < MID + PRE + Offset - machine[1]; x++)
+            {
+                std::cout << " ";
+            }
+            Offset = MID + PRE + Offset - machine[1];
         }
-        
-        for (int j=0;j<machine[2];j++){
-            std::cout<<"%";
+        time.push_back(Offset + machine[1] + machine[2] + machine[3]); // FUNKCJA KRYTERIUM
+        PRE = machine[1];
+        MID = machine[2];
+
+        // Offset+=machine[2];
+        // cooldown =machine [3];
+
+        if (machine[1] > 0)
+        {
+            std::cout << "<";
         }
-        
-        for(int k=0;k<machine[3]-1;k++){
-            std::cout<<"-";
+        for (int i = 0; i < machine[1] - 1; i++)
+        {
+            std::cout << "-";
         }
-        if(machine[3]>0){std::cout<<">";}
+
+        for (int j = 0; j < machine[2]; j++)
+        {
+            std::cout << "%";
+        }
+
+        for (int k = 0; k < machine[3] - 1; k++)
+        {
+            std::cout << "-";
+        }
+        if (machine[3] > 0)
+        {
+            std::cout << ">";
+        }
         std::cout << std::endl;
     }
     ///////////////////////////////////////FUNKCJA KRYTERIUM (???)////////////////////////////////////
     auto maxtime = max_element(time.begin(), time.end());
     int total_time = *maxtime;
-    std::cout<<"Task time]";
-    for (int y=0;y<total_time;y++){
-        std::cout<<"=";
+    std::cout << "Task time]";
+    for (int y = 0; y < total_time; y++)
+    {
+        std::cout << "=";
     }
-    std::cout<<std::endl;
-    std::cout<<total_time<<" time units"<<std::endl;
+    std::cout << std::endl;
+    std::cout << total_time << " time units" << std::endl;
 
     return 0;
 }

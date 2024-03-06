@@ -8,7 +8,7 @@ Task::Task(double pj, double rj, double qj, int id) : m_pj(pj), m_rj(rj), m_qj(q
 {
 }
 
-Task::Task(const Task& task) : m_pj(task.m_pj), m_rj(task.m_rj), m_qj(task.m_qj), m_taskId(task.m_taskId)
+Task::Task(const Task &task) : m_pj(task.m_pj), m_rj(task.m_rj), m_qj(task.m_qj), m_taskId(task.m_taskId)
 {
 }
 

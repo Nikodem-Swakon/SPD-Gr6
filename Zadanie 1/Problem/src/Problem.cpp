@@ -23,7 +23,7 @@ void Problem::DisplayTasks()
     std::cout << "Tasks in the problem." << std::endl;
     for (int i = 0; i < m_tasksNr; i++)
     {
-        std::cout << "task: pj " << m_tasks[i].GetPj() << " rj " << m_tasks[i].GetRj() << " qj " << m_tasks[i].GetQj() <<  " taskId "  << m_tasks[i].GetTaskId()  << std::endl;
+        std::cout << "task: pj " << m_tasks[i].GetPj() << " rj " << m_tasks[i].GetRj() << " qj " << m_tasks[i].GetQj() << " taskId " << m_tasks[i].GetTaskId() << std::endl;
     }
 
     std::cout << "Number od tasks " << m_tasksNr << std::endl;
