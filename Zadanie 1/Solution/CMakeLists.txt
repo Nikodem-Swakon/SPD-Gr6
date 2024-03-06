@@ -1,1 +1,3 @@
-add_library(Solution.cpp)
+add_library(Solution src/Solution.cpp)
+
+target_include_directories(Solution PUBLIC inc)

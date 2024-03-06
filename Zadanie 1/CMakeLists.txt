@@ -3,13 +3,11 @@ project(Scheduling LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_subdirectory(
-    Solution
-    Problem
-    Task
-)
+add_subdirectory(Solution)
+add_subdirectory(Problem)
+add_subdirectory(Task)
 
-add_executable(Scheduling main.cpp )
+add_executable(Scheduling main.cpp)
 
 target_link_libraries(Scheduling 
     PRIVATE 
