@@ -2,13 +2,18 @@
 class Task
 {
 private:
-    /* data */
+    /* private data */
+    double m_pj;
+    double m_rj;
+    double m_qj;
+
 public:
-    Task(/* args */);
+    /* public methods */
+    Task(double pj, double rj, double qj);
     ~Task();
 };
 
-Task::Task(/* args */)
+Task::Task(double pj, double rj, double qj) : m_pj(pj), m_rj(rj), m_qj(qj)
 {
 }
 
