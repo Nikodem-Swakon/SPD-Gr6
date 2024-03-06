@@ -1,16 +1,22 @@
 #pragma once
 #include <iostream>
 #include <vector>
+
+#include "Task.hpp"
+
 class Solution
 {
 private:
     /* private data */
     double m_criterion;
-    std::vector<double> m_ranked;
+    std::vector<Task> m_rankedTasks;
 
 public:
     /* public methods */
-    Solution(double m_criterion, std::vector<double> ranked);
-    Solution(Solution &solution);
+    Solution(double criterion, std::vector<Task> ranked);
+    Solution(const Solution &solution);
+    Solution &operator=(const Solution &solution) noexcept;
     ~Solution();
+
+    void DisplaySolution();
 };

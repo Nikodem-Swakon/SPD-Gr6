@@ -22,5 +22,9 @@ int main(int argc, char *argv[])
     Problem problem(taskVector);
     problem.DisplayTasks();
 
+    //  TO BE DELETED solution test
+    Solution solution = problem.ExampleAlgorith();
+    solution.DisplaySolution();
+
     return 0;
 }

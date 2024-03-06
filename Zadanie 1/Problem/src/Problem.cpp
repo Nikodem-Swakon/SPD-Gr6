@@ -42,6 +42,8 @@ Solution Problem::ExampleAlgorith() const
     double criterion = CountCriterion(rankedTasks);
 
     Solution solution(criterion, rankedTasks);
+
+    return solution;
 }
 
 // it measures the criterion Cmax
