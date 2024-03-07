@@ -46,6 +46,32 @@ Solution Problem::ExampleAlgorith() const
     return solution;
 }
 
+Solution Problem::AlgorithmSortRj() const {
+    std::vector<Task> sortedTasks;
+    std::sort(sortedTasks.begin(), sortedTasks.end(),[](const Task& a, const Task& b) {
+        return a.GetRj() < b.GetRj();
+    });
+
+    double criterion = CountCriterion(sortedTasks);
+
+    Solution solution(criterion, sortedTasks);
+
+    return solution;
+}
+
+Solution Problem::AlgorithmSortQj() const { 
+    std::vector<Task> sortedTasks;
+    std::sort(sortedTasks.begin(), sortedTasks.end(),[](const Task& a, const Task& b) {
+        return a.GetQj() < b.GetQj();
+    });
+
+
+    double criterion = CountCriterion(sortedTasks);
+
+    Solution solution(criterion, sortedTasks);
+
+    return solution;
+}
 // it measures the criterion Cmax
 double Problem::CountCriterion(std::vector<Task> rankedTasks) const
 {
