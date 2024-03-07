@@ -8,7 +8,7 @@ class Solution
 {
 private:
     /* private data */
-    double m_criterion;
+    int m_criterion;
     std::vector<Task> m_rankedTasks;
 
 public:
@@ -19,4 +19,5 @@ public:
     ~Solution();
 
     void DisplaySolution();
+    void DisplayGanttChart();
 };
