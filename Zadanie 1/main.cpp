@@ -68,26 +68,32 @@ int ReadFromFile(std::ifstream &file, std::vector<Task> &tasksVec)
 int main(int argc, char *argv[])
 {
     // TEST 1
+    std::cout << "Test 1" << std::endl;
     Task task1(1, 0, 1, 1);
     Task task2(2, 3, 3, 2);
 
     Problem problem1({task1, task2});
-    Solution solution = problem1.ExampleAlgorith();
-    solution.DisplaySolution(); // 8
+    Solution solution1 = problem1.ExampleAlgorith();
+    solution1.DisplaySolution(); // 8
+    solution1.DisplayGanttChart();
 
     // TEST 2
+    std::cout << "Test 2" << std::endl;
     Problem problem2({task2, task1});
-    solution = problem2.ExampleAlgorith();
-    solution.DisplaySolution(); // 8
+    Solution solution2 = problem2.ExampleAlgorith();
+    solution2.DisplaySolution(); // 8
+    solution2.DisplayGanttChart();
 
     // TEST 3
+    std::cout << "Test 3" << std::endl;
     Task task3(2, 1, 5, 3); // 3 + 5
     Task task4(1, 9, 1, 4); // 10 + 1
     Task task5(3, 8, 3, 5); // 13 + 3
 
     Problem problem3({task3, task4, task5});
-    solution = problem3.ExampleAlgorith();
-    solution.DisplaySolution(); // 16
+    Solution solution3 = problem3.ExampleAlgorith();
+    solution3.DisplaySolution(); // 16
+    solution3.DisplayGanttChart();
 
     return 0;
 }

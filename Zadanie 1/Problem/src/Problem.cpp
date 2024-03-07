@@ -41,7 +41,7 @@ Solution Problem::ExampleAlgorith() const
         rankedTasks.push_back(m_tasks[i]);
     }
 
-    double criterion = CountCriterion(rankedTasks);
+    int criterion = CountCriterion(rankedTasks);
 
     Solution solution(criterion, rankedTasks);
 
@@ -49,13 +49,13 @@ Solution Problem::ExampleAlgorith() const
 }
 
 // it measures the criterion Cmax
-double Problem::CountCriterion(std::vector<Task> rankedTasks) const
+int Problem::CountCriterion(std::vector<Task> rankedTasks) const
 {
-    double cMax = 0;
-    double cooling = 0;
+    int cMax = 0;
+    int cooling = 0;
     for (int j = 0; j < rankedTasks.size(); j++)
     {
-        double last = cMax;
+        int last = cMax;
         // criterium taking into account avaliability and execution time
         cMax = rankedTasks[j].GetPj() + std::max(cMax, rankedTasks[j].GetRj());
 
