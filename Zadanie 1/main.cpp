@@ -67,35 +67,27 @@ int ReadFromFile(std::ifstream &file, std::vector<Task> &tasksVec)
 
 int main(int argc, char *argv[])
 {
-    //  TO BE DELETED task test
-    std::cout << "Hello SPD." << std::endl;
-    Task task1;
-    std::cout << "task1: pj " << task1.GetPj() << " rj " << task1.GetRj() << " qj " << task1.GetQj() << " taskId " << task1.GetTaskId() << std::endl;
-    Task task2(0, 1, 2, 3);
-    std::cout << "task2: pj " << task2.GetPj() << " rj " << task2.GetRj() << " qj " << task2.GetQj() << " taskId " << task2.GetTaskId() << std::endl;
-    Task task3(task2);
-    std::cout << "task3: pj " << task3.GetPj() << " rj " << task3.GetRj() << " qj " << task3.GetQj() << " taskId " << task3.GetTaskId() << std::endl;
+    // TEST 1
+    Task task1(1, 0, 1, 1);
+    Task task2(2, 3, 3, 2);
 
-    //  TO BE DELETED problem test
-    std::vector<Task> taskVector = {task1, task2, task3};
+    Problem problem1({task1, task2});
+    Solution solution = problem1.ExampleAlgorith();
+    solution.DisplaySolution(); // 8
 
-    Problem problem(taskVector);
-    problem.DisplayTasks();
+    // TEST 2
+    Problem problem2({task2, task1});
+    solution = problem2.ExampleAlgorith();
+    solution.DisplaySolution(); // 8
 
-    //  TO BE DELETED solution test
-    Solution solution = problem.ExampleAlgorith();
-    solution.DisplaySolution();
+    // TEST 3
+    Task task3(2, 1, 5, 3); // 3 + 5
+    Task task4(1, 9, 1, 4); // 10 + 1
+    Task task5(3, 8, 3, 5); // 13 + 3
 
-    // READ FROM FILE TEST
+    Problem problem3({task3, task4, task5});
+    solution = problem3.ExampleAlgorith();
+    solution.DisplaySolution(); // 16
 
-    std::ifstream file(FILE_PATH); // Open the input file
-    std::vector<Task> taskVector2;
-    if (ReadFromFile(file, taskVector2) == 1)
-        return 1;
-
-    for (int i = 0; i < taskVector2.size(); i++)
-    {
-        std::cout << "task: pj " << taskVector2[i].GetPj() << " rj " << taskVector2[i].GetRj() << " qj " << taskVector2[i].GetQj() << " taskId " << taskVector2[i].GetTaskId() << std::endl;
-    }
     return 0;
 }

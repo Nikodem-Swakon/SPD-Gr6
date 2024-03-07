@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "Problem.hpp"
 
 /* constructors and destructors */
@@ -49,5 +51,23 @@ Solution Problem::ExampleAlgorith() const
 // it measures the criterion Cmax
 double Problem::CountCriterion(std::vector<Task> rankedTasks) const
 {
-    return 0;
+    double cMax = 0;
+    double cooling = 0;
+    for (int j = 0; j < rankedTasks.size(); j++)
+    {
+        double last = cMax;
+        // criterium taking into account avaliability and execution time
+        cMax = rankedTasks[j].GetPj() + std::max(cMax, rankedTasks[j].GetRj());
+
+        cooling = cooling - (cMax - last);
+
+        // take into counting cooling time
+        if (cooling <= rankedTasks[j].GetQj())
+            cooling = rankedTasks[j].GetQj();
+
+        // if last task add colling time
+        if (j == rankedTasks.size() - 1)
+            cMax = cMax + cooling;
+    }
+    return cMax;
 }
