@@ -47,7 +47,7 @@ Solution Problem::ExampleAlgorith() const
 }
 
 Solution Problem::AlgorithmSortRj() const {
-    std::vector<Task> sortedTasks;
+    std::vector<Task> sortedTasks = m_tasks;
     std::sort(sortedTasks.begin(), sortedTasks.end(),[](const Task& a, const Task& b) {
         return a.GetRj() < b.GetRj();
     });
@@ -60,7 +60,7 @@ Solution Problem::AlgorithmSortRj() const {
 }
 
 Solution Problem::AlgorithmSortQj() const { 
-    std::vector<Task> sortedTasks;
+    std::vector<Task> sortedTasks = m_tasks;
     std::sort(sortedTasks.begin(), sortedTasks.end(),[](const Task& a, const Task& b) {
         return a.GetQj() < b.GetQj();
     });

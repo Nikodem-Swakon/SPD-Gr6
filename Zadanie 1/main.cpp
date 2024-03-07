@@ -67,7 +67,7 @@ int ReadFromFile(std::ifstream &file, std::vector<Task> &tasksVec)
 
 int main(int argc, char *argv[])
 {
-    //  TO BE DELETED task test
+   /*//  TO BE DELETED task test
     std::cout << "Hello SPD." << std::endl;
     Task task1;
     std::cout << "task1: pj " << task1.GetPj() << " rj " << task1.GetRj() << " qj " << task1.GetQj() << " taskId " << task1.GetTaskId() << std::endl;
@@ -75,19 +75,30 @@ int main(int argc, char *argv[])
     std::cout << "task2: pj " << task2.GetPj() << " rj " << task2.GetRj() << " qj " << task2.GetQj() << " taskId " << task2.GetTaskId() << std::endl;
     Task task3(task2);
     std::cout << "task3: pj " << task3.GetPj() << " rj " << task3.GetRj() << " qj " << task3.GetQj() << " taskId " << task3.GetTaskId() << std::endl;
+    */
+    Task task1(5, 10, 7,  1);
+    Task task2(6, 13, 26, 2);
+    Task task3(7, 11, 24, 3);
+    Task task4(4, 20, 21, 4);
+    Task task5(3, 30, 8, 5);
+    Task task6(6, 0, 17, 6);
+    Task task7(2, 30, 0, 7);
+
 
     //  TO BE DELETED problem test
-    std::vector<Task> taskVector = {task1, task2, task3};
+    std::vector<Task> taskVector = {task1, task2, task3, task4, task5, task6, task7};
 
     Problem problem(taskVector);
-    problem.DisplayTasks();
+    Solution solution = problem.AlgorithmSortRj();
+    solution.DisplaySolution();
+    //problem.DisplayTasks();
 
     //  TO BE DELETED solution test
-    Solution solution = problem.ExampleAlgorith();
-    solution.DisplaySolution();
+    //Solution solution = problem.ExampleAlgorith();
+    //solution.DisplaySolution();
 
     // READ FROM FILE TEST
-
+    /*
     std::ifstream file(FILE_PATH); // Open the input file
     std::vector<Task> taskVector2;
     if (ReadFromFile(file, taskVector2) == 1)
@@ -97,5 +108,6 @@ int main(int argc, char *argv[])
     {
         std::cout << "task: pj " << taskVector2[i].GetPj() << " rj " << taskVector2[i].GetRj() << " qj " << taskVector2[i].GetQj() << " taskId " << taskVector2[i].GetTaskId() << std::endl;
     }
+    */
     return 0;
 }
