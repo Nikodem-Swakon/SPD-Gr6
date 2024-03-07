@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 #include "Task.hpp"
 
@@ -19,4 +20,7 @@ public:
     ~Solution();
 
     void DisplaySolution();
+
+    void AlgorithmSortRj() const;
+    void AlgorithmSortQj() const;
 };

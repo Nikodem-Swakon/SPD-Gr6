@@ -16,10 +16,10 @@ public:
     ~Task();
     Task &operator=(const Task &task) noexcept;
 
-    double GetPj(){return m_pj;};
-    double GetRj(){return m_rj;};
-    double GetQj(){return m_qj;};
-    int GetTaskId(){return m_taskId;};
+    double GetPj() const {return m_pj;};
+    double GetRj() const {return m_rj;};
+    double GetQj() const {return m_qj;};
+    int GetTaskId() const {return m_taskId;};
 
     void SetPj(double pj){ m_pj = pj;};
     void SetRj(double rj){ m_rj = rj;};

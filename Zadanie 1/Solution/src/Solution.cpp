@@ -44,3 +44,14 @@ void Solution::DisplaySolution()
 
     std::cout << "Criterion  " << m_criterion << std::endl;
 }
+
+void Solution::AlgorithmSortRj() const {
+    std::sort(m_rankedTasks.begin(), m_rankedTasks.end(), [](const Task& a, const Task& b){
+        return a.GetRj() < b.GetRj();
+    });
+}
+void Solution::AlgorithmSortQj() const {
+    std::sort(m_rankedTasks.begin(), m_rankedTasks.end(), [](const Task& a, const Task& b){
+        return a.GetQj() < b.GetQj();
+    });
+}
