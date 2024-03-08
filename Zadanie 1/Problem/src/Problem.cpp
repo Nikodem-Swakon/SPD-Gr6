@@ -109,7 +109,6 @@ std::vector<Task> Problem::CompleteReview(std::vector<Task> tasks, int untilTask
     std::vector<Task> currentChacked = tasks;
     int currentCriterion = criterion;
 
-    std::vector<Task> currentChacked = tasks;
     for (int i = tasks.size() - 1; i > untilTask; i--)
     {
         std::swap(currentChacked[i], currentChacked[i - 1]);

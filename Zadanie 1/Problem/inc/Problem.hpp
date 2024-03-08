@@ -17,7 +17,7 @@ private:
 
     /* private methods */
     int CountCriterion(std::vector<Task> rankedTasks) const;
-    std::vector<Task> Problem::CompleteReview(std::vector<Task> tasks, int untilTask, int criterion) const;
+    std::vector<Task> CompleteReview(std::vector<Task> tasks, int untilTask, int criterion) const;
 
 public:
     /* public methods */
