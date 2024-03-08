@@ -15,3 +15,4 @@
 ## TASK
 - ID as ststic member?
 - change constructor arguments order
+- change DisplaySolution order

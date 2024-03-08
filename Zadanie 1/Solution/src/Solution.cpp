@@ -61,8 +61,7 @@ void Solution::DisplayGanttChart()
             std::cout << " ";
         }
 
-
-        for(int j = 0; j < cMax - task.GetRj(); j++)
+        for (int j = 0; j < cMax - task.GetRj(); j++)
         {
             std::cout << "_";
         }
@@ -78,8 +77,7 @@ void Solution::DisplayGanttChart()
         }
         std::cout << std::endl;
 
-        cMax = task.GetPj() + std::max(cMax, task.GetRj());
-        
+        cMax = task.GetPj() + std::max(cMax, task.GetRj()); // it DOESN'T contain cooling time
     }
     std::cout << "----------------------------------------------------" << std::endl;
 }
