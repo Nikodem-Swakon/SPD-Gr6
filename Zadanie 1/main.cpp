@@ -67,21 +67,27 @@ int ReadFromFile(std::ifstream &file, std::vector<Task> &tasksVec)
 
 int main(int argc, char *argv[])
 {
-
     Task task1(5, 10, 7,  1);
     Task task2(6, 13, 26, 2);
     Task task3(7, 11, 24, 3);
     Task task4(4, 20, 21, 4);
-    Task task5(3, 30, 8, 5);
-    Task task6(6, 0, 17, 6);
-    Task task7(2, 30, 0, 7);
+    // Task task5(3, 30, 8, 5);
+    // Task task6(6, 0, 17, 6);
+    // Task task7(2, 30, 0, 7);
 
+    std::cout << "TEST 1" << std::endl;
 
-    //  TO BE DELETED problem test
-    std::vector<Task> taskVector = {task1, task2, task3, task4, task5, task6, task7};
+    std::vector<Task> taskVector = {task1, task2, task3, task4}; //, task5, task6, task7};
 
     Problem problem(taskVector);
     Solution solution = problem.AlgorithmSortRj();
+    solution.DisplaySolution();
+    solution.DisplayGanttChart();
+
+
+    std::cout << "TEST 2" << std::endl;
+    
+    solution = problem.AlgorithmCompleteReview();
     solution.DisplaySolution();
     solution.DisplayGanttChart();
     return 0;
