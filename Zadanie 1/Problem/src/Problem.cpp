@@ -102,6 +102,7 @@ Solution Problem::AlgorithmCompleteReview() const
     return solution;
 }
 
+// it returns the most optimal task orter in subvector
 std::vector<Task> Problem::CompleteReview(std::vector<Task> tasks, int untilTask, int criterion) const
 {
     std::vector<Task> sortedTasks = tasks;
