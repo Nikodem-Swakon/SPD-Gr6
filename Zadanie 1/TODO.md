@@ -14,3 +14,4 @@
 
 ## TASK
 - ID as ststic member?
+- change constructor arguments order
