@@ -67,10 +67,10 @@ int ReadFromFile(std::ifstream &file, std::vector<Task> &tasksVec)
 
 int main(int argc, char *argv[])
 {
-    Task task1(5, 10, 7,  1);
-    Task task2(6, 13, 26, 2);
-    Task task3(7, 11, 24, 3);
-    Task task4(4, 20, 21, 4);
+    Task task1(5, 0, 0, 1);
+    Task task2(6, 13, 0, 2);
+    Task task3(4, 20, 0, 3);
+    Task task4(7, 11, 0, 4);
     // Task task5(3, 30, 8, 5);
     // Task task6(6, 0, 17, 6);
     // Task task7(2, 30, 0, 7);
@@ -84,9 +84,8 @@ int main(int argc, char *argv[])
     solution.DisplaySolution();
     solution.DisplayGanttChart();
 
-
     std::cout << "TEST 2" << std::endl;
-    
+
     solution = problem.AlgorithmCompleteReview();
     solution.DisplaySolution();
     solution.DisplayGanttChart();

@@ -88,37 +88,71 @@ Solution Problem::AlgorithmCompleteReview() const
     int criterion = CountCriterion(sortedTasks);
     int currentCriterion = criterion;
 
-    for (int i = m_tasks.size() - 1; i > 0; i--)
+    for (int i = m_tasks.size() - 3; i > 0; i--)
     {
-        currentChacked = CompleteReview(currentChacked, i - 1, criterion);
+        currentChacked = CompleteReview(currentChacked, i, criterion);
         currentCriterion = CountCriterion(currentChacked);
+
+        std::cout << "currentChecked in AlgorithmCompleteReview" << std::endl;
+        for (int j = 0; j < currentChacked.size(); j++)
+        {
+            std::cout << currentChacked[j].GetTaskId() << " ";
+        }
+        std::cout << std::endl;
+        std::cout << i << ". currentCriterion and criterion in AlgorithmCompleteReview " << currentCriterion << " " << criterion << std::endl;
         if (currentCriterion < criterion)
         {
             criterion = currentCriterion;
             sortedTasks = currentChacked;
+            std::cout << "changed" << std::endl;
         }
+
+        std::cout << "sortedTasks in AlgorithmCompleteReview" << std::endl;
+        for (int j = 0; j < sortedTasks.size(); j++)
+        {
+            std::cout << sortedTasks[j].GetTaskId() << " ";
+        }
+        std::cout << std::endl;
     }
+
     Solution solution(criterion, sortedTasks);
     return solution;
 }
 
 // it returns the most optimal task orter in subvector
-std::vector<Task> Problem::CompleteReview(std::vector<Task> tasks, int untilTask, int criterion) const
+std::vector<Task> Problem::CompleteReview(std::vector<Task> tasks, int fromTask, int criterion) const
 {
     std::vector<Task> sortedTasks = tasks;
     std::vector<Task> currentChacked = tasks;
     int currentCriterion = criterion;
 
-    for (int i = tasks.size() - 1; i > untilTask; i--)
+    for (int i = fromTask; i < tasks.size() - 2; i++)
     {
-        std::swap(currentChacked[i], currentChacked[i - 1]);
+        std::swap(currentChacked[i + 1], currentChacked[i + 2]);
+        std::cout << "  currentChecked in CompleteReview" << std::endl;
+        std::cout << "  ";
+        for (int j = 0; j < currentChacked.size(); j++)
+        {
+            std::cout << currentChacked[j].GetTaskId() << " ";
+        }
+        std::cout << std::endl;
+
         currentCriterion = CountCriterion(currentChacked);
+        std::cout << "  " << i << ". currentCriterion and criterion in CompleteReview " << currentCriterion << " " << criterion << std::endl;
         if (currentCriterion < criterion)
         {
             criterion = currentCriterion;
             sortedTasks = currentChacked;
+            std::cout << "  changed" << std::endl;
         }
     }
+    std::cout << "  sortedTasks in CompleteReview" << std::endl;
+    std::cout << "  ";
+    for (int j = 0; j < sortedTasks.size(); j++)
+    {
+        std::cout << sortedTasks[j].GetTaskId() << " ";
+    }
+    std::cout << std::endl;
     return sortedTasks;
 }
 
