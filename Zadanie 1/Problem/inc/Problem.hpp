@@ -14,7 +14,7 @@ private:
     int m_tasksNr;
 
     /* private methods */
-    double CountCriterion(std::vector<Task> rankedTasks) const;
+    int CountCriterion(std::vector<Task> rankedTasks) const;
 
 public:
     /* public methods */

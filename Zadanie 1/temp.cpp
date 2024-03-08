@@ -42,7 +42,7 @@ int main()
         return 1;
     }
 
-    std::vector<std::vector<int>> Machine; // vector of vectors
+    std::vector<std::vector<int> > Machine; // vector of vectors
 
     std::string line;        // For skipping first line
     bool isFirstLine = true; // For skipping first line
