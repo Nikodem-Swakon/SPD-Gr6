@@ -21,4 +21,7 @@ public:
 
     void DisplaySolution();
     void DisplayGanttChart();
+    std::vector<Task> GetRankedTasks() const {return m_rankedTasks;};
+    int GetCriterion() const {return m_criterion;};
+
 };
