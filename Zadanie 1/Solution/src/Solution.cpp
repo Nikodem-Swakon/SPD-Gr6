@@ -1,5 +1,8 @@
 #include "Solution.hpp"
 
+#include <algorithm>
+#include <iostream>
+
 /* constructors and destructors */
 
 Solution::Solution(double criterion, std::vector<Task> ranked) : m_criterion(criterion)
@@ -43,4 +46,38 @@ void Solution::DisplaySolution()
     }
 
     std::cout << "Criterion  " << m_criterion << std::endl;
+}
+
+void Solution::DisplayGanttChart()
+{
+    int cMax = 0;
+    std::cout << "------------------- Gantt chart  -------------------" << std::endl;
+    for (const auto &task : m_rankedTasks)
+    {
+        std::cout << "Task nr " << task.GetTaskId() << "]";
+
+        for (int x = 0; x < task.GetRj(); x++)
+        {
+            std::cout << " ";
+        }
+
+        for (int j = 0; j < cMax - task.GetRj(); j++)
+        {
+            std::cout << "_";
+        }
+
+        for (int j = 0; j < task.GetPj(); j++)
+        {
+            std::cout << "%";
+        }
+
+        for (int k = 0; k < task.GetQj(); k++)
+        {
+            std::cout << "-";
+        }
+        std::cout << std::endl;
+
+        cMax = task.GetPj() + std::max(cMax, task.GetRj()); // it DOESN'T contain cooling time
+    }
+    std::cout << "----------------------------------------------------" << std::endl;
 }

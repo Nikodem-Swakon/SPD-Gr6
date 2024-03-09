@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "Problem.hpp"
 
 /* constructors and destructors */
@@ -39,18 +41,18 @@ Solution Problem::ExampleAlgorith() const
         rankedTasks.push_back(m_tasks[i]);
     }
 
-    double criterion = CountCriterion(rankedTasks);
+    int criterion = CountCriterion(rankedTasks);
 
     Solution solution(criterion, rankedTasks);
 
     return solution;
 }
 
-Solution Problem::AlgorithmSortRj() const {
+Solution Problem::AlgorithmSortRj() const
+{
     std::vector<Task> sortedTasks = m_tasks;
-    std::sort(sortedTasks.begin(), sortedTasks.end(),[](const Task& a, const Task& b) {
-        return a.GetRj() < b.GetRj();
-    });
+    std::sort(sortedTasks.begin(), sortedTasks.end(), [](const Task &a, const Task &b)
+              { return a.GetRj() < b.GetRj(); });
 
     double criterion = CountCriterion(sortedTasks);
 
@@ -59,12 +61,11 @@ Solution Problem::AlgorithmSortRj() const {
     return solution;
 }
 
-Solution Problem::AlgorithmSortQj() const { 
+Solution Problem::AlgorithmSortQj() const
+{
     std::vector<Task> sortedTasks = m_tasks;
-    std::sort(sortedTasks.begin(), sortedTasks.end(),[](const Task& a, const Task& b) {
-        return a.GetQj() < b.GetQj();
-    });
-
+    std::sort(sortedTasks.begin(), sortedTasks.end(), [](const Task &a, const Task &b)
+              { return a.GetQj() < b.GetQj(); });
 
     double criterion = CountCriterion(sortedTasks);
 
@@ -73,7 +74,25 @@ Solution Problem::AlgorithmSortQj() const {
     return solution;
 }
 // it measures the criterion Cmax
-double Problem::CountCriterion(std::vector<Task> rankedTasks) const
+int Problem::CountCriterion(std::vector<Task> rankedTasks) const
 {
-    return 0;
+    int cMax = 0;
+    int cooling = 0;
+    for (int j = 0; j < rankedTasks.size(); j++)
+    {
+        int last = cMax;
+        // criterium taking into account avaliability and execution time
+        cMax = rankedTasks[j].GetPj() + std::max(cMax, rankedTasks[j].GetRj());
+
+        cooling = cooling - (cMax - last);
+
+        // take into counting cooling time
+        if (cooling <= rankedTasks[j].GetQj())
+            cooling = rankedTasks[j].GetQj();
+
+        // if last task add colling time
+        if (j == rankedTasks.size() - 1)
+            cMax = cMax + cooling;
+    }
+    return cMax;
 }
