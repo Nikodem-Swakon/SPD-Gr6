@@ -14,6 +14,7 @@ private:
 
 public:
     /* public methods */
+    //Solution (); //default constructor
     Solution(double criterion, std::vector<Task> ranked);
     Solution(const Solution &solution);
     Solution &operator=(const Solution &solution) noexcept;

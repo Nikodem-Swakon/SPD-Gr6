@@ -4,12 +4,15 @@
 #include <sstream>
 #include <cctype>
 #include <string>
+#include <filesystem>
 
 #include "Task.hpp"
 #include "Solution.hpp"
 #include "Problem.hpp"
 
 #define FILE_PATH "../text.txt"
+
+
 
 void extract(const std::string &line, Task &task)
 {
@@ -27,9 +30,9 @@ void extract(const std::string &line, Task &task)
     task.SetQj(values[3]);
 }
 
-int ReadFromFile(std::ifstream &file, std::vector<Task> &tasksVec)
+int ReadFromFile(std::string& filename, std::vector<Task> &tasksVec)
 {
-
+    std::ifstream file(filename);
     if (!file.is_open())
     {
         std::cerr << "Failed to open the file." << std::endl;
@@ -66,23 +69,94 @@ int ReadFromFile(std::ifstream &file, std::vector<Task> &tasksVec)
 }
 
 int main(int argc, char *argv[])
-{
-
-    Task task1(5, 10, 7,  1);
-    Task task2(6, 13, 26, 2);
-    Task task3(7, 11, 24, 3);
-    Task task4(4, 20, 21, 4);
-    Task task5(3, 30, 8, 5);
-    Task task6(6, 0, 17, 6);
-    Task task7(2, 30, 0, 7);
+{   
+    std::string currentpath = std::filesystem::current_path().string();
+    std::string folderPath=currentpath+"/../Input";
 
 
-    //  TO BE DELETED problem test
-    std::vector<Task> taskVector = {task1, task2, task3, task4, task5, task6, task7};
+    // Display list of files in the folder
+    std::cout << "Files available as input data:" << std::endl;
+    int index = 1;
+    for (const auto& entry : std::filesystem::directory_iterator(folderPath)) {
+        std::cout << index << ". " << entry.path().filename() << std::endl;
+        ++index;
+    }
 
+    int choice;
+    std::cout << "Enter the number of the file for input data: ";
+    std::cin >> choice;
+
+    // Invalid choice handling
+    if (choice < 1 || choice >= index) {
+        std::cerr << "Invalid choice." << std::endl;
+        return 1;
+    }
+
+    std::string filename;
+    index = 1;
+    for (const auto& entry : std::filesystem::directory_iterator(folderPath)) {
+        if (index == choice) {
+            filename = entry.path().string();
+            break;
+        }
+        ++index;
+    }
+
+    std::vector<Task> taskVector;
+    ReadFromFile(filename,taskVector);
     Problem problem(taskVector);
-    Solution solution = problem.AlgorithmSortRj();
+    
+    Solution solution=problem.AlgorithmSortQj();
     solution.DisplaySolution();
     solution.DisplayGanttChart();
+    
+    //  User input for picking sorting algorithm
+        // WARNING - Does not work. Correct deafault constructor for "solution" is needed, that can be overwritten by functions inside cases
+    /*
+    
+    std::cout<<"Enter the number of the sorting algorithm: "<<std::endl;
+    std::cout<<"1. Rj_sort"<<std::endl;
+    std::cout<<"2. Qj_sort"<<std::endl;
+    std::cout<<"3. Complete_Review"<<std::endl;
+    int sortChoice;
+    std::cin>>sortChoice;
+    */
+
+        // "IF CASES"
+    /*
+    Solution solution;
+    if(sortChoice=1){ solution = problem.AlgorithmSortRj();solution.DisplaySolution();solution.DisplayGanttChart(); }
+    else if(sortChoice=2){ solution = problem.AlgorithmSortQj();solution.DisplaySolution();solution.DisplayGanttChart(); }
+    //else if (sortChoice=3){ solution = problem.AlgorithmCompleteReview();solution.DisplaySolution();solution.DisplayGanttChart(); }
+    else{std::cout<<"Invalid choice!"<<std::endl;}
+    */
+
+        // "SWITCH CASES"
+    /*
+     switch(sortChoice) {
+    case 1:
+        std::cout << "Using RJ_sort" << std::endl;
+        solution = problem.AlgorithmSortRj(); 
+        solution.DisplaySolution();
+        solution.DisplayGanttChart();
+        break;
+    case 2:
+        std::cout << "Using QJ_sort" << std::endl;
+        solution = problem.AlgorithmSortQj(); 
+        solution.DisplaySolution();
+        solution.DisplayGanttChart();
+        break;
+    case 3:
+        std::cout << "Using Complete_Review" << std::endl;
+        solution = problem.AlgorithmCompleteReview(); 
+        solution.DisplaySolution();
+        solution.DisplayGanttChart();
+        break;
+    default:
+        std::cerr << "Invalid sorting method choice." << std::endl;
+        return 1;
+     */
+    
+
     return 0;
 }

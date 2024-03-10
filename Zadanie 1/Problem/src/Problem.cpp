@@ -65,7 +65,7 @@ Solution Problem::AlgorithmSortQj() const
 {
     std::vector<Task> sortedTasks = m_tasks;
     std::sort(sortedTasks.begin(), sortedTasks.end(), [](const Task &a, const Task &b)
-              { return a.GetQj() < b.GetQj(); });
+              { return a.GetQj() > b.GetQj(); });
 
     double criterion = CountCriterion(sortedTasks);
 
