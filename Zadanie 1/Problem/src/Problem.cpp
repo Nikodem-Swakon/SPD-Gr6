@@ -78,7 +78,7 @@ Solution Problem::AlgorithmSortQj() const
 // CAUTION: it is sutable solution only if the m_tasks <= 12
 Solution Problem::AlgorithmCompleteReview() const
 {
-    if (m_tasks.size() > CRITICAL_NUMBER)
+    if (m_tasks.size() >= CRITICAL_NUMBER)
     {
         std::cout << "WARNING: It will take a long time." << std::endl;
     }
@@ -88,31 +88,18 @@ Solution Problem::AlgorithmCompleteReview() const
     int criterion = CountCriterion(sortedTasks);
     int currentCriterion = criterion;
 
-    for (int i = 0; i < m_tasks.size(); i++)
+
+    for (int i = 0; i < m_tasks.size() - 1; i++)
     {
-        currentChacked = CompleteReview(currentChacked, i + 1, criterion);
+        currentChacked = CompleteReview(currentChacked, i, criterion);
         currentCriterion = CountCriterion(currentChacked);
 
-        // std::cout << "currentChecked in AlgorithmCompleteReview" << std::endl;
-        // for (int j = 0; j < currentChacked.size(); j++)
-        // {
-        //     std::cout << currentChacked[j].GetTaskId() << " ";
-        // }
-        // std::cout << std::endl;
-        // std::cout << i << ". currentCriterion and criterion in AlgorithmCompleteReview " << currentCriterion << " " << criterion << std::endl;
+        // if criterion is better, save this solution
         if (currentCriterion < criterion)
         {
             criterion = currentCriterion;
             sortedTasks = currentChacked;
-            // std::cout << "changed" << std::endl;
         }
-
-        // std::cout << "sortedTasks in AlgorithmCompleteReview" << std::endl;
-        // for (int j = 0; j < sortedTasks.size(); j++)
-        // {
-        //     std::cout << sortedTasks[j].GetTaskId() << " ";
-        // }
-        // std::cout << std::endl;
     }
 
     Solution solution(criterion, sortedTasks);
@@ -122,37 +109,28 @@ Solution Problem::AlgorithmCompleteReview() const
 // it returns the most optimal task orter in subvector
 std::vector<Task> Problem::CompleteReview(std::vector<Task> tasks, int fromTask, int criterion) const
 {
+    if(fromTask > tasks.size() - 2)
+    {
+        return tasks;
+    }
     std::vector<Task> sortedTasks = tasks;
     std::vector<Task> currentChacked = tasks;
     int currentCriterion = criterion;
 
     for (int i = fromTask; i < tasks.size(); i++)
     {
-        std::swap(currentChacked[fromTask], currentChacked[i]);
-        currentChacked = CompleteReview(currentChacked, i + 1, criterion);
-        currentCriterion = CountCriterion(currentChacked);
 
-        std::cout << "      currentChecked in AlgorithmCompleteReview" << std::endl;
-        for (int j = 0; j < currentChacked.size(); j++)
-        {
-            std::cout << currentChacked[j].GetTaskId() << " ";
-        }
-        std::cout << std::endl;
-        // std::cout << "      " << i << ". currentCriterion and criterion in CompleteReview " << currentCriterion << " " << criterion << std::endl;
+        std::swap(currentChacked[fromTask], currentChacked[i]);
+       
+        currentChacked = CompleteReview(currentChacked, fromTask + 1, criterion);
+        currentCriterion = CountCriterion(currentChacked);
+    
+        // if criterion is better save this solution
         if (currentCriterion < criterion)
         {
             criterion = currentCriterion;
             sortedTasks = currentChacked;
-            // std::cout << "      changed" << std::endl;
         }
-
-        // std::cout << "      sortedTasks in AlgorithmCompleteReview" << std::endl;
-        // std::cout << "      ";
-        // for (int j = 0; j < sortedTasks.size(); j++)
-        // {
-        //     std::cout << sortedTasks[j].GetTaskId() << " ";
-        // }
-        // std::cout << std::endl;
     }
 
     return sortedTasks;

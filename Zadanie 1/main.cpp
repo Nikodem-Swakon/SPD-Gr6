@@ -72,12 +72,12 @@ int main(int argc, char *argv[])
     Task task3(4, 20, 0, 3);
     Task task4(7, 11, 0, 4);
     Task task5(3, 30, 0, 5);
-    // Task task6(6, 0, 17, 6);
-    // Task task7(2, 30, 0, 7);
+    Task task6(6, 0, 17, 6);
+    Task task7(2, 30, 0, 7);
 
     std::cout << "TEST 1" << std::endl;
 
-    std::vector<Task> taskVector = {task1, task2, task3, task4, task5}; //, task6, task7};
+    std::vector<Task> taskVector = {task1, task2, task3, task4, task5, task6, task7};
 
     Problem problem(taskVector);
     Solution solution = problem.AlgorithmSortRj();
