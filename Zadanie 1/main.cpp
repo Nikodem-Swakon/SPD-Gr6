@@ -68,9 +68,9 @@ int ReadFromFile(std::ifstream &file, std::vector<Task> &tasksVec)
 int main(int argc, char *argv[])
 {
     Task task1(5, 0, 0, 1);
-    Task task2(6, 13, 0, 2);
-    Task task3(4, 20, 0, 3);
-    Task task4(7, 11, 0, 4);
+    Task task2(6, 13, 7, 2);
+    Task task3(4, 20, 1, 3);
+    Task task4(7, 11, 2, 4);
     Task task5(3, 30, 0, 5);
     Task task6(6, 0, 17, 6);
     Task task7(2, 30, 0, 7);

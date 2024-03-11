@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <iostream>
+#include <cstring>
+#include <iomanip>
 
 /* constructors and destructors */
 
@@ -10,7 +12,9 @@ Solution::Solution(double criterion, std::vector<Task> ranked) : m_criterion(cri
     for (int i = 0; i < ranked.size(); i++)
     {
         m_rankedTasks.push_back(ranked[i]);
+        std::cout << ranked[i].GetTaskId();
     }
+    std::cout << std::endl;
 }
 
 Solution::Solution(const Solution &solution) : m_criterion(solution.m_criterion)
@@ -28,11 +32,13 @@ Solution::~Solution()
 Solution &Solution::operator=(const Solution &solution) noexcept
 {
     m_criterion = solution.m_criterion;
-    for (int i = 0; i > solution.m_rankedTasks.size(); i++)
+    
+    m_rankedTasks.clear();
+    for (int i = 0; i < solution.m_rankedTasks.size(); i++)
     {
         m_rankedTasks.push_back(solution.m_rankedTasks[i]);
-    }
-    return *this;
+            }
+        return *this;
 }
 
 /* methods */
@@ -54,7 +60,7 @@ void Solution::DisplayGanttChart()
     std::cout << "------------------- Gantt chart  -------------------" << std::endl;
     for (const auto &task : m_rankedTasks)
     {
-        std::cout << "Task nr " << task.GetTaskId() << "]";
+        std::cout << "Task nr " << task.GetTaskId() << "]" << std::setw(MAX_LENGTH);
 
         for (int x = 0; x < task.GetRj(); x++)
         {
@@ -79,5 +85,11 @@ void Solution::DisplayGanttChart()
 
         cMax = task.GetPj() + std::max(cMax, task.GetRj()); // it DOESN'T contain cooling time
     }
+    // display criterion time
+    std::cout << "criterion " << std::setw(MAX_LENGTH);
+    for(int i = 0; i < m_criterion; i++)
+        std::cout << "=";
+    std::cout << std::endl;
+
     std::cout << "----------------------------------------------------" << std::endl;
 }

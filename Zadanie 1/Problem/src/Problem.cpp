@@ -91,7 +91,7 @@ Solution Problem::AlgorithmCompleteReview() const
 
     for (int i = 0; i < m_tasks.size() - 1; i++)
     {
-        currentChacked = CompleteReview(currentChacked, i, criterion);
+        currentChacked = CompleteReview(sortedTasks, i, criterion);
         currentCriterion = CountCriterion(currentChacked);
 
         // if criterion is better, save this solution
@@ -99,7 +99,7 @@ Solution Problem::AlgorithmCompleteReview() const
         {
             criterion = currentCriterion;
             sortedTasks = currentChacked;
-        }
+}
     }
 
     Solution solution(criterion, sortedTasks);
@@ -124,7 +124,7 @@ std::vector<Task> Problem::CompleteReview(std::vector<Task> tasks, int fromTask,
        
         currentChacked = CompleteReview(currentChacked, fromTask + 1, criterion);
         currentCriterion = CountCriterion(currentChacked);
-    
+
         // if criterion is better save this solution
         if (currentCriterion < criterion)
         {
@@ -157,5 +157,5 @@ int Problem::CountCriterion(std::vector<Task> rankedTasks) const
         if (j == rankedTasks.size() - 1)
             cMax = cMax + cooling;
     }
-    return cMax;
+        return cMax;
 }

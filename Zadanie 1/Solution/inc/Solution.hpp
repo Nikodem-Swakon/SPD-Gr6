@@ -5,6 +5,8 @@
 
 #include "Task.hpp"
 
+#define MAX_LENGTH 10
+
 class Solution
 {
 private:
