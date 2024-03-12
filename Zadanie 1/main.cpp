@@ -69,6 +69,7 @@ int ReadFromFile(std::string& filename, std::vector<Task> &tasksVec)
 }
 
 int main(int argc, char *argv[])
+
 {   
     std::string currentpath = std::filesystem::current_path().string();
     std::string folderPath=currentpath+"/../Input";
@@ -85,6 +86,7 @@ int main(int argc, char *argv[])
     int choice;
     std::cout << "Enter the number of the file for input data: ";
     std::cin >> choice;
+
 
     // Invalid choice handling
     if (choice < 1 || choice >= index) {
@@ -109,6 +111,7 @@ int main(int argc, char *argv[])
     Solution solution=problem.AlgorithmSortQj();
     solution.DisplaySolution();
     solution.DisplayGanttChart();
+
     
     //  User input for picking sorting algorithm
         // WARNING - Does not work. Correct deafault constructor for "solution" is needed, that can be overwritten by functions inside cases

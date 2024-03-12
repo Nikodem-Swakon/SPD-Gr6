@@ -6,6 +6,8 @@
 #include "Task.hpp"
 #include "Solution.hpp"
 
+#define CRITICAL_NUMBER 12
+
 class Problem
 {
 private:
@@ -15,16 +17,17 @@ private:
 
     /* private methods */
     int CountCriterion(std::vector<Task> rankedTasks) const;
+    std::vector<Task> CompleteReview(std::vector<Task> tasks, int untilTask, int criterion) const;
 
 public:
     /* public methods */
     Problem(std::vector<Task> tasks);
     ~Problem();
 
-    void GenerateInstance();    
+    void GenerateInstance();
     Solution AlgorithmSortRj() const;
     Solution AlgorithmSortQj() const;
     Solution AlgorithmCompleteReview() const;
-    Solution ExampleAlgorith() const;     // TO BE DELETED  it is just simle example of algotithm method structure
+    Solution ExampleAlgorith() const; // TO BE DELETED  it is just simle example of algotithm method structure
     void DisplayTasks();
 };

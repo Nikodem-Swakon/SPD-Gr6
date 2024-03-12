@@ -54,7 +54,7 @@ Solution Problem::AlgorithmSortRj() const
     std::sort(sortedTasks.begin(), sortedTasks.end(), [](const Task &a, const Task &b)
               { return a.GetRj() < b.GetRj(); });
 
-    double criterion = CountCriterion(sortedTasks);
+    int criterion = CountCriterion(sortedTasks);
 
     Solution solution(criterion, sortedTasks);
 
@@ -67,12 +67,75 @@ Solution Problem::AlgorithmSortQj() const
     std::sort(sortedTasks.begin(), sortedTasks.end(), [](const Task &a, const Task &b)
               { return a.GetQj() > b.GetQj(); });
 
-    double criterion = CountCriterion(sortedTasks);
+    int criterion = CountCriterion(sortedTasks);
 
     Solution solution(criterion, sortedTasks);
 
     return solution;
 }
+
+// it looks for the most optimal solution using permutations
+// CAUTION: it is sutable solution only if the m_tasks <= 12
+Solution Problem::AlgorithmCompleteReview() const
+{
+    if (m_tasks.size() >= CRITICAL_NUMBER)
+    {
+        std::cout << "WARNING: It will take a long time." << std::endl;
+    }
+
+    std::vector<Task> sortedTasks = m_tasks;
+    std::vector<Task> currentChacked = m_tasks;
+    int criterion = CountCriterion(sortedTasks);
+    int currentCriterion = criterion;
+
+
+    for (int i = 0; i < m_tasks.size() - 1; i++)
+    {
+        currentChacked = CompleteReview(sortedTasks, i, criterion);
+        currentCriterion = CountCriterion(currentChacked);
+
+        // if criterion is better, save this solution
+        if (currentCriterion < criterion)
+        {
+            criterion = currentCriterion;
+            sortedTasks = currentChacked;
+}
+    }
+
+    Solution solution(criterion, sortedTasks);
+    return solution;
+}
+
+// it returns the most optimal task orter in subvector
+std::vector<Task> Problem::CompleteReview(std::vector<Task> tasks, int fromTask, int criterion) const
+{
+    if(fromTask > tasks.size() - 2)
+    {
+        return tasks;
+    }
+    std::vector<Task> sortedTasks = tasks;
+    std::vector<Task> currentChacked = tasks;
+    int currentCriterion = criterion;
+
+    for (int i = fromTask; i < tasks.size(); i++)
+    {
+
+        std::swap(currentChacked[fromTask], currentChacked[i]);
+       
+        currentChacked = CompleteReview(currentChacked, fromTask + 1, criterion);
+        currentCriterion = CountCriterion(currentChacked);
+
+        // if criterion is better save this solution
+        if (currentCriterion < criterion)
+        {
+            criterion = currentCriterion;
+            sortedTasks = currentChacked;
+        }
+    }
+
+    return sortedTasks;
+}
+
 // it measures the criterion Cmax
 int Problem::CountCriterion(std::vector<Task> rankedTasks) const
 {
@@ -94,5 +157,5 @@ int Problem::CountCriterion(std::vector<Task> rankedTasks) const
         if (j == rankedTasks.size() - 1)
             cMax = cMax + cooling;
     }
-    return cMax;
+        return cMax;
 }
