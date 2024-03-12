@@ -7,6 +7,8 @@
 
 /* constructors and destructors */
 
+//Solution::Solution(){} //default constructor
+
 Solution::Solution(double criterion, std::vector<Task> ranked) : m_criterion(criterion)
 {
     for (int i = 0; i < ranked.size(); i++)
