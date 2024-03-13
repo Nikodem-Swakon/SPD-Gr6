@@ -199,7 +199,20 @@ Solution Problem::AlgorithmSchrage () const
     }*/
 
 
-//Solution Problem::AlgorithmSchrage_sep() const{}
+Solution Problem::AlgorithmSchrage_sep() const{
+    std::vector<Task> rankedTasks;
+
+    for (int i = 0; i < m_tasksNr; i++)
+    {
+        rankedTasks.push_back(m_tasks[i]);
+    }
+
+    int criterion = CountCriterion(rankedTasks);
+
+    Solution solution(criterion, rankedTasks);
+
+    return solution;
+}
 
 
 // it measures the criterion Cmax
