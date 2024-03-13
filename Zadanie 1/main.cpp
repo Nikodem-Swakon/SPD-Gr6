@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
     ReadFromFile(filename,taskVector);
     Problem problem(taskVector);
     
-    Solution solution=problem.AlgorithmSortQj();
+    Solution solution=problem.AlgorithmSchrage();
     solution.DisplaySolution();
     solution.DisplayGanttChart();
 
