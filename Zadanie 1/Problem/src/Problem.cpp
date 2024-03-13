@@ -151,7 +151,7 @@ Solution Problem::AlgorithmSchrage () const
     std::sort(UnScheduledTasks.begin(), UnScheduledTasks.end(), [](const Task &a, const Task &b)                     //sort tasks by release time
               { return a.GetRj() < b.GetRj(); });
     
-    while(answer.size()!=Times){ 
+    while(!UnScheduledTasks.empty() || !ReadyTasks.empty()){ 
         std::cout<<"UNT:"<<UnScheduledTasks.size()<<::std::endl;                                                                               // while unscheduledtasks vector isn't empty
         auto it = remove_if(UnScheduledTasks.begin(),UnScheduledTasks.end(), [current_time](const Task& task){       // remove and hold a task from it
             return task.GetRj() <= current_time;                                                                     // if Release time of the task is equal/smaller than current time
