@@ -48,9 +48,10 @@ Solution &Solution::operator=(const Solution &solution) noexcept
 void Solution::DisplaySolution()
 {
     std::cout << "Tasks in the solution." << std::endl;
+    std::cout<<"ID||RJ||PJ||QJ"<<std::endl;
     for (int i = 0; i < m_rankedTasks.size(); i++)
     {
-        std::cout << "task: pj " << m_rankedTasks[i].GetPj() << " rj " << m_rankedTasks[i].GetRj() << " qj " << m_rankedTasks[i].GetQj() << " taskId " << m_rankedTasks[i].GetTaskId() << std::endl;
+        std::cout <<" "<<  m_rankedTasks[i].GetTaskId() <<"  "<<m_rankedTasks[i].GetRj() <<"  "<<m_rankedTasks[i].GetPj() <<"  "<<  m_rankedTasks[i].GetQj()<< std::endl;
     }
 
     std::cout << "Criterion  " << m_criterion << std::endl;

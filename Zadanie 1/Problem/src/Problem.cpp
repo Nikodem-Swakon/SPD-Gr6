@@ -148,19 +148,21 @@ Solution Problem::AlgorithmSchrage () const
     int Times = UnScheduledTasks.size();
     std::vector<Task> ReadyTasks;
     std::vector<Task> answer;
+
     std::sort(UnScheduledTasks.begin(), UnScheduledTasks.end(), [](const Task &a, const Task &b)                     //sort tasks by release time
               { return a.GetRj() < b.GetRj(); });
     
-    while(!UnScheduledTasks.empty() || !ReadyTasks.empty()){ 
-        std::cout<<"UNT:"<<UnScheduledTasks.size()<<::std::endl;                                                                               // while unscheduledtasks vector isn't empty
-        auto it = remove_if(UnScheduledTasks.begin(),UnScheduledTasks.end(), [current_time](const Task& task){       // remove and hold a task from it
-            return task.GetRj() <= current_time;                                                                     // if Release time of the task is equal/smaller than current time
+    while(!UnScheduledTasks.empty() || !ReadyTasks.empty()){                                    // while unscheduledtasks vector isn't empty and ReadyTasks vector isn't empty                                                                             
+        auto it = remove_if(UnScheduledTasks.begin(), UnScheduledTasks.end(), [&current_time](const Task& task) {
+        std::cout<<task.GetTaskId()<<std::endl;
+        return task.GetRj() <= current_time;
         });
+
         for (auto task=it; task!=UnScheduledTasks.end(); task++){
-            ReadyTasks.push_back(*task);                                                                             // Adding tasks to readytasks vector
+            ReadyTasks.push_back(*task);     
+            std::cout<<"task pushed"<<std::endl;                                                                   // Adding tasks to readytasks vector
         }
-        UnScheduledTasks.erase(it, UnScheduledTasks.end()); 
-        std::cout<<"UNT2:"<<UnScheduledTasks.size()<<::std::endl;                                                         // Erasing ready tasks from unscheduledtasks vector
+        UnScheduledTasks.erase(it, UnScheduledTasks.end());                                                         // Erasing ready tasks from unscheduledtasks vector                                                     
 
         if (!ReadyTasks.empty()){                                                                                    // If readytasks vector is not empty
             int min_release_time = ReadyTasks.front().GetRj();                                                       // Get the smallest release time
@@ -174,11 +176,10 @@ Solution Problem::AlgorithmSchrage () const
         });
 
         answer.push_back(*Qmax_Task);                                                                                // Save task with maximum cooldown time 
-        //std::cout<<"task pushed"<<std::endl;
-        current_time+=Qmax_Task->GetPj();                                                                            // Update time
 
-        //ReadyTasks.erase(ReadyTasks.begin()+ std::distance(ReadyTasks.begin(),Qmax_Task));                                                                                 // Erase task from Readytasks vector
-        ReadyTasks.erase(Qmax_Task);
+        current_time+=Qmax_Task->GetPj();                                                                            // Update time
+        
+        ReadyTasks.erase(Qmax_Task);                                                                                   // Erase task from Readytasks vector
 
 
 
