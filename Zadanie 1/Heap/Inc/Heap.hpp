@@ -30,6 +30,7 @@ namespace Structure
         ~Heap(){};
         void Insert(T elem);
         T GetMaximum() { return m_elements[0]; };
+        T EraseMaximum();
         void BuildHeap(std::vector<T> elems);
         void PrintHeap(int elemId, std::string sp = "", std::string sn = "");
 
@@ -53,6 +54,7 @@ namespace Structure
         }
 
         m_heapSize = m_elements.size();
+        Heapify(GetParentId(m_heapSize - 1));
     }
 
     /*
@@ -108,24 +110,23 @@ namespace Structure
         int r = GetRightChildId(elemId);
 
         // If left child is larger than root
-        if (l <= m_heapSize && m_elements[l] > m_elements[largest])
+        if (l < m_heapSize && (m_elements[l] > m_elements[largest]))
             largest = l;
 
         // If right child is larger than largest so far
-        if (r <= m_heapSize && m_elements[r] > m_elements[largest])
+        if (r < m_heapSize && (m_elements[r] > m_elements[largest]))
             largest = r;
 
         // If largest is not root
         if (largest != elemId)
         {
             std::swap(m_elements[elemId], m_elements[largest]);
-
             // Recursively heapify the affected sub-tree
             HeapifyDown(largest);
-
         }
     }
 
+    // elemId is last parent in the heap
     template <typename T>
     void Heap<T>::Heapify(int elemId)
     {
@@ -146,23 +147,33 @@ namespace Structure
 
         while (last > 0)
         {
-   
-            if (last > 0)
+
+            if (last > 1)
             {
                 std::swap(m_elements[0], m_elements[last]);
             }
-                
             m_heapSize = last;
 
             // find the last paren
             int parent = GetParentId(last);
-            Heapify(parent); 
+            Heapify(parent - 1);
             last = m_heapSize - 1;
         }
 
         PrintHeap(0);
 
         return m_elements;
+    }
+
+    template <typename T>
+    T Heap<T>::EraseMaximum()
+    {
+        std::swap(m_elements[0], m_elements[m_heapSize]);
+        T maxElem = m_elements[m_heapSize];
+        m_elements.pop_back();
+        m_heapSize--;
+        Heapify(m_heapSize);
+        return maxElem;
     }
 
     /////////////////////////// PUBLIC FUNCTION
@@ -172,14 +183,12 @@ namespace Structure
     {
         Heap<T> heap;
         heap.BuildHeap(elems);
-
         std::vector<T> sortedVec = heap.HeapSort();
 
         // rewrite vector elements
         for (int i = 0; i < elems.size(); i++)
         {
-            std::cout << "elems[i] " << elems[i] << " sortedVec[i]" << sortedVec[i] << std::endl;
-            elems[i] = sortedVec[i];
+            elems[elems.size() - i - 1] = sortedVec[i];
         }
     }
 

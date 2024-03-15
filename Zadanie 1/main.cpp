@@ -13,8 +13,6 @@
 
 #define FILE_PATH "../text.txt"
 
-
-
 void extract(const std::string &line, Task &task)
 {
 
@@ -31,7 +29,7 @@ void extract(const std::string &line, Task &task)
     task.SetQj(values[3]);
 }
 
-int ReadFromFile(std::string& filename, std::vector<Task> &tasksVec)
+int ReadFromFile(std::string &filename, std::vector<Task> &tasksVec)
 {
     std::ifstream file(filename);
     if (!file.is_open())
@@ -69,33 +67,38 @@ int ReadFromFile(std::string& filename, std::vector<Task> &tasksVec)
     return 0;
 }
 
-void heap( std::vector<Task> tasks)
+void heap(std::vector<Task> tasks)
 {
     std::cout << "Heap sort test." << std::endl;
 
+    Structure::Heap<Task> h;
+    h.BuildHeap(tasks);
+    h.PrintHeap(0);
+    Task t = h.EraseMaximum();
+    std::cout << "Earsed " << t << std::endl;
+    h.PrintHeap(0);
+
     Structure::HeapSort(tasks);
-    for(int i = 0; i < tasks.size(); i++)
+    for (int i = 0; i < tasks.size(); i++)
     {
-        std::cout << " Id. " << tasks[i] << ": Qj. " << tasks[i].GetQj() << "   ";
+        std::cout << " Id. " << tasks[i] << "   ";
     }
     std::cout << std::endl;
-
-
 }
 
 int main(int argc, char *argv[])
 
-{   
+{
 
     std::cout << "tests" << std::endl;
     std::string currentpath = std::filesystem::current_path().string();
-    std::string folderPath=currentpath+"/../Input";
-
+    std::string folderPath = currentpath + "/../Input";
 
     // Display list of files in the folder
     std::cout << "Files available as input data:" << std::endl;
     int index = 1;
-    for (const auto& entry : std::filesystem::directory_iterator(folderPath)) {
+    for (const auto &entry : std::filesystem::directory_iterator(folderPath))
+    {
         std::cout << index << ". " << entry.path().filename() << std::endl;
         ++index;
     }
@@ -104,53 +107,51 @@ int main(int argc, char *argv[])
     std::cout << "Enter the number of the file for input data: ";
     std::cin >> choice;
 
-
     // Invalid choice handling
-    if (choice < 1 || choice >= index) {
+    if (choice < 1 || choice >= index)
+    {
         std::cerr << "Invalid choice." << std::endl;
         return 1;
     }
 
     std::string filename;
     index = 1;
-    for (const auto& entry : std::filesystem::directory_iterator(folderPath)) {
-        if (index == choice) {
+    for (const auto &entry : std::filesystem::directory_iterator(folderPath))
+    {
+        if (index == choice)
+        {
             filename = entry.path().string();
             break;
         }
         ++index;
     }
 
-
     std::vector<Task> taskVector;
-    ReadFromFile(filename,taskVector);
+    ReadFromFile(filename, taskVector);
 
     heap(taskVector);
-    Problem problem(taskVector);
-    
+    // Problem problem(taskVector);
 
-    std::cout << "Test Qj" << std::endl;
-    Solution solution=problem.AlgorithmSortQj();
+    // std::cout << "Test Qj" << std::endl;
+    // Solution solution=problem.AlgorithmSortQj();
 
-    solution.DisplaySolution();
-    solution.DisplayGanttChart();
+    // solution.DisplaySolution();
+    // solution.DisplayGanttChart();
 
-    std::cout << "Test Rj" << std::endl;
-    solution=problem.AlgorithmSortRj();
-    solution.DisplaySolution();
-    solution.DisplayGanttChart();
+    // std::cout << "Test Rj" << std::endl;
+    // solution=problem.AlgorithmSortRj();
+    // solution.DisplaySolution();
+    // solution.DisplayGanttChart();
 
-    std::cout << "Test complete review" << std::endl;
-    solution=problem.AlgorithmCompleteReview();
-    solution.DisplaySolution();
-    solution.DisplayGanttChart();
-   
+    // std::cout << "Test complete review" << std::endl;
+    // solution=problem.AlgorithmCompleteReview();
+    // solution.DisplaySolution();
+    // solution.DisplayGanttChart();
 
-    
     //  User input for picking sorting algorithm
-        // WARNING - Does not work. Correct deafault constructor for "solution" is needed, that can be overwritten by functions inside cases
+    // WARNING - Does not work. Correct deafault constructor for "solution" is needed, that can be overwritten by functions inside cases
     /*
-    
+
     std::cout<<"Enter the number of the sorting algorithm: "<<std::endl;
     std::cout<<"1. Rj_sort"<<std::endl;
     std::cout<<"2. Qj_sort"<<std::endl;
@@ -159,7 +160,7 @@ int main(int argc, char *argv[])
     std::cin>>sortChoice;
     */
 
-        // "IF CASES"
+    // "IF CASES"
     /*
     Solution solution;
     if(sortChoice=1){ solution = problem.AlgorithmSortRj();solution.DisplaySolution();solution.DisplayGanttChart(); }
@@ -168,24 +169,24 @@ int main(int argc, char *argv[])
     else{std::cout<<"Invalid choice!"<<std::endl;}
     */
 
-        // "SWITCH CASES"
+    // "SWITCH CASES"
     /*
      switch(sortChoice) {
     case 1:
         std::cout << "Using RJ_sort" << std::endl;
-        solution = problem.AlgorithmSortRj(); 
+        solution = problem.AlgorithmSortRj();
         solution.DisplaySolution();
         solution.DisplayGanttChart();
         break;
     case 2:
         std::cout << "Using QJ_sort" << std::endl;
-        solution = problem.AlgorithmSortQj(); 
+        solution = problem.AlgorithmSortQj();
         solution.DisplaySolution();
         solution.DisplayGanttChart();
         break;
     case 3:
         std::cout << "Using Complete_Review" << std::endl;
-        solution = problem.AlgorithmCompleteReview(); 
+        solution = problem.AlgorithmCompleteReview();
         solution.DisplaySolution();
         solution.DisplayGanttChart();
         break;
@@ -193,7 +194,6 @@ int main(int argc, char *argv[])
         std::cerr << "Invalid sorting method choice." << std::endl;
         return 1;
      */
-    
 
     return 0;
 }
