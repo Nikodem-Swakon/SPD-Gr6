@@ -1,4 +1,6 @@
 #pragma once
+
+#include <iostream>
 class Task
 {
 private:
@@ -26,3 +28,7 @@ public:
     void SetQj(int qj){ m_qj = qj;};
     void SetTaskId(int id){ m_taskId = id;};
 };
+
+inline std::ostream &operator<<(std::ostream& out, const Task& task) { out << task.GetTaskId(); return out;};
+inline bool operator<(const Task &task1, const Task &task2) {return task1.GetQj() < task2.GetQj();}
+inline bool operator>(const Task &task1, const Task &task2) {return task1.GetQj() > task2.GetQj();}

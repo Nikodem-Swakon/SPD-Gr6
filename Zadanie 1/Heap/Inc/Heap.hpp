@@ -1,11 +1,11 @@
 /*
     Binary Heap
 */
-#ifndef HEAP_HPP
-#define HEAP_HPP
+#pragma once
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #define TAB "   " // fills up empty space between the left edge and the leafs
 
@@ -20,7 +20,7 @@ namespace Structure
     protected:
         /* Protected members */
         std::vector<T> m_elements;
-        T m_heapSize;
+        int m_heapSize;
 
         /* Protected methods */
 
@@ -108,11 +108,11 @@ namespace Structure
         int r = GetRightChildId(elemId);
 
         // If left child is larger than root
-        if (l < m_heapSize && m_elements[l] > m_elements[largest])
+        if (l <= m_heapSize && m_elements[l] > m_elements[largest])
             largest = l;
 
         // If right child is larger than largest so far
-        if (r < m_heapSize && m_elements[r] > m_elements[largest])
+        if (r <= m_heapSize && m_elements[r] > m_elements[largest])
             largest = r;
 
         // If largest is not root
@@ -156,11 +156,12 @@ namespace Structure
 
             // find the last paren
             int parent = GetParentId(last);
-            Heapify(parent - 1); // to not heapify the elem which is replaced
+            Heapify(parent); 
             last = m_heapSize - 1;
         }
 
         PrintHeap(0);
+
         return m_elements;
     }
 
@@ -177,9 +178,9 @@ namespace Structure
         // rewrite vector elements
         for (int i = 0; i < elems.size(); i++)
         {
+            std::cout << "elems[i] " << elems[i] << " sortedVec[i]" << sortedVec[i] << std::endl;
             elems[i] = sortedVec[i];
         }
     }
 
 } // namespace Structure
-#endif

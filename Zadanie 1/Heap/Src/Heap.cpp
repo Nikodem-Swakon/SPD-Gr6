@@ -1,9 +1,3 @@
-#include "../Inc/Heap.hpp"
-#include <assert.h>
-#include <string>
-#include <algorithm>
+#include "Heap.hpp"
 
-namespace Structure
-{
-   
-} // namespace Structure
+// Everytihing is implemented in hpp
