@@ -5,7 +5,7 @@ int main()
 {
     std::cout << "Main with mannual tests." << std::endl;
 
-    Structure::Heap heap;
+    Structure::Heap<int> heap;
     heap.BuildHeap({1, 56, 89, 2 , 43, 33, 1, 5, 10});
     std::cout << "parent " << heap.GetParentId(2)<< std::endl;
     std::cout << "right child: " << heap.GetRightChildId(2)<< std::endl;
