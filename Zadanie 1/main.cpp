@@ -108,8 +108,10 @@ int main(int argc, char *argv[])
     ReadFromFile(filename,taskVector);
     Problem problem(taskVector);
     
+
     std::cout << "Test Qj" << std::endl;
     Solution solution=problem.AlgorithmSortQj();
+
     solution.DisplaySolution();
     solution.DisplayGanttChart();
 
