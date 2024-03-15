@@ -12,15 +12,12 @@
 Solution::Solution(double criterion, std::vector<Task> ranked) : m_criterion(criterion)
 {
     for (int i = 0; i < ranked.size(); i++)
-    {
         m_rankedTasks.push_back(ranked[i]);
-        std::cout << ranked[i].GetTaskId();
-    }
-    std::cout << std::endl;
 }
 
 Solution::Solution(const Solution &solution) : m_criterion(solution.m_criterion)
 {
+    m_rankedTasks.clear();
     for (int i = 0; i < solution.m_rankedTasks.size(); i++)
     {
         m_rankedTasks.push_back(solution.m_rankedTasks[i]);

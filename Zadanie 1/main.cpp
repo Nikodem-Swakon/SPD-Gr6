@@ -108,9 +108,23 @@ int main(int argc, char *argv[])
     ReadFromFile(filename,taskVector);
     Problem problem(taskVector);
     
-    Solution solution=problem.AlgorithmSchrage();
+
+    std::cout << "Test Qj" << std::endl;
+    Solution solution=problem.AlgorithmSortQj();
+
     solution.DisplaySolution();
     solution.DisplayGanttChart();
+
+    std::cout << "Test Rj" << std::endl;
+    solution=problem.AlgorithmSortRj();
+    solution.DisplaySolution();
+    solution.DisplayGanttChart();
+
+    std::cout << "Test complete review" << std::endl;
+    solution=problem.AlgorithmCompleteReview();
+    solution.DisplaySolution();
+    solution.DisplayGanttChart();
+   
 
     
     //  User input for picking sorting algorithm
