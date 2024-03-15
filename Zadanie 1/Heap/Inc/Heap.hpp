@@ -33,9 +33,9 @@ namespace Structure
         void BuildHeap(std::vector<T> elems);
         void PrintHeap(int elemId, std::string sp = "", std::string sn = "");
 
-        T GetLeftChildId(int elemId) { return m_elements[2 * elemId + 1]; };
-        T GetRightChildId(int elemId) { return m_elements[2 * elemId + 2]; };
-        T GetParentId(int elemId) { return m_elements[(elemId - 1) / 2]; };
+        int GetLeftChildId(int elemId) { return 2 * elemId + 1; };
+        int GetRightChildId(int elemId) { return 2 * elemId + 2; };
+        int GetParentId(int elemId) { return (elemId - 1) / 2; };
         void HeapifyDown(int elemId);
         void Heapify(int elemId);
         std::vector<T> HeapSort();
@@ -103,7 +103,7 @@ namespace Structure
     template <typename T>
     void Heap<T>::HeapifyDown(int elemId)
     {
-        T largest = elemId; // Initialize largest as root Since we are using 0 based indexing
+        int largest = elemId; // Initialize largest as root Since we are using 0 based indexing
         int l = GetLeftChildId(elemId);
         int r = GetRightChildId(elemId);
 
@@ -122,6 +122,7 @@ namespace Structure
 
             // Recursively heapify the affected sub-tree
             HeapifyDown(largest);
+
         }
     }
 
@@ -145,9 +146,12 @@ namespace Structure
 
         while (last > 0)
         {
+   
             if (last > 0)
+            {
                 std::swap(m_elements[0], m_elements[last]);
-            int max = m_elements[last];
+            }
+                
             m_heapSize = last;
 
             // find the last paren
@@ -168,7 +172,7 @@ namespace Structure
         Heap<T> heap;
         heap.BuildHeap(elems);
 
-        std::vector<int> sortedVec = heap.HeapSort();
+        std::vector<T> sortedVec = heap.HeapSort();
 
         // rewrite vector elements
         for (int i = 0; i < elems.size(); i++)
