@@ -26,16 +26,16 @@ namespace Structure
 
     public:
         /* Public methods */
-        Heap() {  m_heapSize = 0; };
-        ~Heap() {};
+        Heap() { m_heapSize = 0; };
+        ~Heap(){};
         void Insert(T elem);
         T GetMaximum() { return m_elements[0]; };
         void BuildHeap(std::vector<T> elems);
         void PrintHeap(int elemId, std::string sp = "", std::string sn = "");
 
-        int GetLeftChildId(T elemId) { return 2 * elemId + 1; };
-        int GetRightChildId(T elemId) { return 2 * elemId + 2; };
-        int GetParentId(int elemId) { return (elemId - 1) / 2; };
+        T GetLeftChildId(int elemId) { return m_elements[2 * elemId + 1]; };
+        T GetRightChildId(int elemId) { return m_elements[2 * elemId + 2]; };
+        T GetParentId(int elemId) { return m_elements[(elemId - 1) / 2]; };
         void HeapifyDown(int elemId);
         void Heapify(int elemId);
         std::vector<T> HeapSort();
@@ -43,9 +43,7 @@ namespace Structure
         void InserVector(std::vector<T> &elems);
     };
 
-
-
-     /////////////////////////// METHODS
+    /////////////////////////// METHODS
     template <typename T>
     void Heap<T>::BuildHeap(std::vector<T> elems)
     {
@@ -105,9 +103,9 @@ namespace Structure
     template <typename T>
     void Heap<T>::HeapifyDown(int elemId)
     {
-        T largest = elemId;   // Initialize largest as root Since we are using 0 based indexing
+        T largest = elemId; // Initialize largest as root Since we are using 0 based indexing
         int l = GetLeftChildId(elemId);
-        int r = GetRightChildId(elemId); 
+        int r = GetRightChildId(elemId);
 
         // If left child is larger than root
         if (l < m_heapSize && m_elements[l] > m_elements[largest])
@@ -131,13 +129,12 @@ namespace Structure
     void Heap<T>::Heapify(int elemId)
     {
         // heapify for all farents
-       
-        while(elemId >= 0)
+
+        while (elemId >= 0)
         {
             HeapifyDown(elemId);
             elemId--;
         }
-        
     }
 
     template <typename T>
@@ -146,23 +143,22 @@ namespace Structure
         // find last elem n heap
         int last = m_heapSize - 1;
 
-        while(last > 0 )
+        while (last > 0)
         {
-            if(last > 0)
+            if (last > 0)
                 std::swap(m_elements[0], m_elements[last]);
             int max = m_elements[last];
             m_heapSize = last;
 
             // find the last paren
             int parent = GetParentId(last);
-            Heapify(parent - 1);    // to not heapify the elem which is replaced
+            Heapify(parent - 1); // to not heapify the elem which is replaced
             last = m_heapSize - 1;
         }
-        
+
         PrintHeap(0);
         return m_elements;
     }
-
 
     /////////////////////////// PUBLIC FUNCTION
     // sort algorithm
@@ -175,11 +171,10 @@ namespace Structure
         std::vector<int> sortedVec = heap.HeapSort();
 
         // rewrite vector elements
-        for(int i = 0; i < elems.size(); i++)
+        for (int i = 0; i < elems.size(); i++)
         {
             elems[i] = sortedVec[i];
         }
-        
     }
 
 } // namespace Structure
