@@ -29,7 +29,7 @@ void extract(const std::string &line, Task &task)
     task.SetQj(values[3]);
 }
 
-int ReadFromFile(std::string &filename, std::vector<Task> &tasksVec)
+int readFromFile(std::string &filename, std::vector<Task> &tasksVec)
 {
     std::ifstream file(filename);
     if (!file.is_open())
@@ -67,7 +67,7 @@ int ReadFromFile(std::string &filename, std::vector<Task> &tasksVec)
     return 0;
 }
 
-void heap(std::vector<Task> tasks)
+void heapTest(std::vector<Task> tasks)
 {
     std::cout << "Heap sort test." << std::endl;
 
@@ -84,6 +84,41 @@ void heap(std::vector<Task> tasks)
         std::cout << " Id. " << tasks[i] << "   ";
     }
     std::cout << std::endl;
+}
+
+void schrageTest(std::vector<Task> tasks, Problem problem)
+{
+    std::cout << "Schrage algorithm test." << std::endl;
+
+    Solution solution = problem.AlgorithmSchrage();
+    solution.DisplaySolution();
+    solution.DisplayGanttChart();
+}
+
+void qjTest(std::vector<Task> tasks, Problem problem)
+{
+    std::cout << "Test Qj" << std::endl;
+
+    Solution solution = problem.AlgorithmSortQj();
+    solution.DisplaySolution();
+    solution.DisplayGanttChart();
+}
+
+void rjTest(std::vector<Task> tasks, Problem problem)
+{
+    std::cout << "Test Rj" << std::endl;
+
+    Solution solution = problem.AlgorithmSortRj();
+    solution.DisplaySolution();
+    solution.DisplayGanttChart();
+}
+
+void completeReviewtest(std::vector<Task> tasks, Problem problem)
+{
+    std::cout << "Test complete review" << std::endl;
+    Solution solution = problem.AlgorithmCompleteReview();
+    solution.DisplaySolution();
+    solution.DisplayGanttChart();
 }
 
 int main(int argc, char *argv[])
@@ -127,26 +162,14 @@ int main(int argc, char *argv[])
     }
 
     std::vector<Task> taskVector;
-    ReadFromFile(filename, taskVector);
+    readFromFile(filename, taskVector);
+    Problem problem(taskVector);
 
-    heap(taskVector);
-    // Problem problem(taskVector);
-
-    // std::cout << "Test Qj" << std::endl;
-    // Solution solution=problem.AlgorithmSortQj();
-
-    // solution.DisplaySolution();
-    // solution.DisplayGanttChart();
-
-    // std::cout << "Test Rj" << std::endl;
-    // solution=problem.AlgorithmSortRj();
-    // solution.DisplaySolution();
-    // solution.DisplayGanttChart();
-
-    // std::cout << "Test complete review" << std::endl;
-    // solution=problem.AlgorithmCompleteReview();
-    // solution.DisplaySolution();
-    // solution.DisplayGanttChart();
+    heapTest(taskVector);
+    schrageTest(taskVector, problem);
+    qjTest(taskVector, problem);
+    rjTest(taskVector, problem);
+    completeReviewtest(taskVector, problem);
 
     //  User input for picking sorting algorithm
     // WARNING - Does not work. Correct deafault constructor for "solution" is needed, that can be overwritten by functions inside cases

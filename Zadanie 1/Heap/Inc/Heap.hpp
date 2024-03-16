@@ -31,6 +31,7 @@ namespace Structure
         void Insert(T elem);
         T GetMaximum() { return m_elements[0]; };
         T EraseMaximum();
+        T Erase(const T elem);
         void BuildHeap(std::vector<T> elems);
         void PrintHeap(int elemId, std::string sp = "", std::string sn = "");
 
@@ -165,14 +166,30 @@ namespace Structure
         return m_elements;
     }
 
+    // erase element with max value
     template <typename T>
     T Heap<T>::EraseMaximum()
     {
-        std::swap(m_elements[0], m_elements[m_heapSize]);
-        T maxElem = m_elements[m_heapSize];
+        std::swap(m_elements[0], m_elements[m_heapSize - 1]);
+        T maxElem = m_elements[m_heapSize - 1];
         m_elements.pop_back();
         m_heapSize--;
-        Heapify(m_heapSize);
+        Heapify(GetParentId(m_heapSize - 1));
+        return maxElem;
+    }
+
+    // erase directed element
+    template <typename T>
+    T Heap<T>::Erase(const T elem)
+    {
+        auto toRemove = std::find(m_elements.begin(), m_elements.end(), elem);
+        int toRemoveId = toRemove - m_elements.begin();
+        std::swap(m_elements[toRemoveId], m_elements[m_heapSize - 1]);
+        T maxElem = m_elements[m_heapSize - 1];
+        m_elements.pop_back();
+        m_heapSize--;
+        Heapify(GetParentId(m_heapSize - 1));
+        
         return maxElem;
     }
 

@@ -15,4 +15,9 @@
 ## TASK
 - ID as ststic member?
 - change constructor arguments order
-- change DisplaySolution order
+
+
+## apperiance
+- methods and function begin with big/small letetrs
+- directory right name
+
