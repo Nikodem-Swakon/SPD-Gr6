@@ -1,6 +1,6 @@
 #include <algorithm>
-//#include <iostream>
-//#include <vector>
+// #include <iostream>
+// #include <vector>
 #include "Problem.hpp"
 #include "Heap.hpp"
 
@@ -90,7 +90,6 @@ Solution Problem::AlgorithmCompleteReview() const
     int criterion = CountCriterion(sortedTasks);
     int currentCriterion = criterion;
 
-
     for (int i = 0; i < m_tasks.size() - 1; i++)
     {
         currentChacked = CompleteReview(sortedTasks, i, criterion);
@@ -101,7 +100,7 @@ Solution Problem::AlgorithmCompleteReview() const
         {
             criterion = currentCriterion;
             sortedTasks = currentChacked;
-}
+        }
     }
 
     Solution solution(criterion, sortedTasks);
@@ -111,7 +110,7 @@ Solution Problem::AlgorithmCompleteReview() const
 // it returns the most optimal task orter in subvector
 std::vector<Task> Problem::CompleteReview(std::vector<Task> tasks, int fromTask, int criterion) const
 {
-    if(fromTask > tasks.size() - 2)
+    if (fromTask > tasks.size() - 2)
     {
         return tasks;
     }
@@ -123,7 +122,7 @@ std::vector<Task> Problem::CompleteReview(std::vector<Task> tasks, int fromTask,
     {
 
         std::swap(currentChacked[fromTask], currentChacked[i]);
-       
+
         currentChacked = CompleteReview(currentChacked, fromTask + 1, criterion);
         currentCriterion = CountCriterion(currentChacked);
 
@@ -138,7 +137,7 @@ std::vector<Task> Problem::CompleteReview(std::vector<Task> tasks, int fromTask,
     return sortedTasks;
 }
 
-Solution Problem::AlgorithmSchrage () const
+Solution Problem::AlgorithmSchrage() const
 {
     // Sort by Rj
     std::vector<Task> sortedTasksByRj = m_tasks;
@@ -151,46 +150,41 @@ Solution Problem::AlgorithmSchrage () const
 
     std::vector<Task> sortedTasks = m_tasks;
     int currentTime = 0;
-    int sorTaByRj = 0;  // sortedTasksByRj's iterator 
-    for(int j = 0; j < sortedTasks.size(); j++)
+    int sorTaByRj = 0; // sortedTasksByRj's iterator
+    for (int j = 0; j < sortedTasks.size(); j++)
     {
-        if(!heapTaskByQj.Empty() && heapTaskByQj.GetMaximum().GetRj() <= currentTime)
+        if (!heapTaskByQj.Empty() && heapTaskByQj.GetMaximum().GetRj() <= currentTime) // is there any task in queue
         {
-            sortedTasks[j] = heapTaskByQj.EraseMaximum();
-            auto toRemove = std::find(sortedTasksByRj.begin(),sortedTasksByRj.end(), sortedTasks[j]);
+            sortedTasks[j] = heapTaskByQj.EraseMaximum(); // chose the task with maximum qj
+            auto toRemove = std::find(sortedTasksByRj.begin(), sortedTasksByRj.end(), sortedTasks[j]);
             sortedTasksByRj.erase(toRemove, sortedTasksByRj.end());
         }
-        else
+        else if (!sortedTasksByRj.empty()) // if there is no waiting task chose task with min rj
         {
-            if(!sortedTasksByRj.empty())
-            {
-                sortedTasks[j] = sortedTasksByRj[sorTaByRj];
-                heapTaskByQj.Erase(sortedTasksByRj[sorTaByRj]);
-                sorTaByRj++;
-            }
-            
+            sortedTasks[j] = sortedTasksByRj[sorTaByRj];
+            heapTaskByQj.Erase(sortedTasksByRj[sorTaByRj]);
+            sorTaByRj++;
         }
-        currentTime = sortedTasks[j].GetPj() + std::max(currentTime, sortedTasks[j].GetRj());
-
+        
+        currentTime = sortedTasks[j].GetPj() + std::max(currentTime, sortedTasks[j].GetRj()); // count carrent time
     }
     int criterion = CountCriterion(sortedTasks);
     Solution solution(criterion, sortedTasks);
 
     return solution;
-
 }
 
-//earlier attempt at solution
+// earlier attempt at solution
 /* for(int i=0;i<RsortedTasks.size();i++){                    // For every task in vector do:
-        while(RsortedTasks[i].GetRj()<=current_time){          // While release time of task is <= current time 
+        while(RsortedTasks[i].GetRj()<=current_time){          // While release time of task is <= current time
             ReadyTasks.push_back(RsortedTasks[i]);             // Push task to Readytasks vector
             current_time+=RsortedTasks[i].GetPj();             // Advance current time by Process time of current task
         }
-      
+
     }*/
 
-
-Solution Problem::AlgorithmSchrage_sep() const{
+Solution Problem::AlgorithmSchrage_sep() const
+{
     std::vector<Task> rankedTasks;
 
     for (int i = 0; i < m_tasksNr; i++)
@@ -204,7 +198,6 @@ Solution Problem::AlgorithmSchrage_sep() const{
 
     return solution;
 }
-
 
 // it measures the criterion Cmax
 int Problem::CountCriterion(std::vector<Task> rankedTasks) const
@@ -227,5 +220,5 @@ int Problem::CountCriterion(std::vector<Task> rankedTasks) const
         if (j == rankedTasks.size() - 1)
             cMax = cMax + cooling;
     }
-        return cMax;
+    return cMax;
 }
