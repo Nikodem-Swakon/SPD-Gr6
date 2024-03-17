@@ -95,6 +95,15 @@ void schrageTest(std::vector<Task> tasks, Problem problem)
     solution.DisplayGanttChart();
 }
 
+void schrageTest_sep(std::vector<Task> tasks, Problem problem)
+{
+    std::cout << "Schrage with preemption algorithm test." << std::endl;
+
+    Solution solution = problem.AlgorithmSchrage_sep();
+    solution.DisplaySolution();
+    solution.DisplayGanttChart();
+}
+
 void qjTest(std::vector<Task> tasks, Problem problem)
 {
     std::cout << "Test Qj" << std::endl;
@@ -170,6 +179,7 @@ int main(int argc, char *argv[])
     qjTest(taskVector, problem);
     rjTest(taskVector, problem);
     completeReviewtest(taskVector, problem);
+    schrageTest_sep(taskVector, problem);
 
     //  User input for picking sorting algorithm
     // WARNING - Does not work. Correct deafault constructor for "solution" is needed, that can be overwritten by functions inside cases
