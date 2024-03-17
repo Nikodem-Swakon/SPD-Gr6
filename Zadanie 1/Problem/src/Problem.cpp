@@ -190,8 +190,6 @@ Solution Problem::AlgorithmSchrageSep() const
     std::sort(sortedTasksByRj.begin(), sortedTasksByRj.end(), [](const Task &a, const Task &b)
               { return a.GetRj() < b.GetRj(); });
 
-    std::cout << " BEGIN !sortedTasksByRj.empty() " << !sortedTasksByRj.empty() << std::endl;
-
     Structure::Heap<Task> heapTaskByQj;
     heapTaskByQj.BuildHeap(m_tasks);
     std::vector<Task> sortedTasks = {};
@@ -205,7 +203,6 @@ Solution Problem::AlgorithmSchrageSep() const
     {
         if (!heapTaskByQj.Empty() && (heapTaskByQj.GetMaximum().GetRj() <= currentTime) && (workingTime == 0))
         {
-            std::cout << "heapTaskByQj" << std::endl;
             currentTask = heapTaskByQj.GetMaximum(); // move tasks that can start now to temp
             heapTaskByQj.EraseMaximum();             // and erase those tasks from heap
             auto toRemove = std::find(sortedTasksByRj.begin(), sortedTasksByRj.end(), currentTask);
@@ -213,8 +210,6 @@ Solution Problem::AlgorithmSchrageSep() const
         }
         else if ((sorTaByRj < sortedTasksByRj.size()) && (workingTime == 0))
         {
-            std::cout << "Rj1" << std::endl;
-
             currentTask = sortedTasksByRj[sorTaByRj];
             heapTaskByQj.Erase(sortedTasksByRj[sorTaByRj]);
             sorTaByRj++;
@@ -225,17 +220,14 @@ Solution Problem::AlgorithmSchrageSep() const
 
         if (workingTime >= currentTask.GetPj())
         {
-            std::cout << "all task" << std::endl;
             sortedTasks.push_back(currentTask);
             workingTime = 0;
             finishedTasksNr++;
         }
         else if (!sortedTasksByRj.empty())
         {
-            std::cout << "sortedTasksByRj is not empty" << std::endl;
             if ((currentTime >= sortedTasksByRj.front().GetRj()) && (currentTask.GetQj() < heapTaskByQj.GetMaximum().GetQj()))
             {
-                std::cout << "wywałaszczenie" << std::endl;
                 Task *newTask = new Task(currentTask.GetPj() - workingTime, currentTask.GetRj(), currentTask.GetQj(), currentTask.GetTaskId());
                 sortedTasks.push_back(*newTask);
                 workingTime = 0;
@@ -248,46 +240,6 @@ Solution Problem::AlgorithmSchrageSep() const
     Solution solution(criterion, sortedTasks);
     return solution;
 }
-// Previous attempt
-/*std::vector<Task> sortedTasksByRj = m_tasks;
-std::sort(sortedTasksByRj.begin(), sortedTasksByRj.end(), [](const Task &a, const Task &b)
-          { return a.GetRj() < b.GetRj(); });
-
-Structure::Heap<Task> heapTaskByQj;
-heapTaskByQj.BuildHeap(m_tasks);
-std::vector<Task> scheduledTasks;
-std::vector<bool> taskCompleted(m_tasks.size(), false); // Flag to mark tasks as completed
-int currentTime = 0;
-
-while (!heapTaskByQj.Empty() || !sortedTasksByRj.empty()) {
-    if (!sortedTasksByRj.empty() && sortedTasksByRj.front().GetRj() <= currentTime && !taskCompleted[sortedTasksByRj.front().GetTaskId() - 1]) {
-        Task nextTask = sortedTasksByRj.front();
-        sortedTasksByRj.erase(sortedTasksByRj.begin());
-        std::cout << "(" << nextTask.GetTaskId() << ", " << currentTime << ")" << std::endl;
-        currentTime += nextTask.GetPj();
-        taskCompleted[nextTask.GetTaskId() - 1] = true; // Mark the task as completed
-    } else if (!heapTaskByQj.Empty()) {
-        Task nextTask = heapTaskByQj.GetMaximum();
-        heapTaskByQj.EraseMaximum();
-        int taskStartTime = std::max(currentTime, nextTask.GetRj()); // Ensure start time respects task release time
-        std::cout << "(" << nextTask.GetTaskId() << ", " << taskStartTime << ")" << std::endl;
-        currentTime = taskStartTime + nextTask.GetPj();
-    } else {
-        // Update currentTime to the release time of the next task in the sorted list
-        currentTime = sortedTasksByRj.front().GetRj();
-    }
-
-    // Update currentTime if there are completed tasks before the current time
-    while (!sortedTasksByRj.empty() && sortedTasksByRj.front().GetRj() <= currentTime && taskCompleted[sortedTasksByRj.front().GetTaskId() - 1]) {
-        sortedTasksByRj.erase(sortedTasksByRj.begin());
-    }
-}
-
-// After scheduling all tasks, currentTime holds the finish time of the last task
-int criterion = CountCriterion(scheduledTasks);
-Solution solution(criterion, scheduledTasks);
-
-return solution;*/
 
 // it measures the criterion Cmax
 int Problem::CountCriterion(std::vector<Task> rankedTasks) const
