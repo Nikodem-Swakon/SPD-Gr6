@@ -100,8 +100,8 @@ void schrageTestSep(std::vector<Task> tasks, Problem problem)
     std::cout << "Schrage with preemption algorithm test." << std::endl;
 
     Solution solution = problem.AlgorithmSchrageSep();
-    solution.DisplaySolution();
-    solution.DisplayGanttChart();
+    //solution.DisplaySolution();
+    //solution.DisplayGanttChart();
 }
 
 void qjTest(std::vector<Task> tasks, Problem problem)

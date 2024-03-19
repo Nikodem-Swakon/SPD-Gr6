@@ -4,6 +4,8 @@
 #include "Problem.hpp"
 #include "Heap.hpp"
 #include <utility>  //pair
+#include <iomanip> // setw
+#include <iostream>
 
 /* constructors and destructors */
 Problem::Problem(std::vector<Task> tasks) : m_tasksNr(tasks.size())
@@ -243,7 +245,28 @@ Solution Problem::AlgorithmSchrageSep() const
     for (const auto& pair : answer) {
     std::cout << "("<<pair.first << ", " << pair.second<<")" << std::endl;
     }
+    // Gantts chart
 
+    std::cout << "------------------- Gantt chart  -------------------" << std::endl;
+    for (int i=0; i<answer.size();i++){
+        std::cout<<std::endl << "Task nr " << answer[i].first << "]" << std::setw(MAX_LENGTH);
+        //int Cmax=0;
+        for (int j=0;j<answer[i].second;j++){
+            std::cout<<" ";
+        }
+
+        if (i < answer.size() - 1) {
+            for (int x = 0; x < answer[i + 1].second - answer[i].second; x++) {
+                std::cout << "%";
+            }
+        }else{
+            for (int x = 0; x <  answer[i].second; x++) {
+                std::cout << "%";
+            }
+        }
+    }
+
+    // End of Gantts chart
     int criterion = CountCriterion(sortedTasks);
     Solution solution(criterion, sortedTasks);
     return solution;
