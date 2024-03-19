@@ -3,7 +3,7 @@
 // #include <vector>
 #include "Problem.hpp"
 #include "Heap.hpp"
-#include <utility>
+#include <utility>  //pair
 
 /* constructors and destructors */
 Problem::Problem(std::vector<Task> tasks) : m_tasksNr(tasks.size())
@@ -193,6 +193,7 @@ Solution Problem::AlgorithmSchrageSep() const
     Structure::Heap<Task> heapTaskByQj;
     heapTaskByQj.BuildHeap(m_tasks);
     std::vector<Task> sortedTasks = {};
+    std::vector<std::pair<int,int>> answer;
     Task currentTask;
 
     int currentTime = 0;
@@ -221,6 +222,7 @@ Solution Problem::AlgorithmSchrageSep() const
         if (workingTime >= currentTask.GetPj())
         {
             sortedTasks.push_back(currentTask);
+            answer.push_back(std::make_pair(currentTask.GetTaskId(),currentTime-currentTask.GetPj()));
             workingTime = 0;
             finishedTasksNr++;
         }
@@ -230,10 +232,16 @@ Solution Problem::AlgorithmSchrageSep() const
             {
                 Task *newTask = new Task(currentTask.GetPj() - workingTime, currentTask.GetRj(), currentTask.GetQj(), currentTask.GetTaskId());
                 sortedTasks.push_back(*newTask);
+                answer.push_back(std::make_pair(currentTask.GetTaskId(),currentTime-1));
                 workingTime = 0;
                 heapTaskByQj.Insert(*newTask);
             }
         }
+    }
+
+    std::cout << "( Task_ID , Start time ):" << std::endl;
+    for (const auto& pair : answer) {
+    std::cout << "("<<pair.first << ", " << pair.second<<")" << std::endl;
     }
 
     int criterion = CountCriterion(sortedTasks);
