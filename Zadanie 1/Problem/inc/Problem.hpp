@@ -5,6 +5,7 @@
 
 #include "Task.hpp"
 #include "Solution.hpp"
+#include "Permutation.hpp"
 
 #define CRITICAL_NUMBER 12
 
@@ -25,11 +26,11 @@ public:
     ~Problem();
 
     void GenerateInstance();
-    Solution AlgorithmSortRj() const;
-    Solution AlgorithmSortQj() const;
-    Solution AlgorithmCompleteReview() const;
-    Solution ExampleAlgorith() const; // TO BE DELETED  it is just simle example of algotithm method structure
-    Solution AlgorithmSchrage() const;
-    Solution AlgorithmSchrageSep() const; // Schrage with seperations
+    Permutation AlgorithmSortRj() const;
+    Permutation AlgorithmSortQj() const;
+    Permutation AlgorithmCompleteReview() const;
+    Permutation ExampleAlgorith() const; // TO BE DELETED  it is just simle example of algotithm method structure
+    Permutation AlgorithmSchrage() const;
+    Permutation AlgorithmSchrageSep() const; // Schrage with seperations
     void DisplayTasks();
 };

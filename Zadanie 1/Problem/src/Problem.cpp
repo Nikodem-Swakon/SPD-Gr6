@@ -37,7 +37,7 @@ void Problem::DisplayTasks()
 }
 
 // it is example algorithm, just to test classes
-Solution Problem::ExampleAlgorith() const
+Permutation Problem::ExampleAlgorith() const
 {
     std::vector<Task> rankedTasks;
 
@@ -48,12 +48,12 @@ Solution Problem::ExampleAlgorith() const
 
     int criterion = CountCriterion(rankedTasks);
 
-    Solution solution(criterion, rankedTasks);
+    Permutation solution(criterion, rankedTasks);
 
     return solution;
 }
 
-Solution Problem::AlgorithmSortRj() const
+Permutation Problem::AlgorithmSortRj() const
 {
     std::vector<Task> sortedTasks = m_tasks;
     std::sort(sortedTasks.begin(), sortedTasks.end(), [](const Task &a, const Task &b)
@@ -61,12 +61,12 @@ Solution Problem::AlgorithmSortRj() const
 
     int criterion = CountCriterion(sortedTasks);
 
-    Solution solution(criterion, sortedTasks);
+    Permutation solution(criterion, sortedTasks);
 
     return solution;
 }
 
-Solution Problem::AlgorithmSortQj() const
+Permutation Problem::AlgorithmSortQj() const
 {
     std::vector<Task> sortedTasks = m_tasks;
     std::sort(sortedTasks.begin(), sortedTasks.end(), [](const Task &a, const Task &b)
@@ -74,14 +74,14 @@ Solution Problem::AlgorithmSortQj() const
 
     int criterion = CountCriterion(sortedTasks);
 
-    Solution solution(criterion, sortedTasks);
+    Permutation solution(criterion, sortedTasks);
 
     return solution;
 }
 
 // it looks for the most optimal solution using permutations
 // CAUTION: it is sutable solution only if the m_tasks <= 12
-Solution Problem::AlgorithmCompleteReview() const
+Permutation Problem::AlgorithmCompleteReview() const
 {
     if (m_tasks.size() >= CRITICAL_NUMBER)
     {
@@ -106,7 +106,7 @@ Solution Problem::AlgorithmCompleteReview() const
         }
     }
 
-    Solution solution(criterion, sortedTasks);
+    Permutation solution(criterion, sortedTasks);
     return solution;
 }
 
@@ -140,7 +140,7 @@ std::vector<Task> Problem::CompleteReview(std::vector<Task> tasks, int fromTask,
     return sortedTasks;
 }
 
-Solution Problem::AlgorithmSchrage() const
+Permutation Problem::AlgorithmSchrage() const
 {
     // Sort by Rj
     std::vector<Task> sortedTasksByRj = m_tasks;
@@ -172,7 +172,7 @@ Solution Problem::AlgorithmSchrage() const
         currentTime = sortedTasks[j].GetPj() + std::max(currentTime, sortedTasks[j].GetRj()); // count current time
     }
     int criterion = CountCriterion(sortedTasks);
-    Solution solution(criterion, sortedTasks);
+    Permutation solution(criterion, sortedTasks);
 
     return solution;
 }
@@ -186,7 +186,7 @@ Solution Problem::AlgorithmSchrage() const
 
     }*/
 
-Solution Problem::AlgorithmSchrageSep() const
+Permutation Problem::AlgorithmSchrageSep() const
 {
     std::vector<Task> sortedTasksByRj = m_tasks;
     std::sort(sortedTasksByRj.begin(), sortedTasksByRj.end(), [](const Task &a, const Task &b)
@@ -270,7 +270,7 @@ Solution Problem::AlgorithmSchrageSep() const
 
     // End of Gantts chart
     int criterion = CountCriterion(sortedTasks);
-    Solution solution(criterion, sortedTasks);
+    Permutation solution(criterion, sortedTasks);
     return solution;
 }
 
