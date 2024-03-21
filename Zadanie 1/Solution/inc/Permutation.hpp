@@ -11,9 +11,12 @@ class Permutation :
 {
 private:
     /* private data */
-    // int m_criterion;
     std::vector<Task> m_rankedTasks;
 
+    /* private methods */
+    std::vector<Task> GetRankedTasks() const {return m_rankedTasks;};
+    int GetCriterion() const {return m_criterion;};
+    
 public:
     /* public methods */
     Permutation (); //default constructor
@@ -24,7 +27,6 @@ public:
 
     void DisplaySolution();
     void DisplayGanttChart();
-    std::vector<Task> GetRankedTasks() const {return m_rankedTasks;};
-    int GetCriterion() const {return m_criterion;};
+    
 
 };

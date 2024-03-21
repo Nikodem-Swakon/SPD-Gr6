@@ -10,6 +10,8 @@
 #include "Solution.hpp"
 #include "Problem.hpp"
 #include "Heap.hpp"
+#include "Permutation.hpp"
+#include "Pair.hpp"
 
 #define FILE_PATH "../text.txt"
 
@@ -90,44 +92,49 @@ void schrageTest(std::vector<Task> tasks, Problem problem)
 {
     std::cout << "Schrage algorithm test." << std::endl;
 
-    Solution solution = problem.AlgorithmSchrage();
-    solution.DisplaySolution();
-    solution.DisplayGanttChart();
+    Permutation permutation = problem.AlgorithmSchrage();
+    Solution *solution = &permutation;
+    solution->DisplaySolution();
+    solution->DisplayGanttChart();
 }
 
 void schrageTestSep(std::vector<Task> tasks, Problem problem)
 {
     std::cout << "Schrage with preemption algorithm test." << std::endl;
 
-    Solution solution = problem.AlgorithmSchrageSep();
-    //solution.DisplaySolution();
-    //solution.DisplayGanttChart();
+    Pair pair = problem.AlgorithmSchrageSep();
+    Solution *solution = &pair;
+    solution->DisplaySolution();
+    solution->DisplayGanttChart();
 }
 
 void qjTest(std::vector<Task> tasks, Problem problem)
 {
     std::cout << "Test Qj" << std::endl;
 
-    Solution solution = problem.AlgorithmSortQj();
-    solution.DisplaySolution();
-    solution.DisplayGanttChart();
+    Permutation permutation = problem.AlgorithmSortQj();
+    Solution *solution = &permutation;
+    solution->DisplaySolution();
+    solution->DisplayGanttChart();
 }
 
 void rjTest(std::vector<Task> tasks, Problem problem)
 {
     std::cout << "Test Rj" << std::endl;
 
-    Solution solution = problem.AlgorithmSortRj();
-    solution.DisplaySolution();
-    solution.DisplayGanttChart();
+    Permutation permutation = problem.AlgorithmSortRj();
+    Solution *solution = &permutation;
+    solution->DisplaySolution();
+    solution->DisplayGanttChart();
 }
 
 void completeReviewtest(std::vector<Task> tasks, Problem problem)
 {
     std::cout << "Test complete review" << std::endl;
-    Solution solution = problem.AlgorithmCompleteReview();
-    solution.DisplaySolution();
-    solution.DisplayGanttChart();
+    Permutation permutation = problem.AlgorithmCompleteReview();
+    Solution *solution = &permutation;
+    solution->DisplaySolution();
+    solution->DisplayGanttChart();
 }
 
 int main(int argc, char *argv[])

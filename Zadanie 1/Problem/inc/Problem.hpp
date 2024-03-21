@@ -6,6 +6,7 @@
 #include "Task.hpp"
 #include "Solution.hpp"
 #include "Permutation.hpp"
+#include "Pair.hpp"
 
 #define CRITICAL_NUMBER 12
 
@@ -31,6 +32,6 @@ public:
     Permutation AlgorithmCompleteReview() const;
     Permutation ExampleAlgorith() const; // TO BE DELETED  it is just simle example of algotithm method structure
     Permutation AlgorithmSchrage() const;
-    Permutation AlgorithmSchrageSep() const; // Schrage with seperations
+    Pair AlgorithmSchrageSep() const; // Schrage with seperations
     void DisplayTasks();
 };

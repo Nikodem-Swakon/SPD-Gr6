@@ -4,7 +4,7 @@
 #include "Problem.hpp"
 #include "Heap.hpp"
 #include <utility>  //pair
-#include <iomanip> // setw
+
 #include <iostream>
 
 /* constructors and destructors */
@@ -186,7 +186,7 @@ Permutation Problem::AlgorithmSchrage() const
 
     }*/
 
-Permutation Problem::AlgorithmSchrageSep() const
+Pair Problem::AlgorithmSchrageSep() const
 {
     std::vector<Task> sortedTasksByRj = m_tasks;
     std::sort(sortedTasksByRj.begin(), sortedTasksByRj.end(), [](const Task &a, const Task &b)
@@ -194,8 +194,7 @@ Permutation Problem::AlgorithmSchrageSep() const
 
     Structure::Heap<Task> heapTaskByQj;
     heapTaskByQj.BuildHeap(m_tasks);
-    std::vector<Task> sortedTasks = {};
-    std::vector<std::pair<int,int>> answer;
+    std::vector<std::pair<Task,int>> answer;
     Task currentTask;
 
     int currentTime = 0;
@@ -223,8 +222,7 @@ Permutation Problem::AlgorithmSchrageSep() const
 
         if (workingTime >= currentTask.GetPj())
         {
-            sortedTasks.push_back(currentTask);
-            answer.push_back(std::make_pair(currentTask.GetTaskId(),currentTime-currentTask.GetPj()));
+            answer.push_back(std::make_pair(currentTask,currentTime-currentTask.GetPj()));
             workingTime = 0;
             finishedTasksNr++;
         }
@@ -233,44 +231,16 @@ Permutation Problem::AlgorithmSchrageSep() const
             if ((currentTime >= sortedTasksByRj.front().GetRj()) && (currentTask.GetQj() < heapTaskByQj.GetMaximum().GetQj()))
             {
                 Task *newTask = new Task(currentTask.GetPj() - workingTime, currentTask.GetRj(), currentTask.GetQj(), currentTask.GetTaskId());
-                sortedTasks.push_back(*newTask);
-                answer.push_back(std::make_pair(currentTask.GetTaskId(),currentTime-1));
+                answer.push_back(std::make_pair(currentTask,currentTime-1));
                 workingTime = 0;
                 heapTaskByQj.Insert(*newTask);
             }
         }
     }
 
-    std::cout << "( Task_ID , Start time ):" << std::endl;
-    for (const auto& pair : answer) {
-    std::cout << "("<<pair.first << ", " << pair.second<<")" << std::endl;
-    }
-    // Gantts chart
-
-    std::cout << "------------------- Gantt chart  -------------------" << std::endl;
-    for (int i=0; i<answer.size();i++){
-        std::cout<<std::endl << "Task nr " << answer[i].first << "]" << std::setw(MAX_LENGTH);
-        //int Cmax=0;
-        for (int j=0;j<answer[i].second;j++){
-            std::cout<<" ";
-        }
-
-        if (i < answer.size() - 1) {
-            for (int x = 0; x < answer[i + 1].second - answer[i].second; x++) {
-                std::cout << "%";
-            }
-        }else{
-            for (int x = 0; x <  answer[i].second; x++) {
-                std::cout << "%";
-            }
-        }
-    }
-
-    std::cout << std::endl;
-
     // End of Gantts chart
-    int criterion = CountCriterion(sortedTasks);
-    Permutation solution(criterion, sortedTasks);
+    int criterion = 5;
+    Pair solution(criterion, answer);
     return solution;
 }
 
