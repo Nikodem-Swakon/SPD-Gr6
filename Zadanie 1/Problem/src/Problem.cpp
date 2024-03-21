@@ -266,6 +266,8 @@ Solution Problem::AlgorithmSchrageSep() const
         }
     }
 
+    std::cout << std::endl;
+
     // End of Gantts chart
     int criterion = CountCriterion(sortedTasks);
     Solution solution(criterion, sortedTasks);
