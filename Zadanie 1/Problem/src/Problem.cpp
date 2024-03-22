@@ -1,6 +1,4 @@
 #include <algorithm>
-// #include <iostream>
-// #include <vector>
 #include "Problem.hpp"
 #include "Heap.hpp"
 
@@ -177,13 +175,6 @@ Permutation Problem::AlgorithmSchrage() const
 }
 
 // earlier attempt at solution
-/* for(int i=0;i<RsortedTasks.size();i++){                    // For every task in vector do:
-        while(RsortedTasks[i].GetRj()<=currentTime){          // While release time of task is <= current time
-            ReadyTasks.push_back(RsortedTasks[i]);             // Push task to Readytasks vector
-            currentTime+=RsortedTasks[i].GetPj();             // Advance current time by Process time of current task
-        }
-
-    }*/
 
 Pair Problem::AlgorithmSchrageSep() const
 {
@@ -274,35 +265,10 @@ int Problem::CountCriterion(std::vector<std::pair<Task, int>> rankedTasks) const
     int cMax = 0;
     int cooling = 0;
     int last = 0;
-    // std::vector<int> timeToEnd;
-
-    // for (int i = 0; i < m_tasks.size(); i++)
-    // {
-    //     timeToEnd.push_back(-1);
-    // }
 
     for (int j = 0; j < rankedTasks.size(); j++)
     {
-        // initialize time of task
-        // if (timeToEnd[rankedTasks[j].first.GetTaskId() - 1] == -1)
-        // {
-        //     timeToEnd[rankedTasks[j].first.GetTaskId() - 1] = rankedTasks[j].first.GetPj();
-        //     std::cout << "Wpisano do tablicy na miejsce " << rankedTasks[j].first.GetTaskId() - 1 << " wartosc " << rankedTasks[j].first.GetPj() << std::endl;
-        // }
-
-        // criterium taking into account avaliability and execution time
-        // if (j < m_tasks.size() - 1)
-        // {
-        //     cMax = rankedTasks[j + 1].second;
-        //     // int updateTime = (timeToEnd[rankedTasks[j].first.GetTaskId() - 1] - (cMax - rankedTasks[j].second)) > 0 ? timeToEnd[rankedTasks[j].first.GetTaskId() - 1] - (cMax - rankedTasks[j].second) : 0;
-        //     // timeToEnd[rankedTasks[j].first.GetTaskId() - 1] = updateTime;
-        //     // std::cout << "Aktualizacja " << rankedTasks[j].first.GetTaskId() - 1 << " do wartosci " << updateTime << std::endl;
-        // }
-        // else
-        // {
-        //     cMax+=rankedTasks[j].first.GetPj();
-        // }
-
+       
         if (j < rankedTasks.size() - 1)
         {
             cMax = rankedTasks[j + 1].second;
