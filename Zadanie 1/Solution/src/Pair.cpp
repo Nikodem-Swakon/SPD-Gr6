@@ -40,7 +40,7 @@ void Pair::DisplayGanttChart()
     for (int i = 0; i < m_rankedTasks.size(); i++)
     {
         std::cout << std::endl
-                  << "Task nr " << m_rankedTasks[i].first << "]" << std::setw(MAX_LENGTH);
+                  << "Task nr " << m_rankedTasks[i].first.GetTaskId() << "]" << std::setw(MAX_LENGTH);
         // int Cmax=0;
         for (int j = 0; j < m_rankedTasks[i].second; j++)
         {
@@ -56,7 +56,7 @@ void Pair::DisplayGanttChart()
         }
         else
         {
-            for (int x = 0; x < m_rankedTasks[i].second; x++)
+            for (int x = 0; x < m_rankedTasks[i].first.GetPj(); x++)
             {
                 std::cout << "%";
             }

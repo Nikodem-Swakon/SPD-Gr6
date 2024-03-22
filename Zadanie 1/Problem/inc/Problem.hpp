@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <utility>  //pair
 
 #include "Task.hpp"
 #include "Solution.hpp"
@@ -19,6 +20,7 @@ private:
 
     /* private methods */
     int CountCriterion(std::vector<Task> rankedTasks) const;
+    int CountCriterion(std::vector<std::pair<Task,int>>  rankedTasks) const;
     std::vector<Task> CompleteReview(std::vector<Task> tasks, int untilTask, int criterion) const;
 
 public:

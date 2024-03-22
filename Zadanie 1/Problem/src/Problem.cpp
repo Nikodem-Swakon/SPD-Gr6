@@ -3,7 +3,6 @@
 // #include <vector>
 #include "Problem.hpp"
 #include "Heap.hpp"
-#include <utility>  //pair
 
 #include <iostream>
 
@@ -194,14 +193,14 @@ Pair Problem::AlgorithmSchrageSep() const
 
     Structure::Heap<Task> heapTaskByQj;
     heapTaskByQj.BuildHeap(m_tasks);
-    std::vector<std::pair<Task,int>> answer;
+    std::vector<std::pair<Task, int>> answer;
     Task currentTask;
 
     int currentTime = 0;
     int workingTime = 0;
     int sorTaByRj = 0;
     int finishedTasksNr = 0;
-    while (!heapTaskByQj.Empty() || (finishedTasksNr <  m_tasks.size()))
+    while (!heapTaskByQj.Empty() || (finishedTasksNr < m_tasks.size()))
     {
         if (!heapTaskByQj.Empty() && (heapTaskByQj.GetMaximum().GetRj() <= currentTime) && (workingTime == 0))
         {
@@ -222,7 +221,7 @@ Pair Problem::AlgorithmSchrageSep() const
 
         if (workingTime >= currentTask.GetPj())
         {
-            answer.push_back(std::make_pair(currentTask,currentTime-currentTask.GetPj()));
+            answer.push_back(std::make_pair(currentTask, currentTime - currentTask.GetPj()));
             workingTime = 0;
             finishedTasksNr++;
         }
@@ -231,7 +230,7 @@ Pair Problem::AlgorithmSchrageSep() const
             if ((currentTime >= sortedTasksByRj.front().GetRj()) && (currentTask.GetQj() < heapTaskByQj.GetMaximum().GetQj()))
             {
                 Task *newTask = new Task(currentTask.GetPj() - workingTime, currentTask.GetRj(), currentTask.GetQj(), currentTask.GetTaskId());
-                answer.push_back(std::make_pair(currentTask,currentTime-1));
+                answer.push_back(std::make_pair(currentTask, currentTime - 1));
                 workingTime = 0;
                 heapTaskByQj.Insert(*newTask);
             }
@@ -239,7 +238,7 @@ Pair Problem::AlgorithmSchrageSep() const
     }
 
     // End of Gantts chart
-    int criterion = 5;
+    int criterion = CountCriterion(answer);
     Pair solution(criterion, answer);
     return solution;
 }
@@ -264,6 +263,72 @@ int Problem::CountCriterion(std::vector<Task> rankedTasks) const
         // if last task add colling time
         if (j == rankedTasks.size() - 1)
             cMax = cMax + cooling;
+    }
+    return cMax;
+}
+
+// it measures the criterion Cmax for solution as pair
+int Problem::CountCriterion(std::vector<std::pair<Task, int>> rankedTasks) const
+{
+
+    int cMax = 0;
+    int cooling = 0;
+    int last = 0;
+    // std::vector<int> timeToEnd;
+
+    // for (int i = 0; i < m_tasks.size(); i++)
+    // {
+    //     timeToEnd.push_back(-1);
+    // }
+
+    for (int j = 0; j < rankedTasks.size(); j++)
+    {
+        // initialize time of task
+        // if (timeToEnd[rankedTasks[j].first.GetTaskId() - 1] == -1)
+        // {
+        //     timeToEnd[rankedTasks[j].first.GetTaskId() - 1] = rankedTasks[j].first.GetPj();
+        //     std::cout << "Wpisano do tablicy na miejsce " << rankedTasks[j].first.GetTaskId() - 1 << " wartosc " << rankedTasks[j].first.GetPj() << std::endl;
+        // }
+
+        // criterium taking into account avaliability and execution time
+        // if (j < m_tasks.size() - 1)
+        // {
+        //     cMax = rankedTasks[j + 1].second;
+        //     // int updateTime = (timeToEnd[rankedTasks[j].first.GetTaskId() - 1] - (cMax - rankedTasks[j].second)) > 0 ? timeToEnd[rankedTasks[j].first.GetTaskId() - 1] - (cMax - rankedTasks[j].second) : 0;
+        //     // timeToEnd[rankedTasks[j].first.GetTaskId() - 1] = updateTime;
+        //     // std::cout << "Aktualizacja " << rankedTasks[j].first.GetTaskId() - 1 << " do wartosci " << updateTime << std::endl;
+        // }
+        // else
+        // {
+        //     cMax+=rankedTasks[j].first.GetPj();
+        // }
+
+        if (j < rankedTasks.size() - 1)
+        {
+            cMax = rankedTasks[j + 1].second;
+            last = rankedTasks[j].second;
+
+            if (rankedTasks[j].first.GetPj() - (cMax - last) == 0)
+            {
+                cooling = cooling - (cMax - last);
+
+                // take into counting cooling time
+                if (cooling <= rankedTasks[j].first.GetQj())
+                    cooling = rankedTasks[j].first.GetQj();
+            }
+        }
+        else
+        {
+            cMax += rankedTasks[j].first.GetPj();
+            cooling = cooling - rankedTasks[j].first.GetPj();
+
+            // take into counting cooling time
+            if (cooling <= rankedTasks[j].first.GetQj())
+                cooling = rankedTasks[j].first.GetQj();
+
+            if (j == rankedTasks.size() - 1)
+                cMax = cMax + cooling;
+        }
     }
     return cMax;
 }
