@@ -246,8 +246,8 @@ Solution Problem::AlgorithmSchrageSep() const
     std::cout << "("<<pair.first << ", " << pair.second<<")" << std::endl;
     }
     // Gantts chart
-
-    std::cout << "------------------- Gantt chart  -------------------" << std::endl;
+   /*
+   std::cout << "------------------- Gantt chart  -------------------" << std::endl;
     for (int i=0; i<answer.size();i++){
         std::cout<<std::endl << "Task nr " << answer[i].first << "]" << std::setw(MAX_LENGTH);
         //int Cmax=0;
@@ -265,7 +265,7 @@ Solution Problem::AlgorithmSchrageSep() const
             }
         }
     }
-
+    */
     // End of Gantts chart
     int criterion = CountCriterion(sortedTasks);
     Solution solution(criterion, sortedTasks);
