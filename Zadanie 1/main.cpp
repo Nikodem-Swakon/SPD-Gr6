@@ -10,6 +10,8 @@
 #include "Solution.hpp"
 #include "Problem.hpp"
 #include "Heap.hpp"
+#include "Permutation.hpp"
+#include "Pair.hpp"
 
 #define FILE_PATH "../text.txt"
 
@@ -90,44 +92,49 @@ void schrageTest(std::vector<Task> tasks, Problem problem)
 {
     std::cout << "Schrage algorithm test." << std::endl;
 
-    Solution solution = problem.AlgorithmSchrage();
-    solution.DisplaySolution();
-    solution.DisplayGanttChart();
+    Permutation permutation = problem.AlgorithmSchrage();
+    Solution *solution = &permutation;
+    solution->DisplaySolution();
+    solution->DisplayGanttChart();
 }
 
 void schrageTestSep(std::vector<Task> tasks, Problem problem)
 {
     std::cout << "Schrage with preemption algorithm test." << std::endl;
 
-    Solution solution = problem.AlgorithmSchrageSep();
-    //solution.DisplaySolution();
-    //solution.DisplayGanttChart();
+    Pair pair = problem.AlgorithmSchrageSep();
+    Solution *solution = &pair;
+    solution->DisplaySolution();
+    solution->DisplayGanttChart();
 }
 
 void qjTest(std::vector<Task> tasks, Problem problem)
 {
     std::cout << "Test Qj" << std::endl;
 
-    Solution solution = problem.AlgorithmSortQj();
-    solution.DisplaySolution();
-    solution.DisplayGanttChart();
+    Permutation permutation = problem.AlgorithmSortQj();
+    Solution *solution = &permutation;
+    solution->DisplaySolution();
+    solution->DisplayGanttChart();
 }
 
 void rjTest(std::vector<Task> tasks, Problem problem)
 {
     std::cout << "Test Rj" << std::endl;
 
-    Solution solution = problem.AlgorithmSortRj();
-    solution.DisplaySolution();
-    solution.DisplayGanttChart();
+    Permutation permutation = problem.AlgorithmSortRj();
+    Solution *solution = &permutation;
+    solution->DisplaySolution();
+    solution->DisplayGanttChart();
 }
 
 void completeReviewtest(std::vector<Task> tasks, Problem problem)
 {
     std::cout << "Test complete review" << std::endl;
-    Solution solution = problem.AlgorithmCompleteReview();
-    solution.DisplaySolution();
-    solution.DisplayGanttChart();
+    Permutation permutation = problem.AlgorithmCompleteReview();
+    Solution *solution = &permutation;
+    solution->DisplaySolution();
+    solution->DisplayGanttChart();
 }
 
 int main(int argc, char *argv[])
@@ -180,53 +187,6 @@ int main(int argc, char *argv[])
     rjTest(taskVector, problem);
     completeReviewtest(taskVector, problem);
     schrageTestSep(taskVector, problem);
-
-    //  User input for picking sorting algorithm
-    // WARNING - Does not work. Correct deafault constructor for "solution" is needed, that can be overwritten by functions inside cases
-    /*
-
-    std::cout<<"Enter the number of the sorting algorithm: "<<std::endl;
-    std::cout<<"1. Rj_sort"<<std::endl;
-    std::cout<<"2. Qj_sort"<<std::endl;
-    std::cout<<"3. Complete_Review"<<std::endl;
-    int sortChoice;
-    std::cin>>sortChoice;
-    */
-
-    // "IF CASES"
-    /*
-    Solution solution;
-    if(sortChoice=1){ solution = problem.AlgorithmSortRj();solution.DisplaySolution();solution.DisplayGanttChart(); }
-    else if(sortChoice=2){ solution = problem.AlgorithmSortQj();solution.DisplaySolution();solution.DisplayGanttChart(); }
-    //else if (sortChoice=3){ solution = problem.AlgorithmCompleteReview();solution.DisplaySolution();solution.DisplayGanttChart(); }
-    else{std::cout<<"Invalid choice!"<<std::endl;}
-    */
-
-    // "SWITCH CASES"
-    /*
-     switch(sortChoice) {
-    case 1:
-        std::cout << "Using RJ_sort" << std::endl;
-        solution = problem.AlgorithmSortRj();
-        solution.DisplaySolution();
-        solution.DisplayGanttChart();
-        break;
-    case 2:
-        std::cout << "Using QJ_sort" << std::endl;
-        solution = problem.AlgorithmSortQj();
-        solution.DisplaySolution();
-        solution.DisplayGanttChart();
-        break;
-    case 3:
-        std::cout << "Using Complete_Review" << std::endl;
-        solution = problem.AlgorithmCompleteReview();
-        solution.DisplaySolution();
-        solution.DisplayGanttChart();
-        break;
-    default:
-        std::cerr << "Invalid sorting method choice." << std::endl;
-        return 1;
-     */
 
     return 0;
 }
