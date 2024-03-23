@@ -137,6 +137,15 @@ void completeReviewtest(std::vector<Task> tasks, Problem problem)
     solution->DisplayGanttChart();
 }
 
+void OurAlgorithm(std::vector<Task> tasks, Problem problem)
+{
+    std::cout << "Test Our_Algorithm" << std::endl;
+    Permutation permutation = problem.Our_Algorithm();
+    Solution *solution = &permutation;
+    solution->DisplaySolution();
+    solution->DisplayGanttChart();  
+}
+
 int main(int argc, char *argv[])
 
 {
@@ -187,6 +196,7 @@ int main(int argc, char *argv[])
     rjTest(taskVector, problem);
     completeReviewtest(taskVector, problem);
     schrageTestSep(taskVector, problem);
+    OurAlgorithm(taskVector, problem);
 
     return 0;
 }
