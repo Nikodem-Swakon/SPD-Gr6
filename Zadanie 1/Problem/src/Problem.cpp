@@ -1,10 +1,7 @@
 #include <algorithm>
-// #include <iostream>
-// #include <vector>
 #include "Problem.hpp"
 #include "Heap.hpp"
-#include <utility>  //pair
-#include <iomanip> // setw
+
 #include <iostream>
 
 /* constructors and destructors */
@@ -37,7 +34,7 @@ void Problem::DisplayTasks()
 }
 
 // it is example algorithm, just to test classes
-Solution Problem::ExampleAlgorith() const
+Permutation Problem::ExampleAlgorith() const
 {
     std::vector<Task> rankedTasks;
 
@@ -48,12 +45,12 @@ Solution Problem::ExampleAlgorith() const
 
     int criterion = CountCriterion(rankedTasks);
 
-    Solution solution(criterion, rankedTasks);
+    Permutation solution(criterion, rankedTasks);
 
     return solution;
 }
 
-Solution Problem::AlgorithmSortRj() const
+Permutation Problem::AlgorithmSortRj() const
 {
     std::vector<Task> sortedTasks = m_tasks;
     std::sort(sortedTasks.begin(), sortedTasks.end(), [](const Task &a, const Task &b)
@@ -61,12 +58,12 @@ Solution Problem::AlgorithmSortRj() const
 
     int criterion = CountCriterion(sortedTasks);
 
-    Solution solution(criterion, sortedTasks);
+    Permutation solution(criterion, sortedTasks);
 
     return solution;
 }
 
-Solution Problem::AlgorithmSortQj() const
+Permutation Problem::AlgorithmSortQj() const
 {
     std::vector<Task> sortedTasks = m_tasks;
     std::sort(sortedTasks.begin(), sortedTasks.end(), [](const Task &a, const Task &b)
@@ -74,14 +71,14 @@ Solution Problem::AlgorithmSortQj() const
 
     int criterion = CountCriterion(sortedTasks);
 
-    Solution solution(criterion, sortedTasks);
+    Permutation solution(criterion, sortedTasks);
 
     return solution;
 }
 
 // it looks for the most optimal solution using permutations
 // CAUTION: it is sutable solution only if the m_tasks <= 12
-Solution Problem::AlgorithmCompleteReview() const
+Permutation Problem::AlgorithmCompleteReview() const
 {
     if (m_tasks.size() >= CRITICAL_NUMBER)
     {
@@ -106,7 +103,7 @@ Solution Problem::AlgorithmCompleteReview() const
         }
     }
 
-    Solution solution(criterion, sortedTasks);
+    Permutation solution(criterion, sortedTasks);
     return solution;
 }
 
@@ -140,7 +137,7 @@ std::vector<Task> Problem::CompleteReview(std::vector<Task> tasks, int fromTask,
     return sortedTasks;
 }
 
-Solution Problem::AlgorithmSchrage() const
+Permutation Problem::AlgorithmSchrage() const
 {
     // Sort by Rj
     std::vector<Task> sortedTasksByRj = m_tasks;
@@ -172,21 +169,14 @@ Solution Problem::AlgorithmSchrage() const
         currentTime = sortedTasks[j].GetPj() + std::max(currentTime, sortedTasks[j].GetRj()); // count current time
     }
     int criterion = CountCriterion(sortedTasks);
-    Solution solution(criterion, sortedTasks);
+    Permutation solution(criterion, sortedTasks);
 
     return solution;
 }
 
 // earlier attempt at solution
-/* for(int i=0;i<RsortedTasks.size();i++){                    // For every task in vector do:
-        while(RsortedTasks[i].GetRj()<=currentTime){          // While release time of task is <= current time
-            ReadyTasks.push_back(RsortedTasks[i]);             // Push task to Readytasks vector
-            currentTime+=RsortedTasks[i].GetPj();             // Advance current time by Process time of current task
-        }
 
-    }*/
-
-Solution Problem::AlgorithmSchrageSep() const
+Pair Problem::AlgorithmSchrageSep() const
 {
     std::vector<Task> sortedTasksByRj = m_tasks;
     std::sort(sortedTasksByRj.begin(), sortedTasksByRj.end(), [](const Task &a, const Task &b)
@@ -194,15 +184,14 @@ Solution Problem::AlgorithmSchrageSep() const
 
     Structure::Heap<Task> heapTaskByQj;
     heapTaskByQj.BuildHeap(m_tasks);
-    std::vector<Task> sortedTasks = {};
-    std::vector<std::pair<int,int>> answer;
+    std::vector<std::pair<Task, int>> answer;
     Task currentTask;
 
     int currentTime = 0;
     int workingTime = 0;
     int sorTaByRj = 0;
     int finishedTasksNr = 0;
-    while (!heapTaskByQj.Empty() || (finishedTasksNr <  m_tasks.size()))
+    while (!heapTaskByQj.Empty() || (finishedTasksNr < m_tasks.size()))
     {
         if (!heapTaskByQj.Empty() && (heapTaskByQj.GetMaximum().GetRj() <= currentTime) && (workingTime == 0))
         {
@@ -223,8 +212,7 @@ Solution Problem::AlgorithmSchrageSep() const
 
         if (workingTime >= currentTask.GetPj())
         {
-            sortedTasks.push_back(currentTask);
-            answer.push_back(std::make_pair(currentTask.GetTaskId(),currentTime-currentTask.GetPj()));
+            answer.push_back(std::make_pair(currentTask, currentTime - currentTask.GetPj()));
             workingTime = 0;
             finishedTasksNr++;
         }
@@ -233,45 +221,25 @@ Solution Problem::AlgorithmSchrageSep() const
             if ((currentTime >= sortedTasksByRj.front().GetRj()) && (currentTask.GetQj() < heapTaskByQj.GetMaximum().GetQj()))
             {
                 Task *newTask = new Task(currentTask.GetPj() - workingTime, currentTask.GetRj(), currentTask.GetQj(), currentTask.GetTaskId());
-                sortedTasks.push_back(*newTask);
-                answer.push_back(std::make_pair(currentTask.GetTaskId(),currentTime-1));
+                answer.push_back(std::make_pair(currentTask, currentTime - 1));
                 workingTime = 0;
                 heapTaskByQj.Insert(*newTask);
             }
         }
     }
 
+
     std::cout << "( Task_ID , Start time ):" << std::endl;
     for (const auto& pair : answer) {
     std::cout << "("<<pair.first << ", " << pair.second<<")" << std::endl;
     }
-    // Gantts chart
-   /*
-   std::cout << "------------------- Gantt chart  -------------------" << std::endl;
-    for (int i=0; i<answer.size();i++){
-        std::cout<<std::endl << "Task nr " << answer[i].first << "]" << std::setw(MAX_LENGTH);
-        //int Cmax=0;
-        for (int j=0;j<answer[i].second;j++){
-            std::cout<<" ";
-        }
-
-        if (i < answer.size() - 1) {
-            for (int x = 0; x < answer[i + 1].second - answer[i].second; x++) {
-                std::cout << "%";
-            }
-        }else{
-            for (int x = 0; x <  answer[i].second; x++) {
-                std::cout << "%";
-            }
-        }
-    }
-    */
 
     std::cout << std::endl;
 
+
     // End of Gantts chart
-    int criterion = CountCriterion(sortedTasks);
-    Solution solution(criterion, sortedTasks);
+    int criterion = CountCriterion(answer);
+    Pair solution(criterion, answer);
     return solution;
 }
 
@@ -295,6 +263,47 @@ int Problem::CountCriterion(std::vector<Task> rankedTasks) const
         // if last task add colling time
         if (j == rankedTasks.size() - 1)
             cMax = cMax + cooling;
+    }
+    return cMax;
+}
+
+// it measures the criterion Cmax for solution as pair
+int Problem::CountCriterion(std::vector<std::pair<Task, int>> rankedTasks) const
+{
+
+    int cMax = 0;
+    int cooling = 0;
+    int last = 0;
+
+    for (int j = 0; j < rankedTasks.size(); j++)
+    {
+       
+        if (j < rankedTasks.size() - 1)
+        {
+            cMax = rankedTasks[j + 1].second;
+            last = rankedTasks[j].second;
+
+            if (rankedTasks[j].first.GetPj() - (cMax - last) == 0)
+            {
+                cooling = cooling - (cMax - last);
+
+                // take into counting cooling time
+                if (cooling <= rankedTasks[j].first.GetQj())
+                    cooling = rankedTasks[j].first.GetQj();
+            }
+        }
+        else
+        {
+            cMax += rankedTasks[j].first.GetPj();
+            cooling = cooling - rankedTasks[j].first.GetPj();
+
+            // take into counting cooling time
+            if (cooling <= rankedTasks[j].first.GetQj())
+                cooling = rankedTasks[j].first.GetQj();
+
+            if (j == rankedTasks.size() - 1)
+                cMax = cMax + cooling;
+        }
     }
     return cMax;
 }
