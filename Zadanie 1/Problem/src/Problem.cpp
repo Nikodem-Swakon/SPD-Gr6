@@ -1,8 +1,9 @@
 #include <algorithm>
 #include "Problem.hpp"
 #include "Heap.hpp"
-
+//#include <set>
 #include <iostream>
+#include <chrono>
 
 /* constructors and destructors */
 Problem::Problem(std::vector<Task> tasks) : m_tasksNr(tasks.size())
@@ -53,8 +54,16 @@ Permutation Problem::ExampleAlgorith() const
 Permutation Problem::AlgorithmSortRj() const
 {
     std::vector<Task> sortedTasks = m_tasks;
+
+    auto start = std::chrono::high_resolution_clock::now();
+
     std::sort(sortedTasks.begin(), sortedTasks.end(), [](const Task &a, const Task &b)
               { return a.GetRj() < b.GetRj(); });
+
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "Elapsed time: "<<std::defaultfloat << duration.count() << " seconds" << std::endl;
 
     int criterion = CountCriterion(sortedTasks);
 
@@ -66,8 +75,16 @@ Permutation Problem::AlgorithmSortRj() const
 Permutation Problem::AlgorithmSortQj() const
 {
     std::vector<Task> sortedTasks = m_tasks;
+    
+    auto start = std::chrono::high_resolution_clock::now();
+    
     std::sort(sortedTasks.begin(), sortedTasks.end(), [](const Task &a, const Task &b)
               { return a.GetQj() > b.GetQj(); });
+
+    
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "Elapsed time: "<<std::defaultfloat << duration.count() << " seconds" << std::endl;
 
     int criterion = CountCriterion(sortedTasks);
 
@@ -84,6 +101,8 @@ Permutation Problem::AlgorithmCompleteReview() const
     {
         std::cout << "WARNING: It will take a long time." << std::endl;
     }
+
+    auto start = std::chrono::high_resolution_clock::now();
 
     std::vector<Task> sortedTasks = m_tasks;
     std::vector<Task> currentChacked = m_tasks;
@@ -102,6 +121,10 @@ Permutation Problem::AlgorithmCompleteReview() const
             sortedTasks = currentChacked;
         }
     }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "Elapsed time: "<<std::defaultfloat << duration.count() << " seconds" << std::endl;
 
     Permutation solution(criterion, sortedTasks);
     return solution;
@@ -142,6 +165,8 @@ Permutation Problem::AlgorithmSchrage() const
     // Sort by Rj
     std::vector<Task> sortedTasksByRj = m_tasks;
 
+     auto start = std::chrono::high_resolution_clock::now();
+
     std::sort(sortedTasksByRj.begin(), sortedTasksByRj.end(), [](const Task &a, const Task &b)
               { return a.GetRj() < b.GetRj(); });
 
@@ -169,7 +194,11 @@ Permutation Problem::AlgorithmSchrage() const
 
         currentTime = sortedTasks[j].GetPj() + std::max(currentTime, sortedTasks[j].GetRj()); // count current time
     }
-    
+   
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "Elapsed time: "<<std::defaultfloat << duration.count() << " seconds" << std::endl;
+
     int criterion = CountCriterion(sortedTasks);
     Permutation solution(criterion, sortedTasks);
 
@@ -181,6 +210,9 @@ Permutation Problem::AlgorithmSchrage() const
 Pair Problem::AlgorithmSchrageSep() const
 {
     std::vector<Task> sortedTasksByRj = m_tasks;
+
+    auto start = std::chrono::high_resolution_clock::now();
+
     std::sort(sortedTasksByRj.begin(), sortedTasksByRj.end(), [](const Task &a, const Task &b)
               { return a.GetRj() < b.GetRj(); });
 
@@ -230,6 +262,10 @@ Pair Problem::AlgorithmSchrageSep() const
         }
     }
 
+        
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "Elapsed time: "<<std::defaultfloat << duration.count() << " seconds" << std::endl;
 
     std::cout << "( Task_ID , Start time ):" << std::endl;
     for (const auto& pair : answer) {
@@ -245,28 +281,59 @@ Pair Problem::AlgorithmSchrageSep() const
     return solution;
 }
 
-Solution Problem::Our_Algorithm () const 
+Permutation Problem::Our_Algorithm () const 
 {
-    std::vector<Task> sortQJ=m_tasks;
-    std::vector<Task> sortRJ=m_tasks;
+    std::vector<Task> sortQJ = m_tasks;
+    std::vector<Task> sortRJ = m_tasks;
     std::vector<Task> sortedtasks;
-    int size=sortQJ.size();
 
-    std::sort(sortRJ.begin(), sortRJ.end(), [](const Task &a, const Task &b)
-        { return a.GetRj() < b.GetRj(); });
+    auto start = std::chrono::high_resolution_clock::now();
 
-    std::sort(sortQJ.begin(), sortQJ.end(), [](const Task &a, const Task &b)
-        { return a.GetQj() > b.GetQj(); });
+    size_t size = sortQJ.size();
 
-    // for half of every 
+    std::sort(sortRJ.begin(), sortRJ.end(), [](const Task &a, const Task &b) {
+        return a.GetRj() < b.GetRj();
+    });
 
+    sortedtasks.insert(sortedtasks.end(), sortRJ.begin(), sortRJ.begin() + size / 2);
 
+    std::sort(sortQJ.begin(), sortQJ.end(), [](const Task &a, const Task &b) {
+        return a.GetQj() < b.GetQj();
+    });
 
-    int criterion = CountCriterion(rankedTasks);
+    
+    size_t j = size / 2;
+    for (size_t i = size / 2; i < size; i++) { // Skip tasks that are present in the first half of sortRJ
+        while (j < sortQJ.size() && std::find(sortedtasks.begin(), sortedtasks.end(), sortQJ[j]) != sortedtasks.end()) {
+            j++;
+        }
+        if (j < sortQJ.size()) {
+            sortedtasks.push_back(sortQJ[j]);
+            j++;
+        }
+    }
 
-    Solution solution(criterion, rankedTasks);
+    for (; j < sortQJ.size(); j++) { // Add remaining tasks from sortQJ if not present in sortedTasks
+        sortedtasks.push_back(sortQJ[j]);
+    }
 
-    return solution;    
+    
+    for (const Task &task : sortRJ) { // Add remaining tasks from sortRJ if not already present in sortedTasks
+        if (std::find(sortedtasks.begin(), sortedtasks.end(), task) == sortedtasks.end()) {
+            sortedtasks.push_back(task);
+        }
+    }
+
+        
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "Elapsed time: "<<std::defaultfloat << duration.count() << " seconds" << std::endl;
+
+    int criterion = CountCriterion(sortedtasks);
+
+    Permutation solution(criterion, sortedtasks);
+
+    return solution;
 }
 
 // it measures the criterion Cmax
