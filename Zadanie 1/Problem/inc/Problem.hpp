@@ -29,11 +29,14 @@ public:
     ~Problem();
 
     void GenerateInstance();
+
     Permutation AlgorithmSortRj() const;
     Permutation AlgorithmSortQj() const;
     Permutation AlgorithmCompleteReview() const;
     Permutation ExampleAlgorith() const; // TO BE DELETED  it is just simle example of algotithm method structure
     Permutation AlgorithmSchrage() const;
     Pair AlgorithmSchrageSep() const; // Schrage with seperations
+    Solution Our_Algorithm () const;
+
     void DisplayTasks();
 };

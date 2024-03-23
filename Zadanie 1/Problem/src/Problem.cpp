@@ -141,6 +141,7 @@ Permutation Problem::AlgorithmSchrage() const
 {
     // Sort by Rj
     std::vector<Task> sortedTasksByRj = m_tasks;
+
     std::sort(sortedTasksByRj.begin(), sortedTasksByRj.end(), [](const Task &a, const Task &b)
               { return a.GetRj() < b.GetRj(); });
 
@@ -168,6 +169,7 @@ Permutation Problem::AlgorithmSchrage() const
 
         currentTime = sortedTasks[j].GetPj() + std::max(currentTime, sortedTasks[j].GetRj()); // count current time
     }
+    
     int criterion = CountCriterion(sortedTasks);
     Permutation solution(criterion, sortedTasks);
 
@@ -241,6 +243,30 @@ Pair Problem::AlgorithmSchrageSep() const
     int criterion = CountCriterion(answer);
     Pair solution(criterion, answer);
     return solution;
+}
+
+Solution Problem::Our_Algorithm () const 
+{
+    std::vector<Task> sortQJ=m_tasks;
+    std::vector<Task> sortRJ=m_tasks;
+    std::vector<Task> sortedtasks;
+    int size=sortQJ.size();
+
+    std::sort(sortRJ.begin(), sortRJ.end(), [](const Task &a, const Task &b)
+        { return a.GetRj() < b.GetRj(); });
+
+    std::sort(sortQJ.begin(), sortQJ.end(), [](const Task &a, const Task &b)
+        { return a.GetQj() > b.GetQj(); });
+
+    // for half of every 
+
+
+
+    int criterion = CountCriterion(rankedTasks);
+
+    Solution solution(criterion, rankedTasks);
+
+    return solution;    
 }
 
 // it measures the criterion Cmax
