@@ -228,6 +228,15 @@ Pair Problem::AlgorithmSchrageSep() const
         }
     }
 
+
+    std::cout << "( Task_ID , Start time ):" << std::endl;
+    for (const auto& pair : answer) {
+    std::cout << "("<<pair.first << ", " << pair.second<<")" << std::endl;
+    }
+
+    std::cout << std::endl;
+
+
     // End of Gantts chart
     int criterion = CountCriterion(answer);
     Pair solution(criterion, answer);
