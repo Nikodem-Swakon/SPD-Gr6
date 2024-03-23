@@ -31,5 +31,6 @@ public:
     Solution ExampleAlgorith() const; // TO BE DELETED  it is just simle example of algotithm method structure
     Solution AlgorithmSchrage() const;
     Solution AlgorithmSchrageSep() const; // Schrage with seperations
+    Solution Our_Algorithm () const; 
     void DisplayTasks();
 };
