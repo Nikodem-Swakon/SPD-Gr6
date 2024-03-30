@@ -1,6 +1,0 @@
-Task ID  || Release time RJ || Work time PJ || Cooldown time QJ
-1   4   2   6
-2   7   1   5
-3   0   3   4
-4   5   1   7
-5   3   2   5
