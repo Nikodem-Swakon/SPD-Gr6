@@ -12,14 +12,13 @@ class Solution
 protected:
     /* protected data */
     int m_criterion;
-    virtual int GetCriterion() const  = 0; 
-
 
 public:
     /* public methods */
 
     virtual void DisplaySolution() = 0;
     virtual void DisplayGanttChart() = 0;
+    virtual int GetCriterion() const  = 0; 
     
 
 };

@@ -15,7 +15,6 @@ private:
 
     /* private methods */
     std::vector<Task> GetRankedTasks() const {return m_rankedTasks;};
-    int GetCriterion() const {return m_criterion;};
     
 public:
     /* public methods */
@@ -27,6 +26,7 @@ public:
 
     void DisplaySolution();
     void DisplayGanttChart();
+    int GetCriterion() const {return m_criterion;};
     
 
 };
