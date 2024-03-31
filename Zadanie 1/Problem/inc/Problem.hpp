@@ -11,6 +11,7 @@
 
 #define CRITICAL_NUMBER 12
 
+// class Node;
 class Problem
 {
 private:
@@ -35,6 +36,7 @@ public:
     Permutation AlgorithmCompleteReview() const;
     Permutation ExampleAlgorith() const; // TO BE DELETED  it is just simle example of algotithm method structure
     Permutation AlgorithmSchrage() const;
+    Permutation AlgorithmCarlier() const;
     Pair AlgorithmSchrageSep() const; // Schrage with seperations
     Permutation OurAlgorithm () const;
 

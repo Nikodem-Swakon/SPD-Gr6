@@ -1,7 +1,8 @@
 #include <algorithm>
 #include "Problem.hpp"
 #include "Heap.hpp"
-// #include <set>
+#include "Node.hpp"
+
 #include <iostream>
 #include <chrono>
 
@@ -257,7 +258,7 @@ Pair Problem::AlgorithmSchrageSep() const
             std::cout << "heap is empty:(" << std::endl;
         }
         // add new ready task
-        if(heapTaskByQj.Empty())
+        if (heapTaskByQj.Empty())
             currentTime = sortedTasksByRj[sorTaByRj].GetRj();
         while (sortedTasksByRj[sorTaByRj].GetRj() == currentTime)
         {
@@ -404,4 +405,12 @@ int Problem::CountCriterion(std::vector<std::pair<Task, int>> rankedTasks) const
         }
     }
     return cMax;
+}
+
+Permutation Problem::AlgorithmCarlier() const
+{
+    Pair schrageSepSolution = AlgorithmSchrageSep();
+    Node node(m_tasks, schrageSepSolution.GetCriterion());
+    Permutation solution(1, m_tasks);
+    return solution;
 }

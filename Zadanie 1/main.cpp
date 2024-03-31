@@ -190,13 +190,14 @@ int main(int argc, char *argv[])
     readFromFile(filename, taskVector);
     Problem problem(taskVector);
 
-    heapTest(taskVector);
-    schrageTest(taskVector, problem);
-    qjTest(taskVector, problem);
-    rjTest(taskVector, problem);
-    completeReviewtest(taskVector, problem);
-    schrageTestSep(taskVector, problem);
-    OurAlgorithm(taskVector, problem);
+    // heapTest(taskVector);
+    // schrageTest(taskVector, problem);
+    // qjTest(taskVector, problem);
+    // rjTest(taskVector, problem);
+    // completeReviewtest(taskVector, problem);
+    // schrageTestSep(taskVector, problem);
+    // OurAlgorithm(taskVector, problem);
+    problem.AlgorithmCarlier();
 
     return 0;
 }

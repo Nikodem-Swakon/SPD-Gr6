@@ -7,7 +7,7 @@
 
 /* constructors and destructors */
 
-//permutation::permutation(){} //default constructor
+Permutation::Permutation(){} //default constructor
 
 Permutation::Permutation(double criterion, std::vector<Task> ranked)
 {
