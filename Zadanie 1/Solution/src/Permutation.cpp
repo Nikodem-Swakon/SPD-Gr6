@@ -95,3 +95,14 @@ void Permutation::DisplayGanttChart()
 
     std::cout << "----------------------------------------------------" << std::endl;
 }
+
+std::vector<Task> Permutation::GetRankedTasks() const
+{
+    return m_rankedTasks;
+}
+    
+Task Permutation::GetElem(int id) const
+{
+    return m_rankedTasks[id];
+}
+

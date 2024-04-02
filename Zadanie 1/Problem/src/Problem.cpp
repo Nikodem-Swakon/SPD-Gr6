@@ -409,8 +409,129 @@ int Problem::CountCriterion(std::vector<std::pair<Task, int>> rankedTasks) const
 
 Permutation Problem::AlgorithmCarlier() const
 {
+    // create node
     Pair schrageSepSolution = AlgorithmSchrageSep();
-    Node node(m_tasks, schrageSepSolution.GetCriterion());
-    Permutation solution(1, m_tasks);
+    int lowBarier = schrageSepSolution.GetCriterion();
+    Permutation solution = AlgorithmSchrage();
+    Node node(m_tasks, lowBarier);
+    Permutation currentCheck;
+
+    if (node.IsOptimal())
+    {
+        std::cout << "Optimal" << std::endl;
+        if (node.GetPermutation().GetCriterion() < solution.GetCriterion())
+        {
+            solution = node.GetPermutation();
+        }
+    }
+    else if (lowBarier < node.GetUpBarier())
+    {
+        
+        currentCheck = Carlier(node, node.GetLowBarier(), node.GetUpBarier());
+        if (currentCheck.GetCriterion() < solution.GetCriterion())
+        {
+            solution = currentCheck;
+        }
+    }
+
+    // check if node own optimal soltion
+    // if not - create two new nodes
+
+    return solution;
+}
+
+Node Problem::CreateNodeQj(int lowBarier, Node parent, int upBarier) const
+{
+    Task interferenceTask = parent.GetInterferenceTask();
+    std::vector<Task> tasks = parent.GetPermutation().GetRankedTasks();
+    auto toChange = std::find(tasks.begin(), tasks.end(), interferenceTask);
+    int cId = toChange - tasks.begin(); // a moze wystarczy tutaj zwracac inta?
+    int bId;
+    // create new task;
+    std::vector<Task> temTasks(tasks.begin(), tasks.begin() + cId);
+    int pk = parent.GetCmax() - CountCriterion(temTasks);
+    int qc = std::max(tasks[cId].GetQj(), pk + tasks[bId].GetQj());
+    Task *newTask = new Task(tasks[cId].GetPj(), tasks[cId].GetRj(), qc, tasks[cId].GetTaskId());
+    // add new task
+    tasks.erase(toChange);
+    Node *pNode = new Node(m_tasks, lowBarier, upBarier);
+    delete newTask;
+    return *pNode;
+}
+
+Node Problem::CreateNodeRj(int lowBarier, Node parent, int upBarier) const
+{
+    Task interferenceTask = parent.GetInterferenceTask();
+    std::vector<Task> tasks = parent.GetPermutation().GetRankedTasks();
+    auto toChange = std::find(tasks.begin(), tasks.end(), interferenceTask);
+    int cId = toChange - tasks.begin(); // a moze wystarczy tutaj zwracac inta?
+    int bId;
+    // create new task;
+    std::vector<Task> temTasks(tasks.begin(), tasks.begin() + cId);
+    int pk = parent.GetCmax() - CountCriterion(temTasks);
+    int rk = tasks[cId].GetRj();
+    std::vector<Task> tasksCritic = parent.GetCriticalPath();
+    for (int i = 0; i < tasksCritic.size(); i++)
+    {
+        if (tasksCritic[i].GetRj() < rk)
+            rk = tasksCritic[i].GetRj();
+    }
+    int rc = std::max(tasks[cId].GetQj(), pk + rk);
+    Task *newTask = new Task(tasks[cId].GetPj(), rc, tasks[cId].GetQj(), tasks[cId].GetTaskId());
+    // add new task
+    tasks.erase(toChange);
+    Node *pNode = new Node(m_tasks, lowBarier, upBarier);
+    delete newTask;
+    return *pNode;
+}
+
+Permutation Problem::Carlier(Node node, int lowBarier, int upBarrier) const
+{
+    std::cout << "Carlier" << std::endl;
+    Permutation solution = node.GetPermutation();
+    Permutation currentCheck;
+    if (node.GetUpBarier() > node.GetLowBarier())
+    {
+        Node nodeQj = CreateNodeQj(lowBarier, node, upBarrier);
+        // the optimal solution in this path is found
+        if (nodeQj.IsOptimal())
+        {
+            std::cout << "Optimal Qj" << std::endl;
+            if (nodeQj.GetPermutation().GetCriterion() < solution.GetCriterion())
+            {
+                solution = nodeQj.GetPermutation();
+            }
+        }
+        else if (nodeQj.GetLowBarier() < nodeQj.GetUpBarier())
+        {
+            
+            currentCheck = Carlier(nodeQj, nodeQj.GetLowBarier(), nodeQj.GetUpBarier());
+            if (currentCheck.GetCriterion() < solution.GetCriterion())
+            {
+                solution = currentCheck;
+            }
+        }
+
+        Node nodeRj = CreateNodeRj(lowBarier, node, upBarrier);
+
+        // the optimal solution in this path is found
+        if (nodeRj.IsOptimal())
+        {
+            std::cout << "Optimal Rj" << std::endl;
+            if (nodeRj.GetPermutation().GetCriterion() < solution.GetCriterion())
+            {
+                solution = nodeRj.GetPermutation();
+            }
+        }
+        else if (nodeRj.GetLowBarier() < nodeRj.GetUpBarier())
+        {
+            currentCheck = Carlier(nodeRj, nodeRj.GetLowBarier(), nodeRj.GetUpBarier());
+            if (currentCheck.GetCriterion() < solution.GetCriterion())
+            {
+                solution = currentCheck;
+            }
+        }
+    }
+
     return solution;
 }

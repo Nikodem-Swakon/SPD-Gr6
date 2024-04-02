@@ -197,6 +197,7 @@ int main(int argc, char *argv[])
     // completeReviewtest(taskVector, problem);
     // schrageTestSep(taskVector, problem);
     // OurAlgorithm(taskVector, problem);
+    std::cout << "Poczatek" << std::endl;
     problem.AlgorithmCarlier();
 
     return 0;

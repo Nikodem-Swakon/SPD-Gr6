@@ -11,7 +11,7 @@
 
 #define CRITICAL_NUMBER 12
 
-// class Node;
+class Node;
 class Problem
 {
 private:
@@ -23,6 +23,8 @@ private:
     int CountCriterion(std::vector<Task> rankedTasks) const;
     int CountCriterion(std::vector<std::pair<Task,int>>  rankedTasks) const;
     std::vector<Task> CompleteReview(std::vector<Task> tasks, int untilTask, int criterion) const;
+    Node CreateNodeQj(int lowBarier, Node parent, int upBarier) const;
+    Node CreateNodeRj(int lowBarier, Node parent, int upBarier) const;
 
 public:
     /* public methods */
@@ -39,6 +41,7 @@ public:
     Permutation AlgorithmCarlier() const;
     Pair AlgorithmSchrageSep() const; // Schrage with seperations
     Permutation OurAlgorithm () const;
+    Permutation Carlier(Node node, int lowBarier, int upBarrier) const;
 
     void DisplayTasks();
 };
