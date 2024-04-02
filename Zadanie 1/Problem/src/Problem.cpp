@@ -305,6 +305,7 @@ Permutation Problem::Our_Algorithm () const
     size_t j = size / 2;
     for (size_t i = size / 2; i < size; i++) { // Skip tasks that are present in the first half of sortRJ
         while (j < sortQJ.size() && std::find(sortedtasks.begin(), sortedtasks.end(), sortQJ[j]) != sortedtasks.end()) {
+            std::cout<<"already found :"<<sortQJ[j].GetTaskId()<<std::endl;
             j++;
         }
         if (j < sortQJ.size()) {
@@ -313,12 +314,13 @@ Permutation Problem::Our_Algorithm () const
         }
     }
 
-    for (; j < sortQJ.size(); j++) { // Add remaining tasks from sortQJ if not present in sortedTasks
-        sortedtasks.push_back(sortQJ[j]);
-    }
+    //for (; j < sortQJ.size(); j++) { // Add remaining tasks from sortQJ if not present in sortedTasks
+      //  sortedtasks.push_back(sortQJ[j]);
+   // }
 
     
-    for (const Task &task : sortRJ) { // Add remaining tasks from sortRJ if not already present in sortedTasks
+    for (auto it = sortQJ.rbegin(); it != sortQJ.rend(); ++it) { // Add remaining tasks from sortRJ if not already present in sortedTasks
+        const Task &task=*it;
         if (std::find(sortedtasks.begin(), sortedtasks.end(), task) == sortedtasks.end()) {
             sortedtasks.push_back(task);
         }
