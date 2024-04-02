@@ -1,7 +1,7 @@
 #include <algorithm>
 #include "Problem.hpp"
 #include "Heap.hpp"
-//#include <set>
+// #include <set>
 #include <iostream>
 #include <chrono>
 
@@ -60,10 +60,9 @@ Permutation Problem::AlgorithmSortRj() const
     std::sort(sortedTasks.begin(), sortedTasks.end(), [](const Task &a, const Task &b)
               { return a.GetRj() < b.GetRj(); });
 
-
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
-    std::cout << "Elapsed time: "<<std::defaultfloat << duration.count() << " seconds" << std::endl;
+    std::cout << "Elapsed time: " << std::defaultfloat << duration.count() << " seconds" << std::endl;
 
     int criterion = CountCriterion(sortedTasks);
 
@@ -75,16 +74,15 @@ Permutation Problem::AlgorithmSortRj() const
 Permutation Problem::AlgorithmSortQj() const
 {
     std::vector<Task> sortedTasks = m_tasks;
-    
+
     auto start = std::chrono::high_resolution_clock::now();
-    
+
     std::sort(sortedTasks.begin(), sortedTasks.end(), [](const Task &a, const Task &b)
               { return a.GetQj() > b.GetQj(); });
 
-    
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
-    std::cout << "Elapsed time: "<<std::defaultfloat << duration.count() << " seconds" << std::endl;
+    std::cout << "Elapsed time: " << std::defaultfloat << duration.count() << " seconds" << std::endl;
 
     int criterion = CountCriterion(sortedTasks);
 
@@ -124,7 +122,7 @@ Permutation Problem::AlgorithmCompleteReview() const
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
-    std::cout << "Elapsed time: "<<std::defaultfloat << duration.count() << " seconds" << std::endl;
+    std::cout << "Elapsed time: " << std::defaultfloat << duration.count() << " seconds" << std::endl;
 
     Permutation solution(criterion, sortedTasks);
     return solution;
@@ -165,7 +163,7 @@ Permutation Problem::AlgorithmSchrage() const
     // Sort by Rj
     std::vector<Task> sortedTasksByRj = m_tasks;
 
-     auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::high_resolution_clock::now();
 
     std::sort(sortedTasksByRj.begin(), sortedTasksByRj.end(), [](const Task &a, const Task &b)
               { return a.GetRj() < b.GetRj(); });
@@ -194,10 +192,10 @@ Permutation Problem::AlgorithmSchrage() const
 
         currentTime = sortedTasks[j].GetPj() + std::max(currentTime, sortedTasks[j].GetRj()); // count current time
     }
-   
+
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
-    std::cout << "Elapsed time: "<<std::defaultfloat << duration.count() << " seconds" << std::endl;
+    std::cout << "Elapsed time: " << std::defaultfloat << duration.count() << " seconds" << std::endl;
 
     int criterion = CountCriterion(sortedTasks);
     Permutation solution(criterion, sortedTasks);
@@ -206,7 +204,6 @@ Permutation Problem::AlgorithmSchrage() const
 }
 
 // earlier attempt at solution
-
 Pair Problem::AlgorithmSchrageSep() const
 {
     std::vector<Task> sortedTasksByRj = m_tasks;
@@ -217,7 +214,6 @@ Pair Problem::AlgorithmSchrageSep() const
               { return a.GetRj() < b.GetRj(); });
 
     Structure::Heap<Task> heapTaskByQj;
-    heapTaskByQj.BuildHeap(m_tasks);
     std::vector<std::pair<Task, int>> answer;
     Task currentTask;
 
@@ -225,63 +221,71 @@ Pair Problem::AlgorithmSchrageSep() const
     int workingTime = 0;
     int sorTaByRj = 0;
     int finishedTasksNr = 0;
-    while (!heapTaskByQj.Empty() || (finishedTasksNr < m_tasks.size()))
+    int elemInHeap = 0;
+
+    // add first task
+    currentTime = sortedTasksByRj[sorTaByRj].GetRj();
+    heapTaskByQj.Insert(sortedTasksByRj[sorTaByRj]);
+    sorTaByRj++;
+
+    while (sorTaByRj < sortedTasksByRj.size())
     {
-        if (!heapTaskByQj.Empty() && (heapTaskByQj.GetMaximum().GetRj() <= currentTime) && (workingTime == 0))
+        if (!heapTaskByQj.Empty())
         {
-            currentTask = heapTaskByQj.GetMaximum(); // move tasks that can start now to temp
-            heapTaskByQj.EraseMaximum();             // and erase those tasks from heap
-            auto toRemove = std::find(sortedTasksByRj.begin(), sortedTasksByRj.end(), currentTask);
-            sortedTasksByRj.erase(toRemove, sortedTasksByRj.end());
-        }
-        else if ((sorTaByRj < sortedTasksByRj.size()) && (workingTime == 0))
-        {
-            currentTask = sortedTasksByRj[sorTaByRj];
-            heapTaskByQj.Erase(sortedTasksByRj[sorTaByRj]);
-            sorTaByRj++;
-        }
-
-        workingTime++;
-        currentTime++;
-
-        if (workingTime >= currentTask.GetPj())
-        {
-            answer.push_back(std::make_pair(currentTask, currentTime - currentTask.GetPj()));
-            workingTime = 0;
-            finishedTasksNr++;
-        }
-        else if (!sortedTasksByRj.empty())
-        {
-            if ((currentTime >= sortedTasksByRj.front().GetRj()) && (currentTask.GetQj() < heapTaskByQj.GetMaximum().GetQj()))
+            currentTask = heapTaskByQj.GetMaximum();
+            heapTaskByQj.EraseMaximum();
+            workingTime = std::min(sortedTasksByRj[sorTaByRj].GetRj() - currentTime, currentTask.GetPj());
+            if (workingTime == currentTask.GetPj())
             {
+                answer.push_back(std::make_pair(currentTask, currentTime));
+                currentTime = currentTime + workingTime;
+                workingTime = 0;
+            }
+            else
+            {
+                // add the rest of the task to heap
                 Task *newTask = new Task(currentTask.GetPj() - workingTime, currentTask.GetRj(), currentTask.GetQj(), currentTask.GetTaskId());
-                answer.push_back(std::make_pair(currentTask, currentTime - 1));
+                answer.push_back(std::make_pair(currentTask, currentTime));
                 workingTime = 0;
                 heapTaskByQj.Insert(*newTask);
+
+                currentTime = sortedTasksByRj[sorTaByRj].GetRj();
             }
+        }
+        else
+        {
+            std::cout << "heap is empty:(" << std::endl;
+        }
+        // add new ready task
+        if(heapTaskByQj.Empty())
+            currentTime = sortedTasksByRj[sorTaByRj].GetRj();
+        while (sortedTasksByRj[sorTaByRj].GetRj() == currentTime)
+        {
+            heapTaskByQj.Insert(sortedTasksByRj[sorTaByRj]);
+            sorTaByRj++;
         }
     }
 
-        
+    while (!heapTaskByQj.Empty())
+    {
+        currentTask = heapTaskByQj.GetMaximum();
+        heapTaskByQj.EraseMaximum();
+        answer.push_back(std::make_pair(currentTask, currentTime));
+        currentTime = currentTime + currentTask.GetPj();
+    }
+
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
-    std::cout << "Elapsed time: "<<std::defaultfloat << duration.count() << " seconds" << std::endl;
-
-    std::cout << "( Task_ID , Start time ):" << std::endl;
-    for (const auto& pair : answer) {
-    std::cout << "("<<pair.first << ", " << pair.second<<")" << std::endl;
-    }
+    std::cout << "Elapsed time: " << std::defaultfloat << duration.count() << " seconds" << std::endl;
 
     std::cout << std::endl;
 
-
-    // End of Gantts chart
     int criterion = CountCriterion(answer);
     Pair solution(criterion, answer);
     return solution;
 }
 
-Permutation Problem::Our_Algorithm () const 
+Permutation Problem::OurAlgorithm() const
 {
     std::vector<Task> sortQJ = m_tasks;
     std::vector<Task> sortRJ = m_tasks;
@@ -291,45 +295,40 @@ Permutation Problem::Our_Algorithm () const
 
     size_t size = sortQJ.size();
 
-    std::sort(sortRJ.begin(), sortRJ.end(), [](const Task &a, const Task &b) {
-        return a.GetRj() < b.GetRj();
-    });
+    std::sort(sortRJ.begin(), sortRJ.end(), [](const Task &a, const Task &b)
+              { return a.GetRj() < b.GetRj(); });
 
     sortedtasks.insert(sortedtasks.end(), sortRJ.begin(), sortRJ.begin() + size / 2);
 
-    std::sort(sortQJ.begin(), sortQJ.end(), [](const Task &a, const Task &b) {
-        return a.GetQj() < b.GetQj();
-    });
+    std::sort(sortQJ.begin(), sortQJ.end(), [](const Task &a, const Task &b)
+              { return a.GetQj() < b.GetQj(); });
 
-    
     size_t j = size / 2;
     for (size_t i = size / 2; i < size; i++) { // Skip tasks that are present in the first half of sortRJ
         while (j < sortQJ.size() && std::find(sortedtasks.begin(), sortedtasks.end(), sortQJ[j]) != sortedtasks.end()) {
-            std::cout<<"already found :"<<sortQJ[j].GetTaskId()<<std::endl;
             j++;
         }
-        if (j < sortQJ.size()) {
+        if (j < sortQJ.size())
+        {
             sortedtasks.push_back(sortQJ[j]);
             j++;
         }
     }
 
-    //for (; j < sortQJ.size(); j++) { // Add remaining tasks from sortQJ if not present in sortedTasks
-      //  sortedtasks.push_back(sortQJ[j]);
-   // }
+    for (; j < sortQJ.size(); j++) { // Add remaining tasks from sortQJ if not present in sortedTasks
+        sortedtasks.push_back(sortQJ[j]);
+    }
 
     
-    for (auto it = sortQJ.rbegin(); it != sortQJ.rend(); ++it) { // Add remaining tasks from sortRJ if not already present in sortedTasks
-        const Task &task=*it;
+    for (const Task &task : sortRJ) { // Add remaining tasks from sortRJ if not already present in sortedTasks
         if (std::find(sortedtasks.begin(), sortedtasks.end(), task) == sortedtasks.end()) {
             sortedtasks.push_back(task);
         }
     }
 
-        
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
-    std::cout << "Elapsed time: "<<std::defaultfloat << duration.count() << " seconds" << std::endl;
+    std::cout << "Elapsed time: " << std::defaultfloat << duration.count() << " seconds" << std::endl;
 
     int criterion = CountCriterion(sortedtasks);
 
@@ -372,7 +371,7 @@ int Problem::CountCriterion(std::vector<std::pair<Task, int>> rankedTasks) const
 
     for (int j = 0; j < rankedTasks.size(); j++)
     {
-       
+
         if (j < rankedTasks.size() - 1)
         {
             cMax = rankedTasks[j + 1].second;

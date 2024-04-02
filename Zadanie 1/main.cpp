@@ -139,8 +139,8 @@ void completeReviewtest(std::vector<Task> tasks, Problem problem)
 
 void OurAlgorithm(std::vector<Task> tasks, Problem problem)
 {
-    std::cout << "Test Our_Algorithm" << std::endl;
-    Permutation permutation = problem.Our_Algorithm();
+    std::cout << "Test OurAlgorithm" << std::endl;
+    Permutation permutation = problem.OurAlgorithm();
     Solution *solution = &permutation;
     solution->DisplaySolution();
     solution->DisplayGanttChart();  
