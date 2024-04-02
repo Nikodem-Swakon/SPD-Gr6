@@ -65,10 +65,21 @@ std::vector<Task> Node::DesignateCriticalSet()
     return criticalSet;
 }
 
+// it finds interference tasks - task C
 int Node::DesignateInterferenceTaskId()
 {
+    fot(int  i = 0; i < m_permutation.GetRankedTasks().size(); i++)
+    {
+        m_permutation.GetRankedTasks()[i]; // jesli r > sumy to to jest zadania interferencyjne i przerwij
+    }
+    
     int interferenceTaskId;
-    // return interferenceTaskId;
+    m_problem.
+    if(1) // jesli istnieje przestuj
+    {
+        return interferenceTaskId;
+    }
+    
 
     return -1;
 }
