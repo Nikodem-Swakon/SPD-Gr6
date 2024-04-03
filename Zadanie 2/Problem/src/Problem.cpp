@@ -1,7 +1,6 @@
 #include <algorithm>
 #include "Problem.hpp"
-#include "Heap.hpp"
-#include "Node.hpp"
+
 
 #include <iostream>
 #include <chrono>
@@ -35,22 +34,7 @@ void Problem::DisplayTasks()
     std::cout << "Number od tasks " << m_tasksNr << std::endl;
 }
 
-// it is example algorithm, just to test classes
-Permutation Problem::ExampleAlgorith() const
-{
-    std::vector<Task> rankedTasks;
 
-    for (int i = 0; i < m_tasksNr; i++)
-    {
-        rankedTasks.push_back(m_tasks[i]);
-    }
-
-    int criterion = CountCriterion(rankedTasks);
-
-    Permutation solution(criterion, rankedTasks);
-
-    return solution;
-}
 
 
 // it measures the criterion Cmax
