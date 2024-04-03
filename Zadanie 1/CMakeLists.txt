@@ -7,6 +7,7 @@ add_subdirectory(Heap)
 add_subdirectory(Solution)
 add_subdirectory(Task)
 add_subdirectory(Problem)
+add_subdirectory(Node)
 
 
 add_executable(Scheduling main.cpp)
@@ -17,4 +18,5 @@ target_link_libraries(Scheduling
     Problem
     Solution
     Task
+    Node
 )

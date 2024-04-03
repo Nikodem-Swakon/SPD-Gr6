@@ -146,6 +146,15 @@ void OurAlgorithm(std::vector<Task> tasks, Problem problem)
     solution->DisplayGanttChart();  
 }
 
+void CarlierAlgorithm(std::vector<Task> tasks, Problem problem)
+{
+    std::cout << "Test CarlierAlgorithm" << std::endl;
+    Permutation permutation = problem.AlgorithmCarlier();
+    Solution *solution = &permutation;
+    solution->DisplaySolution();
+    solution->DisplayGanttChart();  
+}
+
 int main(int argc, char *argv[])
 
 {
@@ -197,6 +206,7 @@ int main(int argc, char *argv[])
     completeReviewtest(taskVector, problem);
     schrageTestSep(taskVector, problem);
     OurAlgorithm(taskVector, problem);
+    CarlierAlgorithm(taskVector, problem);
 
     return 0;
 }
