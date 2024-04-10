@@ -32,10 +32,6 @@ void Problem::LPT() const { // działa niepoprawnie
     std::sort(rankedTasks.begin(), rankedTasks.end(), [](const Task &a, const Task &b)
               { return a.GetPj() > b.GetPj(); });  //ascending order 
 
-            for (int o=0;o<rankedTasks.size();o++){
-        std::cout<<rankedTasks[o]<<std::endl;
-    }
-
     for (int i=0;i<rankedTasks.size();i++){
         if (P2_time>=P1_time){
             P1.push_back(rankedTasks[i]);
