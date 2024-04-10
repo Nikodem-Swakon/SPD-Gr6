@@ -26,9 +26,7 @@ void extract(const std::string &line, Task &task)
         values.push_back(value);
     }
     task.SetTaskId(values[0]);
-    task.SetRj(values[1]);
-    task.SetPj(values[2]);
-    task.SetQj(values[3]);
+    task.SetPj(values[1]);
 }
 
 int readFromFile(std::string &filename, std::vector<Task> &tasksVec)
@@ -114,9 +112,7 @@ int main(int argc, char *argv[])
     readFromFile(filename, taskVector);
     Problem problem(taskVector);
 
-
-
-    // CarlierAlgorithm(taskVector, problem);
+    problem.DisplayTasks();
 
     return 0;
 }
