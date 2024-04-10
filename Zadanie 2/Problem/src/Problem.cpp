@@ -22,6 +22,72 @@ Problem::~Problem()
 
 /* methods */
 
+void Problem::LPT() const {
+    std::vector<Task> rankedTasks;
+    std::vector<Task> P1; // Machine 1
+    std::vector<Task> P2; // Machine 2
+    int P1_time = 0;     // Time of processing for machine 1
+    int P2_time = 0;     // Time of processing for machine 2
+
+    std::sort(rankedTasks.begin(), rankedTasks.end(), [](const Task &a, const Task &b)
+              { return a.GetPj() > b.GetPj(); });  //ascending order 
+    
+
+    for (int i=0;i<rankedTasks.size();i++){
+        if (P2_time<P1_time){
+            P2.push_back(rankedTasks[i]);
+            P2_time=+rankedTasks[i].GetPj();
+        }else{
+            P1.push_back(rankedTasks[i]);
+            P1_time=+rankedTasks[i].GetPj();
+        }
+    }
+    
+    int criterion = std::max (P2_time,P1_time);
+    std::cout<<"Criterion: "<<criterion<<std::endl;
+    std::cout<<"=================================="<<std::endl;
+    std::cout<<"Machine_nr_1: ";
+    for (int x=0;x<P1.size();x++){ std::cout<< P1[x].GetTaskId()<<", ";}
+    std::cout<<std::endl<<"Machine_nr_2: ";
+    for (int y=0;y<P2.size();y++){ std::cout<< P2[y].GetTaskId()<<", ";}
+
+    //Permutation solution(criterion, sortedTasks);
+    //return solution;
+
+}
+    void Problem::LSA() const {
+    std::vector<Task> rankedTasks;
+    std::vector<Task> P1; // Machine 1
+    std::vector<Task> P2; // Machine 2
+    int P1_time = 0;     // Time of processing for machine 1
+    int P2_time = 0;     // Time of processing for machine 2
+
+       for (int i=0;i<rankedTasks.size();i++){
+        if (P2_time<P1_time){
+            P2.push_back(rankedTasks[i]);
+            P2_time=+rankedTasks[i].GetPj();
+        }else{
+            P1.push_back(rankedTasks[i]);
+            P1_time=+rankedTasks[i].GetPj();
+        }
+    } 
+    int criterion = std::max (P2_time,P1_time);
+    std::cout<<"Criterion: "<<criterion<<std::endl;
+    std::cout<<"=================================="<<std::endl;
+    std::cout<<"Machine_nr_1: ";
+    for (int x=0;x<P1.size();x++){ std::cout<< P1[x].GetTaskId()<<", ";}
+    std::cout<<std::endl<<"Machine_nr_2: ";
+    for (int y=0;y<P2.size();y++){ std::cout<< P2[y].GetTaskId()<<", ";}
+
+}
+//Permutation Problem::Dynamic_2() const {}
+//Permutation Problem::CompleteReview_2() const {}
+//Permutation Problem::Dynamic_3() const {}
+//Permutation Problem::CompleteReview_3() const {}
+//Permutation Problem::PTAS() const {}
+
+
+
 void Problem::DisplayTasks()
 {
     std::cout << "Tasks in the problem." << std::endl;
@@ -34,7 +100,7 @@ void Problem::DisplayTasks()
 }
 
 // count sum of pj on the machine
-int CountCriterionOnTheMachine(std::vector<Task> machine) const
+int CountCriterionOnTheMachine(std::vector<Task> machine)
 {
     int sum = 0;
     for (int i = 0; i < machine.size(); i++)

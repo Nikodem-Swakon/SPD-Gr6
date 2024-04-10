@@ -10,7 +10,7 @@
 #include "Solution.hpp"
 #include "Problem.hpp"
 //#include "Heap.hpp"
-#include "Permutation.hpp"
+//#include "Permutation.hpp"
 #include "Pair.hpp"
 
 #define FILE_PATH "../text.txt"
@@ -111,8 +111,10 @@ int main(int argc, char *argv[])
     std::vector<Task> taskVector;
     readFromFile(filename, taskVector);
     Problem problem(taskVector);
-
-    problem.DisplayTasks();
+    
+    problem.LPT();
+    problem.LSA();
+    //problem.DisplayTasks();
 
     return 0;
 }
