@@ -96,11 +96,20 @@ void Permutation::DisplayGanttChart()
     std::cout << "----------------------------------------------------" << std::endl;
 }
 
+void Permutation::GetRankedTasks(std::vector<Task>& fill) const
+{
+    for(int i = 0;  i < m_rankedTasks.size() ;i++)
+    {
+        fill.push_back(m_rankedTasks[i]);
+    }
+}
+
 std::vector<Task> Permutation::GetRankedTasks() const
 {
+
     return m_rankedTasks;
 }
-    
+
 Task Permutation::GetElem(int id) const
 {
     return m_rankedTasks[id];
