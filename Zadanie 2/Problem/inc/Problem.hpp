@@ -17,6 +17,8 @@ class Problem
 private:
     /* private data */
     std::vector<Task> m_tasks;
+    std::vector<Task> m_machine1;   // tasks ranked on first machine
+    std::vector<Task> m_machine2;   // tasks ranked on second machine
     int m_tasksNr;
 
     /* private methods */
