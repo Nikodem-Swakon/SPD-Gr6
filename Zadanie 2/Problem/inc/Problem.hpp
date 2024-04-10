@@ -6,8 +6,6 @@
 
 #include "Task.hpp"
 #include "Solution.hpp"
-#include "Permutation.hpp"
-#include "Pair.hpp"
 
 #define CRITICAL_NUMBER 12
 
@@ -32,8 +30,6 @@ public:
     ~Problem();
 
     void GenerateInstance();
-
-
-
     void DisplayTasks();
+    Solution LsaAlgorithm();
 };

@@ -9,16 +9,23 @@
 
 class Solution
 {
-protected:
+private:
     /* protected data */
+    std::vector<Task> m_machine1;
+    std::vector<Task> m_machine2;
     int m_criterion;
 
 public:
     /* public methods */
 
-    virtual void DisplaySolution() = 0;
-    virtual void DisplayGanttChart() = 0;
-    virtual int GetCriterion() const  = 0; 
-    
+    // void DisplaySolution();
+    Solution(std::vector<Task> machine1, std::vector<Task> machine2, int criterion);
+    ~Solution();
+    Solution &operator=(const Solution &Solution) noexcept;
 
+    int GetCriterion() const {return m_criterion;}
+    void DisplaySolution();
+    
+    
+    
 };

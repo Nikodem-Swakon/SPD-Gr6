@@ -34,13 +34,49 @@ void Problem::DisplayTasks()
 }
 
 // count sum of pj on the machine
-int CountCriterionOnTheMachine(std::vector<Task> machine) const
+int Problem::CountCriterionOnTheMachine(std::vector<Task> machine) const
 {
     int sum = 0;
     for (int i = 0; i < machine.size(); i++)
     {
         sum += machine[i].GetPj();
     }
+    std::cout << "policzne" << std::endl;
     return sum;
 }
 
+Solution Problem::LsaAlgorithm()
+{
+    std::cout << "LsaAlgorithm" << std::endl;
+    for (int i = 0; i < m_tasks.size(); i++)
+    {
+        if (CountCriterionOnTheMachine(m_machine1) < CountCriterionOnTheMachine(m_machine2))
+        {
+            m_machine1.push_back(m_tasks[i]);
+        }
+        else
+        {
+            m_machine2.push_back(m_tasks[i]);
+        }
+    }
+
+    std::cout << "1. machine:" << std::endl;
+    for (int i = 0; i < m_machine1.size(); i++)
+    {
+        std::cout << "taskId " << m_machine1[i].GetTaskId() << " task: pj " << m_machine1[i].GetPj() << std::endl;
+    }
+    std::cout << std::endl;
+
+    std::cout << "2. machine:" << std::endl;
+    for (int i = 0; i < m_machine2.size(); i++)
+    {
+        std::cout << "taskId " << m_machine2[i].GetTaskId() << " task: pj " << m_machine2[i].GetPj() << std::endl;
+    }
+
+    Solution solution(m_machine1, m_machine2, std::max(CountCriterionOnTheMachine(m_machine1), CountCriterionOnTheMachine(m_machine2)));
+
+    m_machine1.clear();
+    m_machine2.clear();
+
+    return solution;
+}
