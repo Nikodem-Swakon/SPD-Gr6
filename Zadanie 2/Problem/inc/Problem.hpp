@@ -22,11 +22,9 @@ private:
     int m_tasksNr;
 
     /* private methods */
-    int CountCriterion(std::vector<Task> rankedTasks) const;
-    int CountCriterion(std::vector<std::pair<Task,int>>  rankedTasks) const;
-    std::vector<Task> CompleteReview(std::vector<Task> tasks, int untilTask, int criterion) const;
     Node CreateNodeQj(int lowBarier, Node parent, int upBarier) const;
     Node CreateNodeRj(int lowBarier, Node parent, int upBarier) const;
+    int CountCriterionOnTheMachine(std::vector<Task> machine) const;
 
 public:
     /* public methods */
