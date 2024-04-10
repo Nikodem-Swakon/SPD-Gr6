@@ -22,8 +22,8 @@ Problem::~Problem()
 
 /* methods */
 
-void Problem::LPT() const {
-    std::vector<Task> rankedTasks;
+void Problem::LPT() const { // działa niepoprawnie
+    std::vector<Task> rankedTasks = m_tasks;
     std::vector<Task> P1; // Machine 1
     std::vector<Task> P2; // Machine 2
     int P1_time = 0;     // Time of processing for machine 1
@@ -31,15 +31,18 @@ void Problem::LPT() const {
 
     std::sort(rankedTasks.begin(), rankedTasks.end(), [](const Task &a, const Task &b)
               { return a.GetPj() > b.GetPj(); });  //ascending order 
-    
+
+            for (int o=0;o<rankedTasks.size();o++){
+        std::cout<<rankedTasks[o]<<std::endl;
+    }
 
     for (int i=0;i<rankedTasks.size();i++){
-        if (P2_time<P1_time){
-            P2.push_back(rankedTasks[i]);
-            P2_time=+rankedTasks[i].GetPj();
-        }else{
+        if (P2_time>=P1_time){
             P1.push_back(rankedTasks[i]);
-            P1_time=+rankedTasks[i].GetPj();
+            P1_time+=rankedTasks[i].GetPj();
+        }else{
+            P2.push_back(rankedTasks[i]);
+            P2_time+=rankedTasks[i].GetPj();
         }
     }
     
@@ -50,13 +53,13 @@ void Problem::LPT() const {
     for (int x=0;x<P1.size();x++){ std::cout<< P1[x].GetTaskId()<<", ";}
     std::cout<<std::endl<<"Machine_nr_2: ";
     for (int y=0;y<P2.size();y++){ std::cout<< P2[y].GetTaskId()<<", ";}
-
+    std::cout<<std::endl;
     //Permutation solution(criterion, sortedTasks);
     //return solution;
 
 }
-    void Problem::LSA() const {
-    std::vector<Task> rankedTasks;
+    void Problem::LSA() const { // Działa 
+    std::vector<Task> rankedTasks= m_tasks;
     std::vector<Task> P1; // Machine 1
     std::vector<Task> P2; // Machine 2
     int P1_time = 0;     // Time of processing for machine 1
@@ -65,20 +68,20 @@ void Problem::LPT() const {
        for (int i=0;i<rankedTasks.size();i++){
         if (P2_time<P1_time){
             P2.push_back(rankedTasks[i]);
-            P2_time=+rankedTasks[i].GetPj();
+            P2_time+=rankedTasks[i].GetPj();
         }else{
             P1.push_back(rankedTasks[i]);
-            P1_time=+rankedTasks[i].GetPj();
+            P1_time+=rankedTasks[i].GetPj();
         }
     } 
     int criterion = std::max (P2_time,P1_time);
-    std::cout<<"Criterion: "<<criterion<<std::endl;
+    std::cout<<std::endl<<"Criterion: "<<criterion<<std::endl;
     std::cout<<"=================================="<<std::endl;
     std::cout<<"Machine_nr_1: ";
     for (int x=0;x<P1.size();x++){ std::cout<< P1[x].GetTaskId()<<", ";}
     std::cout<<std::endl<<"Machine_nr_2: ";
     for (int y=0;y<P2.size();y++){ std::cout<< P2[y].GetTaskId()<<", ";}
-
+    std::cout<<std::endl;
 }
 //Permutation Problem::Dynamic_2() const {}
 //Permutation Problem::CompleteReview_2() const {}
