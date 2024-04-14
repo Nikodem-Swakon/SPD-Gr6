@@ -166,11 +166,6 @@ Permutation Problem::AlgorithmSchrage() const
     // Sort by Rj
     std::cout << "Schrage " << std::endl;
     std::vector<Task> sortedTasksByRj = m_tasks;
-    for (int i = 0; i < sortedTasksByRj.size(); i++)
-    {
-        std::cout << sortedTasksByRj[i] << " ";
-    }
-    std::cout << std::endl;
     // auto start = std::chrono::high_resolution_clock::now();
 
     std::sort(sortedTasksByRj.begin(), sortedTasksByRj.end(), [](const Task &a, const Task &b)
@@ -452,7 +447,7 @@ Node Problem::CreateNodeQj(int lowBarier, Node parent, int upBarier) const
 {
     std::cout << "create node " << std::endl;
     Task interferenceTask = parent.GetInterferenceTask();
-    std::cout << "interference task taken" << std::endl;
+    std::cout << "interference task taken" << interferenceTask << std::endl;
     std::vector<Task> tasks = parent.GetPermutation().GetRankedTasks();
     std::cout << "tasks initialized" << std::endl;
     auto toChange = std::find(tasks.begin(), tasks.end(), interferenceTask);
@@ -467,7 +462,7 @@ Node Problem::CreateNodeQj(int lowBarier, Node parent, int upBarier) const
     Task *newTask = new Task(tasks[cId].GetPj(), tasks[cId].GetRj(), qc, tasks[cId].GetTaskId());
     std::cout << "new Task " << std::endl;
     // add new task
-    // tasks.erase(toChange);
+    tasks.erase(toChange);
     tasks[cId] = *newTask;
     std::cout << "erase " << std::endl;
     Node *pNode = new Node(m_tasks, lowBarier, upBarier);

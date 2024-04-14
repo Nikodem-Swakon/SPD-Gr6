@@ -134,7 +134,7 @@ void completeReviewtest(std::vector<Task> tasks, Problem problem)
     Permutation permutation = problem.AlgorithmCompleteReview();
     Solution *solution = &permutation;
     solution->DisplaySolution();
-    // solution->DisplayGanttChart();
+    solution->DisplayGanttChart();
 }
 
 void OurAlgorithm(std::vector<Task> tasks, Problem problem)
@@ -152,7 +152,7 @@ void CarlierAlgorithm(std::vector<Task> tasks, Problem problem)
     Permutation permutation = problem.AlgorithmCarlier();
     Solution *solution = &permutation;
     solution->DisplaySolution();
-    // solution->DisplayGanttChart();  
+    solution->DisplayGanttChart();  
 }
 
 int main(int argc, char *argv[])
@@ -200,10 +200,10 @@ int main(int argc, char *argv[])
     Problem problem(taskVector);
 
     // heapTest(taskVector);
-    // schrageTest(taskVector, problem);
+    schrageTest(taskVector, problem);
     // qjTest(taskVector, problem);
     // rjTest(taskVector, problem);
-    completeReviewtest(taskVector, problem);
+    // completeReviewtest(taskVector, problem);
     // schrageTestSep(taskVector, problem);
     // OurAlgorithm(taskVector, problem);
     CarlierAlgorithm(taskVector, problem);

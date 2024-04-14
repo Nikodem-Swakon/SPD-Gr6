@@ -22,10 +22,11 @@ private:
     std::vector<Task> m_criticPath; // critic pathfrom A to B
     int  m_cId; // interference task C id
     Task m_interferenceTask;
+    Task m_criticalTask;
     std::vector<Task> m_criticSet; // critical set from C+1 to B
     
 
-    std::vector<Task> DesignateCriticalPath();
+    void DesignateCriticalPath(std::vector<Task> &path);
     std::vector<Task> DesignateCriticalSet();
     int DesignateInterferenceTaskId();
     void NodeInit();

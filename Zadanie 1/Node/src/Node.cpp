@@ -2,10 +2,11 @@
 #include "algorithm"
 
 Node::Node(std::vector<Task> tasks, int lb) : m_problem(tasks),
-                                              m_lb(lb)
+                                              m_lb(lb),
+                                              m_criticPath({})
 {
     std::cout << "konstruktor 2" << std::endl;
-    for(int i = 0; i< tasks.size() ; i++)
+    for (int i = 0; i < tasks.size(); i++)
     {
         std::cout << tasks[i] << " ";
     }
@@ -15,7 +16,8 @@ Node::Node(std::vector<Task> tasks, int lb) : m_problem(tasks),
 
 Node::Node(std::vector<Task> tasks, int lb, int ub) : m_problem(tasks),
                                                       m_lb(lb),
-                                                      m_ub(ub)
+                                                      m_ub(ub),
+                                                      m_criticPath({})
 {
     std::cout << "konstruktor 1" << std::endl;
     NodeInit();
@@ -27,10 +29,10 @@ void Node::NodeInit()
 {
     std::cout << "init " << std::endl;
     m_permutation = m_problem.AlgorithmSchrage();
-    m_permutation.DisplaySolution();
-    std::vector<Task> tmp ;
+    // m_permutation.DisplaySolution();
+    std::vector<Task> tmp;
     m_permutation.GetRankedTasks(tmp);
-    for(int i = 0; i< tmp.size() ; i++)
+    for (int i = 0; i < tmp.size(); i++)
     {
         std::cout << tmp[i] << " ";
     }
@@ -38,19 +40,10 @@ void Node::NodeInit()
 
     std::cout << "po schrage " << std::endl;
     m_cMax = m_permutation.GetCriterion();
-    std::cout << "obliczone kryterium " << std::endl;
-    std::vector<Task> tmpPath = DesignateCriticalPath();
-    std::cout << "wyznaczono path " << std::endl;
-    for (int i = 0; i < tmpPath.size(); i++)
-    {
-        std::cout << "   " << tmpPath[i] << " ";
-    }
     std::cout << std::endl;
-    std::copy(tmpPath.begin(), tmpPath.end(), back_inserter(m_criticPath));
-    std::cout << "kopioewanie " << std::endl;
-
+    std::cout << "obliczone kryterium " << m_cMax << std::endl;
     m_cId = DesignateInterferenceTaskId();
-    std::cout << "wyznaczono id " << std::endl;
+    std::cout << "wyznaczono numer w uszeregowaniu " << m_cId << std::endl;
     if (m_cId == -1)
     {
         m_isOptimal = true;
@@ -58,6 +51,13 @@ void Node::NodeInit()
     }
     else
     {
+        DesignateCriticalPath(m_criticPath);
+        std::cout << "wyznaczono m_criticPath " << std::endl;
+        for (int i = 0; i < m_criticPath.size(); i++)
+        {
+            std::cout << "   " << m_criticPath[i] << " ";
+        }
+
         std::cout << "NIEOPTYMALNY " << std::endl;
         m_isOptimal = false;
         m_interferenceTask = m_permutation.GetElem(m_cId);
@@ -65,46 +65,56 @@ void Node::NodeInit()
         std::cout << "tmpSet wektor " << std::endl;
         std::copy(tmpSet.begin(), tmpSet.end(), back_inserter(m_criticSet));
         std::cout << "kopiowanie " << std::endl;
+        UpdateUpBarier();
+        UpdateLowBarier();
     }
-    UpdateUpBarier();
-    UpdateLowBarier();
 }
 
 Node::~Node()
 {
 }
 
-std::vector<Task> Node::DesignateCriticalPath()
+void Node::DesignateCriticalPath(std::vector<Task> &path)
 {
     std::cout << "DesignateCriticalPath " << std::endl;
-    Permutation tmp = m_problem.AlgorithmSortQj();
-    std::cout << "tmp " << std::endl;
-    Task maxQjTask = tmp.GetRankedTasks()[0];
-    std::cout << "0 element " << maxQjTask <<  std::endl;
     std::vector<Task> currentPermutation = m_permutation.GetRankedTasks();
-    std::cout << "currentPermutation size " << currentPermutation.size() << std::endl;
-    for(int i = 0; i< currentPermutation.size() ; i++)
+    std::cout << "size " << currentPermutation.size() << std::endl;
+    int carrentTime = 0;
+    int coolingTime = 0;
+    int last = 0;
+    // find criticalTask
+    m_criticalTask = currentPermutation.back();
+    for (int i = 0; i < currentPermutation.size(); i++)
     {
-        std::cout << currentPermutation[i] << " ";
-    }
-    std::cout << std::endl;
-    auto lastInPath = std::find(currentPermutation.begin(), m_permutation.GetRankedTasks().end(), maxQjTask);
-    std::cout << "znaleziono " << std::endl;
-    auto first = m_permutation.GetRankedTasks().begin() + m_cId;
-    std::cout << "pierwszy " << std::endl;
-    auto last = lastInPath + 1;
-    std::cout << "ostatni " << std::endl;
-    std::vector<Task> criticalPath;
-    for (int i = m_cId; i < lastInPath - m_permutation.GetRankedTasks().begin(); i++)
-    {
-        criticalPath.push_back(m_permutation.GetRankedTasks()[i]);
-        std::cout << criticalPath[i] << " ";
+        carrentTime = currentPermutation[i].GetPj() + std::max(carrentTime, currentPermutation[i].GetRj());
+        coolingTime = coolingTime - (carrentTime - last);
+        if ((coolingTime < currentPermutation[i].GetQj()) && (i >= m_cId))
+        {
+            m_criticalTask = currentPermutation[i];
+            coolingTime = currentPermutation[i].GetQj();
+        }
+        last = carrentTime;
+            
     }
     std::cout << std::endl;
 
+    std::cout << "0 element " << m_criticalTask << std::endl;
+    // find criticalPath
+    auto lastIter = std::find(currentPermutation.begin(), currentPermutation.end(), m_criticalTask);
+    last = lastIter - currentPermutation.begin();
+    int path_id = 0;
+    for (int i = m_cId; i <= last; i++)
+    {
+        path.push_back(currentPermutation[i]);
+        std::cout << path[path_id] << " ";
+        path_id++;
+    }
+    std::cout << std::endl;
+
+    while (1)
+    {
+    }
     std::cout << "pod wektor " << std::endl;
-
-    return criticalPath;
 }
 
 std::vector<Task> Node::DesignateCriticalSet()
@@ -135,7 +145,7 @@ int Node::DesignateInterferenceTaskId()
         sum += m_permutation.GetRankedTasks()[i].GetPj();
     }
 
-    if (i < m_permutation.GetRankedTasks().size()) // there is no interference task
+    if (i >= m_permutation.GetRankedTasks().size()) // there is no interference task
     {
         return -1;
     }
