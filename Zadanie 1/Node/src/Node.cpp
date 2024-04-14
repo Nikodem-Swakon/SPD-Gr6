@@ -188,3 +188,35 @@ int Node::GetLowBarier() const
 {
     return m_lb;
 }
+
+int Node::GetPk() const
+{
+    int result = 0;
+    for (int i = 0; i < m_criticSet.size(); i++)
+    {
+        result += m_criticSet[i].GetPj();
+    }
+    return result;
+}
+
+int Node::GetQc() const
+{
+    int result = m_criticSet[0].GetQj();
+    for (int i = 0; i < m_criticSet.size(); i++)
+    {
+        if(m_criticSet[i].GetQj() < result)
+            result = m_criticSet[i].GetQj();
+    }
+    return result;
+}
+
+int Node::GetRc() const
+{
+    int result = m_criticSet[0].GetRj();
+    for (int i = 0; i < m_criticSet.size(); i++)
+    {
+        if(m_criticSet[i].GetRj() < result)
+            result = m_criticSet[i].GetRj();
+    }
+    return result;
+}
