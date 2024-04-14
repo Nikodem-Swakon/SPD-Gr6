@@ -32,6 +32,7 @@ public:
     ~Problem();
 
     void GenerateInstance();
+    void DynamicProgramming2D();
 
 
 

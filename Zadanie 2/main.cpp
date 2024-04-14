@@ -113,6 +113,7 @@ int main(int argc, char *argv[])
     Problem problem(taskVector);
 
     problem.DisplayTasks();
+    problem.DynamicProgramming2D();
 
     return 0;
 }
