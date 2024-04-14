@@ -52,18 +52,14 @@ void Combination(std::vector<int> a, int reqLen, int start, int currLen, std::ve
     // If currLen is equal to required length then print the sequence.
     else if (currLen == reqLen)
     {
-        std::cout << "\t";
         int sum = 0;
         for (int i = 0; i < len; i++)
         {
             if (check[i] == true)
             {
-                std::cout << a[i] << " ";
                 sum += a[i];
             }
         }
-        std::cout << "suma " << sum << std::endl;
-        std::cout << "\n";
         for (int i = len - 1; i < rows; i++)
         {
             matrix[i][sum] = 1;
@@ -117,35 +113,20 @@ void Problem::DynamicProgramming2D()
         // for each length of sub-array, call the Combination().
         for (int i = 0; i < r; i++)
         {
-            std::cout << "r: " << r << std::endl;
             // find all combinations os pj sum and fill the matrix
             Combination(arr, i + 1, 0, 0, check, r, matrix, rows);
         }
     }
 
-    std::cout << "matrix" << std::endl;
-    for (int i = 0; i < rows; i++)
-    {
-        for (int j = 0; j < cols; j++)
-        {
-            std::cout << matrix[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
     // find tasks which should be added to first machine
-
     std::vector<int> tasksIdFrorMachine1 = {};
     int r = rows - 1;
     int c = cols / 2;
     int taskId = -1;
     while (c > 0)
     {
-        std::cout << "c " << c << std::endl;
         while ((matrix[r][c] != 1) && (r > 0) && (c > 0))
         {
-            std::cout << "col"
-                      << " ";
-            std::cout << r << " " << c << " " << matrix[r][c] << std::endl;
             c--;
             if (c < 0)
                 break;
@@ -153,32 +134,20 @@ void Problem::DynamicProgramming2D()
 
         while ((matrix[r][c] != 0))
         {
-            std::cout << "row"
-                      << " ";
-            std::cout << r << " " << c << " " << matrix[r][c] << std::endl;
             r--;
             if (r < 0)
                 break;
         }
         r++; // get back to last r which has 1
-        std::cout << "zapisz" << r << std::endl;
         tasksIdFrorMachine1.push_back(r);
         c--;
     }
 
-    for (int i = 0; i < tasksIdFrorMachine1.size(); i++)
-    {
-        std::cout << tasksIdFrorMachine1[i] << " ";
-    }
     // remove duplicats
     sort(tasksIdFrorMachine1.begin(), tasksIdFrorMachine1.end());
     tasksIdFrorMachine1.erase(unique(tasksIdFrorMachine1.begin(), tasksIdFrorMachine1.end()), tasksIdFrorMachine1.end());
-    std::cout << "after removing duplicats" << std::endl;
-    for (int i = 0; i < tasksIdFrorMachine1.size(); i++)
-    {
-        std::cout << tasksIdFrorMachine1[i] << " ";
-    }
 
+    // devide on machines
     for (int i = 0; i < m_tasks.size(); i++)
     {
         auto it = std::find(tasksIdFrorMachine1.begin(), tasksIdFrorMachine1.end(), (m_tasks[i].GetTaskId() - 1)); // there is numeration from 1
@@ -188,6 +157,7 @@ void Problem::DynamicProgramming2D()
             m_machine2.push_back(m_tasks[i]);
     }
 
+    // display information
     int machine1 = 0;
     std::cout << "macine 1" << std::endl;
     for (int i = 0; i < m_machine1.size(); i++)
