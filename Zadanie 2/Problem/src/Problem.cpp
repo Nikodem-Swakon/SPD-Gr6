@@ -141,7 +141,7 @@ void Problem::DynamicProgramming2D()
     while (c > 0)
     {
         std::cout << "c " << c << std::endl;
-        while ((matrix[r][c] != 1))
+        while ((matrix[r][c] != 1) && (r > 0) && (c > 0))
         {
             std::cout << "col"
                       << " ";
@@ -178,5 +178,32 @@ void Problem::DynamicProgramming2D()
     {
         std::cout << tasksIdFrorMachine1[i] << " ";
     }
+
+    for (int i = 0; i < m_tasks.size(); i++)
+    {
+        auto it = std::find(tasksIdFrorMachine1.begin(), tasksIdFrorMachine1.end(), (m_tasks[i].GetTaskId() - 1)); // there is numeration from 1
+        if (it != tasksIdFrorMachine1.end())
+            m_machine1.push_back(m_tasks[i]);
+        else
+            m_machine2.push_back(m_tasks[i]);
+    }
+
+    int machine1 = 0;
+    std::cout << "macine 1" << std::endl;
+    for (int i = 0; i < m_machine1.size(); i++)
+    {
+        std::cout << m_machine1[i] << " ";
+        machine1+=m_machine1[i].GetPj();
+    }
     std::cout << std::endl;
+    int machine2 = 0;
+    std::cout << "macine 2" << std::endl;
+    for (int i = 0; i < m_machine2.size(); i++)
+    {
+        std::cout << m_machine2[i] << " ";
+        machine2+=m_machine2[i].GetPj();
+    }
+    std::cout << std::endl;
+    std::cout << "criterion " << std::max(machine2, machine1) << std::endl;
+
 }
