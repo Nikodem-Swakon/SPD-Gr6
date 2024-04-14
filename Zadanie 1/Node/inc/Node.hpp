@@ -27,7 +27,7 @@ private:
     
 
     void DesignateCriticalPath(std::vector<Task> &path);
-    std::vector<Task> DesignateCriticalSet();
+    void DesignateCriticalSet(std::vector<Task> &path);
     int DesignateInterferenceTaskId();
     void NodeInit();
     void UpdateUpBarier();

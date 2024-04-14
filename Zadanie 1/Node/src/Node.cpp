@@ -57,14 +57,20 @@ void Node::NodeInit()
         {
             std::cout << "   " << m_criticPath[i] << " ";
         }
-
+        std::cout << std::endl;
         std::cout << "NIEOPTYMALNY " << std::endl;
         m_isOptimal = false;
         m_interferenceTask = m_permutation.GetElem(m_cId);
-        std::vector<Task> tmpSet = DesignateCriticalSet();
+        DesignateCriticalSet(m_criticSet);
         std::cout << "tmpSet wektor " << std::endl;
-        std::copy(tmpSet.begin(), tmpSet.end(), back_inserter(m_criticSet));
+        for (int i = 0; i < m_criticSet.size(); i++)
+        {
+            std::cout << "   " << m_criticSet[i] << " ";
+        }
+
         std::cout << "kopiowanie " << std::endl;
+                        while(1)
+        {}
         UpdateUpBarier();
         UpdateLowBarier();
     }
@@ -81,11 +87,11 @@ void Node::DesignateCriticalPath(std::vector<Task> &path)
     std::cout << "size " << currentPermutation.size() << std::endl;
     int carrentTime = 0;
     int coolingTime = 0;
-    int last = 0;
     // find criticalTask
     m_criticalTask = currentPermutation.back();
     for (int i = 0; i < currentPermutation.size(); i++)
     {
+        int last = carrentTime;
         carrentTime = currentPermutation[i].GetPj() + std::max(carrentTime, currentPermutation[i].GetRj());
         coolingTime = coolingTime - (carrentTime - last);
         if ((coolingTime < currentPermutation[i].GetQj()) && (i >= m_cId))
@@ -101,33 +107,21 @@ void Node::DesignateCriticalPath(std::vector<Task> &path)
     std::cout << "0 element " << m_criticalTask << std::endl;
     // find criticalPath
     auto lastIter = std::find(currentPermutation.begin(), currentPermutation.end(), m_criticalTask);
-    last = lastIter - currentPermutation.begin();
-    int path_id = 0;
-    for (int i = m_cId; i <= last; i++)
+    int lastInPath = lastIter - currentPermutation.begin();
+    for (int i = m_cId; i <= lastInPath; i++)
     {
         path.push_back(currentPermutation[i]);
-        std::cout << path[path_id] << " ";
-        path_id++;
     }
     std::cout << std::endl;
-
-    while (1)
-    {
-    }
     std::cout << "pod wektor " << std::endl;
 }
 
-std::vector<Task> Node::DesignateCriticalSet()
+void Node::DesignateCriticalSet(std::vector<Task> &path)
 {
-    auto first = m_permutation.GetRankedTasks().begin() + m_cId + 1;
-    auto last = m_permutation.GetRankedTasks().begin() + m_cId + m_criticPath.size();
-    std::vector<Task> criticalSet;
-    for (int i = m_cId + 1; i < m_criticPath.size(); i++)
+    for (int i = m_cId + 1; i <  (m_criticPath.size() + m_cId); i++)
     {
-        criticalSet.push_back(m_permutation.GetRankedTasks()[i]);
+        path.push_back(m_permutation.GetRankedTasks()[i]);
     }
-
-    return criticalSet;
 }
 
 // it finds interference tasks - task C
@@ -177,6 +171,7 @@ void Node::UpdateUpBarier()
 {
     std::cout << "m_ub " << m_ub << " cmax " << m_cMax << std::endl;
     m_ub = std::min(m_ub, m_cMax);
+    std::cout << "m_ub " << m_ub << std::endl;
 }
 
 void Node::UpdateLowBarier()
@@ -184,6 +179,7 @@ void Node::UpdateLowBarier()
     Pair schrageSepSolution = m_problem.AlgorithmSchrageSep();
     int tmp = schrageSepSolution.GetCriterion();
     int m_lb = std::max(m_lb, tmp);
+    std::cout << "m_lb " << m_ub << std::endl;
 }
 
 int Node::GetUpBarier() const
