@@ -44,7 +44,7 @@ int Problem::CountCriterionOnTheMachine(std::vector<Task> machine) const
     return sum;
 }
 
-void Combination(std::vector<int> a, int reqLen, int start, int currLen, std::vector<bool> check, int len, int **&matrix)
+void Combination(std::vector<int> a, int reqLen, int start, int currLen, std::vector<bool> check, int len, int **&matrix, int rows)
 {
     // Return if the currLen is more than the required length.
     if (currLen > reqLen)
@@ -63,22 +63,25 @@ void Combination(std::vector<int> a, int reqLen, int start, int currLen, std::ve
             }
         }
         std::cout << "suma " << sum << std::endl;
-        std::cout << "\n";
+        std::cout << "\n"; 
+        for (int i = len - 1; i < rows; i++)
+        {
+            matrix[i][sum] = 1;
+        }
         return;
     }
     // If start equals to len then return since no further element left.
     if (start == len)
     {
-
         return;
     }
     // For every index we have two options.
     // First is, we select it, means put true in check[] and increment currLen and start.
     check[start] = true;
-    Combination(a, reqLen, start + 1, currLen + 1, check, len,matrix);
+    Combination(a, reqLen, start + 1, currLen + 1, check, len, matrix, rows);
     // Second is, we don't select it, means put false in check[] and only start incremented.
     check[start] = false;
-    Combination(a, reqLen, start + 1, currLen, check, len,matrix);
+    Combination(a, reqLen, start + 1, currLen, check, len, matrix, rows);
 }
 
 void Problem::DynamicProgramming2D()
@@ -87,12 +90,21 @@ void Problem::DynamicProgramming2D()
     int pSum = 0;
     for (int i = 0; i < m_tasks.size(); i++)
         pSum += m_tasks[i].GetPj();
-    int rows = m_tasks.size(), cols = pSum / 2;
+    int rows = m_tasks.size(), cols = pSum;
 
     // create matrix
     int **matrix = new int *[rows];
     for (int i = 0; i < rows; ++i)
         matrix[i] = new int[cols];
+
+    // full fill teh matrix of zeros
+    for (int r = 0; r < rows; r++)
+    {
+        for (int c = 0; c < cols; c++)
+        {
+            matrix[r][c] = 0;
+        }
+    }
     // full fill the matr
     std::vector<bool> check = {};
     std::vector<int> arr = {};
@@ -103,13 +115,21 @@ void Problem::DynamicProgramming2D()
         arr.push_back(m_tasks[r].GetPj());
 
         // for each length of sub-array, call the Combination().
-        for (int i = 0 ; i < r; i++)
+        for (int i = 0; i < r; i++)
         {
             std::cout << "r: " << r << std::endl;
             // find all combinations os pj sum and fill the matrix
-            Combination(arr, i+1, 0, 0, check, r, matrix);
+            Combination(arr, i + 1, 0, 0, check, r, matrix, rows);
         }
-        
+    }
+
+    std::cout << "matrix" << std::endl;
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            std::cout << matrix[i][j] << " ";
+        }
+        std::cout << std::endl;
     }
 }
-
