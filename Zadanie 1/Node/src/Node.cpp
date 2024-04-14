@@ -69,8 +69,6 @@ void Node::NodeInit()
         }
 
         std::cout << "kopiowanie " << std::endl;
-                        while(1)
-        {}
         UpdateUpBarier();
         UpdateLowBarier();
     }
@@ -100,7 +98,6 @@ void Node::DesignateCriticalPath(std::vector<Task> &path)
             coolingTime = currentPermutation[i].GetQj();
         }
         last = carrentTime;
-            
     }
     std::cout << std::endl;
 
@@ -118,7 +115,7 @@ void Node::DesignateCriticalPath(std::vector<Task> &path)
 
 void Node::DesignateCriticalSet(std::vector<Task> &path)
 {
-    for (int i = m_cId + 1; i <  (m_criticPath.size() + m_cId); i++)
+    for (int i = m_cId + 1; i < (m_criticPath.size() + m_cId); i++)
     {
         path.push_back(m_permutation.GetRankedTasks()[i]);
     }
@@ -178,8 +175,8 @@ void Node::UpdateLowBarier()
 {
     Pair schrageSepSolution = m_problem.AlgorithmSchrageSep();
     int tmp = schrageSepSolution.GetCriterion();
-    int m_lb = std::max(m_lb, tmp);
-    std::cout << "m_lb " << m_ub << std::endl;
+    m_lb = std::min(m_lb, tmp);
+    std::cout << "m_lb " << m_lb << std::endl;
 }
 
 int Node::GetUpBarier() const
