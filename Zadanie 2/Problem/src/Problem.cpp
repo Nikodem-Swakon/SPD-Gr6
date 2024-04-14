@@ -63,7 +63,7 @@ void Combination(std::vector<int> a, int reqLen, int start, int currLen, std::ve
             }
         }
         std::cout << "suma " << sum << std::endl;
-        std::cout << "\n"; 
+        std::cout << "\n";
         for (int i = len - 1; i < rows; i++)
         {
             matrix[i][sum] = 1;
@@ -132,4 +132,51 @@ void Problem::DynamicProgramming2D()
         }
         std::cout << std::endl;
     }
+    // find tasks which should be added to first machine
+
+    std::vector<int> tasksIdFrorMachine1 = {};
+    int r = rows - 1;
+    int c = cols / 2;
+    int taskId = -1;
+    while (c > 0)
+    {
+        std::cout << "c " << c << std::endl;
+        while ((matrix[r][c] != 1))
+        {
+            std::cout << "col"
+                      << " ";
+            std::cout << r << " " << c << " " << matrix[r][c] << std::endl;
+            c--;
+            if (c < 0)
+                break;
+        }
+
+        while ((matrix[r][c] != 0))
+        {
+            std::cout << "row"
+                      << " ";
+            std::cout << r << " " << c << " " << matrix[r][c] << std::endl;
+            r--;
+            if (r < 0)
+                break;
+        }
+        r++; // get back to last r which has 1
+        std::cout << "zapisz" << r << std::endl;
+        tasksIdFrorMachine1.push_back(r);
+        c--;
+    }
+
+    for (int i = 0; i < tasksIdFrorMachine1.size(); i++)
+    {
+        std::cout << tasksIdFrorMachine1[i] << " ";
+    }
+    // remove duplicats
+    sort(tasksIdFrorMachine1.begin(), tasksIdFrorMachine1.end());
+    tasksIdFrorMachine1.erase(unique(tasksIdFrorMachine1.begin(), tasksIdFrorMachine1.end()), tasksIdFrorMachine1.end());
+    std::cout << "after removing duplicats" << std::endl;
+    for (int i = 0; i < tasksIdFrorMachine1.size(); i++)
+    {
+        std::cout << tasksIdFrorMachine1[i] << " ";
+    }
+    std::cout << std::endl;
 }
