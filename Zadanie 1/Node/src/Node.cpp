@@ -174,7 +174,9 @@ void Node::UpdateUpBarier()
 void Node::UpdateLowBarier()
 {
     Pair schrageSepSolution = m_problem.AlgorithmSchrageSep();
+    std::cout << " po szrage" << std::endl;
     int tmp = schrageSepSolution.GetCriterion();
+    std::cout << "criterion" << std::endl;
     m_lb = std::min(m_lb, tmp);
     std::cout << "m_lb " << m_lb << std::endl;
 }
@@ -192,6 +194,10 @@ int Node::GetLowBarier() const
 int Node::GetPk() const
 {
     int result = 0;
+    if (m_criticSet.size() <= 0)
+    {
+        return -1;
+    }
     for (int i = 0; i < m_criticSet.size(); i++)
     {
         result += m_criticSet[i].GetPj();
@@ -201,10 +207,14 @@ int Node::GetPk() const
 
 int Node::GetQc() const
 {
+    if (m_criticSet.size() <= 0)
+    {
+        return -1;
+    }
     int result = m_criticSet[0].GetQj();
     for (int i = 0; i < m_criticSet.size(); i++)
     {
-        if(m_criticSet[i].GetQj() < result)
+        if (m_criticSet[i].GetQj() < result)
             result = m_criticSet[i].GetQj();
     }
     return result;
@@ -212,10 +222,14 @@ int Node::GetQc() const
 
 int Node::GetRc() const
 {
+    if (m_criticSet.size() <= 0)
+    {
+        return -1;
+    }
     int result = m_criticSet[0].GetRj();
     for (int i = 0; i < m_criticSet.size(); i++)
     {
-        if(m_criticSet[i].GetRj() < result)
+        if (m_criticSet[i].GetRj() < result)
             result = m_criticSet[i].GetRj();
     }
     return result;

@@ -443,7 +443,7 @@ Permutation Problem::AlgorithmCarlier() const
     return solution;
 }
 
-Node Problem::CreateNodeQj(int lowBarier, Node parent, int upBarier) const
+Node *Problem::CreateNodeQj(int lowBarier, Node &parent, int upBarier) const
 {
     std::cout << "create node " << std::endl;
     Task interferenceTask = parent.GetInterferenceTask();
@@ -464,16 +464,20 @@ Node Problem::CreateNodeQj(int lowBarier, Node parent, int upBarier) const
     std::cout << "pk " << pk << std::endl;
     int qc = parent.GetQc();
     std::cout << "gc " << qc << std::endl;
+    if ((qc == -1) || (pk == -1))
+    {
+        return nullptr;
+    }
     Task *newTask = new Task(tasks[cId].GetPj(), tasks[cId].GetRj(), qc + pk, tasks[cId].GetTaskId());
 
     // add new task
     tasks[cId] = *newTask;
     std::cout << "new Task " << tasks[cId].GetTaskId() << " " << tasks[cId].GetPj() << " " << tasks[cId].GetRj() << " " << tasks[cId].GetQj() << std::endl;
     Node *pNode = new Node(tasks, lowBarier, upBarier);
-    return *pNode;
+    return pNode;
 }
 
-Node Problem::CreateNodeRj(int lowBarier, Node parent, int upBarier) const
+Node *Problem::CreateNodeRj(int lowBarier, Node &parent, int upBarier) const
 {
     Task interferenceTask = parent.GetInterferenceTask();
     std::vector<Task> tasks = parent.GetPermutation().GetRankedTasks();
@@ -484,15 +488,17 @@ Node Problem::CreateNodeRj(int lowBarier, Node parent, int upBarier) const
     std::vector<Task> temTasks(tasks.begin(), tasks.begin() + cId);
     int pk = parent.GetPk();
     int rk = parent.GetRc();
+    if ((pk == -1) || (rk == -1))
+        return nullptr;
     std::vector<Task> tasksCritic = parent.GetCriticalPath();
     Task *newTask = new Task(tasks[cId].GetPj(), rk + pk, tasks[cId].GetQj(), tasks[cId].GetTaskId());
     // add new task
     tasks[cId] = *newTask;
     Node *pNode = new Node(tasks, lowBarier, upBarier);
-    return *pNode;
+    return pNode;
 }
 
-Permutation Problem::Carlier(Node node, int lowBarier, int upBarrier) const
+Permutation Problem::Carlier(Node &node, int lowBarier, int upBarrier) const
 {
     std::cout << "Carlier" << std::endl;
     Permutation solution = node.GetPermutation();
@@ -502,56 +508,65 @@ Permutation Problem::Carlier(Node node, int lowBarier, int upBarrier) const
 
     if (node.GetUpBarier() > node.GetLowBarier())
     {
-        Node nodeQj = CreateNodeQj(lowBarier, node, upBarrier);
+        Node *nodeQj = CreateNodeQj(lowBarier, node, upBarrier);
         std::cout << "node created " << std::endl;
-        // the optimal solution in this path is found
-        if (nodeQj.IsOptimal())
+        if (nodeQj != nullptr)
         {
-            std::cout << "Optimal Qj" << std::endl;
-            if (nodeQj.GetPermutation().GetCriterion() < solution.GetCriterion())
+            std::cout << "NIE NULL" << std::endl;
+            // the optimal solution in this path is found
+            if (nodeQj->IsOptimal())
             {
-                solution = nodeQj.GetPermutation();
-                while (1)
+                std::cout << "Optimal Qj" << std::endl;
+                if (nodeQj->GetPermutation().GetCriterion() < solution.GetCriterion())
                 {
+                    solution = nodeQj->GetPermutation();
+                    while (1)
+                    {
+                    }
                 }
             }
-        }
-        else if (nodeQj.GetLowBarier() < nodeQj.GetUpBarier())
-        {
-            currentCheck = Carlier(nodeQj, nodeQj.GetLowBarier(), nodeQj.GetUpBarier());
-            if (currentCheck.GetCriterion() < solution.GetCriterion())
+            else if (nodeQj->GetLowBarier() < nodeQj->GetUpBarier())
             {
-                solution = currentCheck;
-                while (1)
+                std::cout << "subcariler Q" << std::endl;
+                currentCheck = Carlier(*nodeQj, nodeQj->GetLowBarier(), nodeQj->GetUpBarier());
+                if (currentCheck.GetCriterion() < solution.GetCriterion())
                 {
+                    solution = currentCheck;
+                    delete nodeQj;
+                    while (1)
+                    {
+                    }
                 }
             }
         }
 
-        Node nodeRj = CreateNodeRj(lowBarier, node, upBarrier);
-        while (1)
+        Node *nodeRj = CreateNodeRj(lowBarier, node, upBarrier);
+        if (nodeQj != nullptr)
         {
-        }
-        // the optimal solution in this path is found
-        if (nodeRj.IsOptimal())
-        {
-            std::cout << "Optimal Rj" << std::endl;
-            if (nodeRj.GetPermutation().GetCriterion() < solution.GetCriterion())
+            // the optimal solution in this path is found
+            if (nodeRj->IsOptimal())
             {
-                solution = nodeRj.GetPermutation();
-                while (1)
+                std::cout << "Optimal Rj" << std::endl;
+                if (nodeRj->GetPermutation().GetCriterion() < solution.GetCriterion())
                 {
+                    solution = nodeRj->GetPermutation();
+                    while (1)
+                    {
+                    }
                 }
             }
-        }
-        else if (nodeRj.GetLowBarier() < nodeRj.GetUpBarier())
-        {
-            currentCheck = Carlier(nodeRj, nodeRj.GetLowBarier(), nodeRj.GetUpBarier());
-            if (currentCheck.GetCriterion() < solution.GetCriterion())
+            std::cout 
+            else if (nodeRj->GetLowBarier() < nodeRj->GetUpBarier())
             {
-                solution = currentCheck;
-                while (1)
+                std::cout << "subcariler R" << std::endl;
+                currentCheck = Carlier(*nodeRj, nodeRj->GetLowBarier(), nodeRj->GetUpBarier());
+                if (currentCheck.GetCriterion() < solution.GetCriterion())
                 {
+                    solution = currentCheck;
+                    delete nodeRj;
+                    while (1)
+                    {
+                    }
                 }
             }
         }
