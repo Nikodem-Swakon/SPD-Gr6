@@ -26,6 +26,8 @@ private:
     Node CreateNodeRj(int lowBarier, Node parent, int upBarier) const;
     int CountCriterionOnTheMachine(std::vector<Task> machine) ;
 
+    void CompleteReview_alg(std::vector<Task>& tasks, int start, std::vector<std::vector<Task>>& permutations);
+
 public:
     /* public methods */
     Problem(std::vector<Task> tasks);

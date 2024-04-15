@@ -112,8 +112,9 @@ int main(int argc, char *argv[])
     readFromFile(filename, taskVector);
     Problem problem(taskVector);
     
-    problem.LPT();
-    problem.LSA();
+    //problem.LPT();
+    //problem.LSA();
+    problem.CompleteReview_2();
     //problem.DisplayTasks();
 
     return 0;
