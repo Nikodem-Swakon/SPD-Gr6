@@ -6,7 +6,7 @@
 
 #include "Task.hpp"
 #include "Solution.hpp"
-#include "Permutation.hpp"
+//#include "Permutation.hpp"
 #include "Pair.hpp"
 
 #define CRITICAL_NUMBER 12
@@ -24,7 +24,9 @@ private:
     /* private methods */
     Node CreateNodeQj(int lowBarier, Node parent, int upBarier) const;
     Node CreateNodeRj(int lowBarier, Node parent, int upBarier) const;
-    int CountCriterionOnTheMachine(std::vector<Task> machine) const;
+    int CountCriterionOnTheMachine(std::vector<Task> machine) ;
+
+    void CompleteReview_alg(std::vector<Task>& tasks, int start, std::vector<std::vector<Task>>& permutations);
 
 public:
     /* public methods */
@@ -33,6 +35,18 @@ public:
 
     void GenerateInstance();
 
+    void LPT() const;
+    void LSA() const;
+    // Na 3.0
+    void Dynamic_2() const;
+    // Na 3.5
+    void CompleteReview_2() const;
+    //Na 4.0
+    void Dynamic_3() const;
+    //Na 4.5
+    void CompleteReview_3() const;
+    void PTAS() const;
+    // Na 5.0
 
 
     void DisplayTasks();
