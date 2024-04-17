@@ -9,8 +9,6 @@
 #include "Task.hpp"
 #include "Solution.hpp"
 #include "Problem.hpp"
-//#include "Heap.hpp"
-//#include "Permutation.hpp"
 #include "Pair.hpp"
 
 #define FILE_PATH "../text.txt"
