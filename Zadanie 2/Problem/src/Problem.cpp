@@ -125,13 +125,7 @@ void Problem::DynamicProgramming2D()
     int taskId = -1;
     while (c > 0)
     {
-        while ((matrix[r][c] != 1) && (r > 0) && (c > 0))
-        {
-            c--;
-            if (c < 0)
-                break;
-        }
-
+        // find the highest r
         while ((matrix[r][c] != 0))
         {
             r--;
@@ -140,7 +134,8 @@ void Problem::DynamicProgramming2D()
         }
         r++; // get back to last r which has 1
         tasksIdFrorMachine1.push_back(r);
-        c--;
+        // move to next colum directed by Pj
+        c = c - m_tasks[r].GetPj();
     }
 
     // remove duplicats
@@ -159,7 +154,7 @@ void Problem::DynamicProgramming2D()
 
     // display information
     int machine1 = 0;
-    std::cout << "macine 1" << std::endl;
+    std::cout << "machine 1" << std::endl;
     for (int i = 0; i < m_machine1.size(); i++)
     {
         std::cout << m_machine1[i] << " ";
@@ -167,7 +162,7 @@ void Problem::DynamicProgramming2D()
     }
     std::cout << std::endl;
     int machine2 = 0;
-    std::cout << "macine 2" << std::endl;
+    std::cout << "machine 2" << std::endl;
     for (int i = 0; i < m_machine2.size(); i++)
     {
         std::cout << m_machine2[i] << " ";
