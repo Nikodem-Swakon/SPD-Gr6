@@ -34,21 +34,20 @@ public:
     ~Problem();
 
     void GenerateInstance();
-    void DynamicProgramming2D();
+    
 
     void LPT() const;
     void LSA() const;
     // Na 3.0
-    void Dynamic_2() const;
+    void DynamicProgramming2D();
     // Na 3.5
     void CompleteReview_2() const;
     //Na 4.0
-    void Dynamic_3() const;
+    void DynamicProgramming3D() const;
     //Na 4.5
     void CompleteReview_3() const;
     void PTAS() const;
     // Na 5.0
-
 
     void DisplayTasks();
 };

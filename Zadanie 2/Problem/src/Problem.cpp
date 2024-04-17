@@ -332,7 +332,7 @@ void Problem::DynamicProgramming2D()
 
     // display information
     int machine1 = 0;
-    std::cout << "machine 1" << std::endl;
+    std::cout << "Machine 1:" << std::endl;
     for (int i = 0; i < m_machine1.size(); i++)
     {
         std::cout << m_machine1[i] << " ";
@@ -340,13 +340,13 @@ void Problem::DynamicProgramming2D()
     }
     std::cout << std::endl;
     int machine2 = 0;
-    std::cout << "machine 2" << std::endl;
+    std::cout << "Machine 2:" << std::endl;
     for (int i = 0; i < m_machine2.size(); i++)
     {
         std::cout << m_machine2[i] << " ";
         machine2+=m_machine2[i].GetPj();
     }
     std::cout << std::endl;
-    std::cout << "criterion " << std::max(machine2, machine1) << std::endl;
+    std::cout << "Cmax: " << std::max(machine2, machine1) << std::endl;
 
 }
