@@ -34,6 +34,7 @@ public:
     ~Problem();
 
     void GenerateInstance();
+    void DynamicProgramming2D();
 
     void LPT() const;
     void LSA() const;
