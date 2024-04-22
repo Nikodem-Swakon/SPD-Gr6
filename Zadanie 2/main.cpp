@@ -109,12 +109,12 @@ int main(int argc, char *argv[])
     std::vector<Task> taskVector;
     readFromFile(filename, taskVector);
     Problem problem(taskVector);
-    //problem.LPT();
-    //problem.LSA();
-    // problem.CompleteReview_2();
-    // problem.DisplayTasks();
+    problem.LPT();
+    problem.LSA();
+    problem.CompleteReview_2();
+    problem.DisplayTasks();
     problem.DynamicProgramming2D();
-
     problem.FPTAS(2);
+    
     return 0;
 }
