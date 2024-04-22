@@ -17,8 +17,8 @@ class Problem
 private:
     /* private data */
     std::vector<Task> m_tasks;
-    std::vector<Task> m_machine1;   // tasks ranked on first machine
-    std::vector<Task> m_machine2;   // tasks ranked on second machine
+    mutable std::vector<Task> m_machine1;   // tasks ranked on first machine
+    mutable std::vector<Task> m_machine2;   // tasks ranked on second machine
     int m_tasksNr;
 
     /* private methods */
@@ -27,7 +27,7 @@ private:
     int CountCriterionOnTheMachine(std::vector<Task> machine) ;
 
     void CompleteReview_alg(std::vector<Task>& tasks, int start, std::vector<std::vector<Task>>& permutations);
-
+    void DynamicProgramming2D(const std::vector<Task> &tasks) const;
 public:
     /* public methods */
     Problem(std::vector<Task> tasks);
@@ -39,11 +39,12 @@ public:
     void LPT() const;
     void LSA() const;
     // Na 3.0
-    void DynamicProgramming2D();
+    void DynamicProgramming2D() const;
     // Na 3.5
     void CompleteReview_2() const;
     //Na 4.0
     void DynamicProgramming3D() const;
+    void FPTAS(const int k) const;
     //Na 4.5
     void CompleteReview_3() const;
     void PTAS() const;

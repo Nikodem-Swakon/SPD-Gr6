@@ -111,9 +111,10 @@ int main(int argc, char *argv[])
     Problem problem(taskVector);
     //problem.LPT();
     //problem.LSA();
-    problem.CompleteReview_2();
+    // problem.CompleteReview_2();
     // problem.DisplayTasks();
     problem.DynamicProgramming2D();
 
+    problem.FPTAS(2);
     return 0;
 }

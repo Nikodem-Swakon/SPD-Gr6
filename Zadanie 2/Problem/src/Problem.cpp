@@ -22,90 +22,123 @@ Problem::~Problem()
 
 /* methods */
 
-void Problem::LPT() const { // działa niepoprawnie
+void Problem::LPT() const
+{ // działa niepoprawnie
     std::vector<Task> rankedTasks = m_tasks;
     std::vector<Task> P1; // Machine 1
     std::vector<Task> P2; // Machine 2
-    int P1_time = 0;     // Time of processing for machine 1
-    int P2_time = 0;     // Time of processing for machine 2
+    int P1_time = 0;      // Time of processing for machine 1
+    int P2_time = 0;      // Time of processing for machine 2
 
     std::sort(rankedTasks.begin(), rankedTasks.end(), [](const Task &a, const Task &b)
-              { return a.GetPj() > b.GetPj(); });  //ascending order 
+              { return a.GetPj() > b.GetPj(); }); // ascending order
 
-    for (int i=0;i<rankedTasks.size();i++){
-        if (P2_time>=P1_time){
+    for (int i = 0; i < rankedTasks.size(); i++)
+    {
+        if (P2_time >= P1_time)
+        {
             P1.push_back(rankedTasks[i]);
-            P1_time+=rankedTasks[i].GetPj();
-        }else{
+            P1_time += rankedTasks[i].GetPj();
+        }
+        else
+        {
             P2.push_back(rankedTasks[i]);
-            P2_time+=rankedTasks[i].GetPj();
+            P2_time += rankedTasks[i].GetPj();
         }
     }
-    
-    int criterion = std::max (P2_time,P1_time);
-    std::cout<<"Criterion: "<<criterion<<std::endl;
-    std::cout<<"=================================="<<std::endl;
-    std::cout<<"Machine_nr_1: ";
-    for (int x=0;x<P1.size();x++){ std::cout<< P1[x].GetTaskId()<<", ";}
-    std::cout<<std::endl<<"Machine_nr_2: ";
-    for (int y=0;y<P2.size();y++){ std::cout<< P2[y].GetTaskId()<<", ";}
-    std::cout<<std::endl;
-    //Permutation solution(criterion, sortedTasks);
-    //return solution;
 
+    int criterion = std::max(P2_time, P1_time);
+    std::cout << "Criterion: " << criterion << std::endl;
+    std::cout << "==================================" << std::endl;
+    std::cout << "Machine_nr_1: ";
+    for (int x = 0; x < P1.size(); x++)
+    {
+        std::cout << P1[x].GetTaskId() << ", ";
+    }
+    std::cout << std::endl
+              << "Machine_nr_2: ";
+    for (int y = 0; y < P2.size(); y++)
+    {
+        std::cout << P2[y].GetTaskId() << ", ";
+    }
+    std::cout << std::endl;
+    // Permutation solution(criterion, sortedTasks);
+    // return solution;
 }
-    void Problem::LSA() const { // Działa 
-    std::vector<Task> rankedTasks= m_tasks;
+void Problem::LSA() const
+{ // Działa
+    std::vector<Task> rankedTasks = m_tasks;
     std::vector<Task> P1; // Machine 1
     std::vector<Task> P2; // Machine 2
-    int P1_time = 0;     // Time of processing for machine 1
-    int P2_time = 0;     // Time of processing for machine 2
+    int P1_time = 0;      // Time of processing for machine 1
+    int P2_time = 0;      // Time of processing for machine 2
 
-       for (int i=0;i<rankedTasks.size();i++){
-        if (P2_time<P1_time){
+    for (int i = 0; i < rankedTasks.size(); i++)
+    {
+        if (P2_time < P1_time)
+        {
             P2.push_back(rankedTasks[i]);
-            P2_time+=rankedTasks[i].GetPj();
-        }else{
-            P1.push_back(rankedTasks[i]);
-            P1_time+=rankedTasks[i].GetPj();
+            P2_time += rankedTasks[i].GetPj();
         }
-    } 
-    int criterion = std::max (P2_time,P1_time);
-    std::cout<<std::endl<<"Criterion: "<<criterion<<std::endl;
-    std::cout<<"=================================="<<std::endl;
-    std::cout<<"Machine_nr_1: ";
-    for (int x=0;x<P1.size();x++){ std::cout<< P1[x].GetTaskId()<<", ";}
-    std::cout<<std::endl<<"Machine_nr_2: ";
-    for (int y=0;y<P2.size();y++){ std::cout<< P2[y].GetTaskId()<<", ";}
-    std::cout<<std::endl;
+        else
+        {
+            P1.push_back(rankedTasks[i]);
+            P1_time += rankedTasks[i].GetPj();
+        }
+    }
+    int criterion = std::max(P2_time, P1_time);
+    std::cout << std::endl
+              << "Criterion: " << criterion << std::endl;
+    std::cout << "==================================" << std::endl;
+    std::cout << "Machine_nr_1: ";
+    for (int x = 0; x < P1.size(); x++)
+    {
+        std::cout << P1[x].GetTaskId() << ", ";
+    }
+    std::cout << std::endl
+              << "Machine_nr_2: ";
+    for (int y = 0; y < P2.size(); y++)
+    {
+        std::cout << P2[y].GetTaskId() << ", ";
+    }
+    std::cout << std::endl;
 }
-//Permutation Problem::Dynamic_2() const {}
+// Permutation Problem::Dynamic_2() const {}
 
-void Problem::CompleteReview_2() const {
-    std::vector<Task> temp = m_tasks;  // Assuming m_tasks is a member variable
+void Problem::CompleteReview_2() const
+{
+    std::vector<Task> temp = m_tasks; // Assuming m_tasks is a member variable
     int num_tasks = temp.size();
     int minCmax = INT_MAX;
     std::vector<int> best_bitmask;
 
     // Generate all possible bitmasks
-    for (int bitmask = 0; bitmask < (1 << num_tasks); ++bitmask) {
+    for (int bitmask = 0; bitmask < (1 << num_tasks); ++bitmask)
+    {
         int P1_time = 0;
         int P2_time = 0;
 
-        for (int i = 0; i < num_tasks; ++i) {
-            if (bitmask & (1 << i)) {  // Check if i-th bit is set
+        for (int i = 0; i < num_tasks; ++i)
+        {
+            if (bitmask & (1 << i))
+            { // Check if i-th bit is set
                 P1_time += temp[i].GetPj();
-            } else {
+            }
+            else
+            {
                 P2_time += temp[i].GetPj();
             }
         }
 
         int Cmax = std::max(P1_time, P2_time);
-        if (Cmax < minCmax) {
+        if (Cmax < minCmax)
+        {
             minCmax = Cmax;
             best_bitmask = std::vector<int>(num_tasks, 0);
-            for (int i = 0; i < num_tasks; ++i) {
-                if (bitmask & (1 << i)) {
+            for (int i = 0; i < num_tasks; ++i)
+            {
+                if (bitmask & (1 << i))
+                {
                     best_bitmask[i] = 1;
                 }
             }
@@ -114,91 +147,19 @@ void Problem::CompleteReview_2() const {
 
     // Print the best schedule
     std::cout << "Best schedule to minimize Cmax:\n";
-    for (int i = 0; i < num_tasks; ++i) {
-        if (best_bitmask[i] == 1) {
+    for (int i = 0; i < num_tasks; ++i)
+    {
+        if (best_bitmask[i] == 1)
+        {
             std::cout << "Task " << temp[i].GetTaskId() << " with processing time " << temp[i].GetPj() << " scheduled on machine 1\n";
-        } else {
+        }
+        else
+        {
             std::cout << "Task " << temp[i].GetTaskId() << " with processing time " << temp[i].GetPj() << " scheduled on machine 2\n";
         }
     }
     std::cout << "Minimum Cmax: " << minCmax << std::endl;
-
 }
-    /*std::vector<Task> P1,P2;
-    std::vector<Task> temp = m_tasks;
-    int minCmax = INT_MAX;
-
-
-    std::vector<std::vector<Task>> permutations;
-    std::vector<Task> best_order;
-    CompleteReview_alg(temp, 0, permutations);
-
-    for (const auto& perm : permutations){
-        
-        for (const auto& task : perm) {
-            int P1_time = 0;
-            int P2_time = 0;
-            if (P1_time <= P2_time) {
-            P1_time += task.GetPj();
-        } else {
-            P2_time += task.GetPj();
-        }
-        int Cmax = std::max(P1_time,P2_time);
-        if (Cmax<minCmax){
-            minCmax=Cmax;
-            best_order = perm;
-        }
-    }
-
-    std::cout<< "Best order to minimize cmax is:\n Task_id || Processing time";
-
-        for (const auto& task : best_order) {
-        std::cout << "Task " << task.GetTaskId() << " with processing time " << task.GetPj() << std::endl;
-    }
-    std::cout<< " With Cmax= "<<minCmax<<std::endl;
-
-
-   /* do {
-        P1.clear();
-        P2.clear();
-        for (int i = 0; i < temp.size(); ++i) {
-            if (i % 2 == 0) {
-                P1.push_back(temp[i]);
-                P1_time+=temp[i].GetPj();
-            } else {
-                P2.push_back(temp[i]);
-                P2_time+=temp[i].GetPj();
-            }
-        }
-
-        // Calculate Cmax for this distribution
-        int cmax = std::max(P1_time,P2_time);
-
-        // Update minimum Cmax
-        minCmax = std::min(minCmax, cmax);
-    } while (std::next_permutation(temp.begin(), temp.end()));
-
-    std::cout << "Minimum Cmax: " << minCmax << std::endl;*/
-
-
-/*void Problem::CompleteReview_alg(std::vector<Task>& tasks, int start, std::vector<std::vector<Task>>& permutations) {
-    if (start == tasks.size() - 1) {
-        permutations.push_back(tasks);
-        return;
-    }
-    
-    for (int i = start; i < tasks.size(); ++i) {
-        std::swap(tasks[start], tasks[i]);
-        CompleteReview_alg(tasks, start + 1, permutations);
-        std::swap(tasks[start], tasks[i]);
-    }
-}*/
-
-//Permutation Problem::Dynamic_3() const {}
-//Permutation Problem::CompleteReview_3() const {}
-//Permutation Problem::PTAS() const {}
-
-
 
 void Problem::DisplayTasks()
 {
@@ -258,13 +219,39 @@ void Combination(std::vector<int> a, int reqLen, int start, int currLen, std::ve
     Combination(a, reqLen, start + 1, currLen, check, len, matrix, rows);
 }
 
-void Problem::DynamicProgramming2D()
+void Problem::DynamicProgramming2D() const
 {
+    DynamicProgramming2D(m_tasks);
+    // display information
+    std::cout << "Dynamic Programming 2D scheduling" << std::endl;
+    int machine1 = 0;
+    std::cout << "Machine 1:" << std::endl;
+    for (int i = 0; i < m_machine1.size(); i++)
+    {
+        std::cout << m_machine1[i] << " ";
+        machine1 += m_machine1[i].GetPj();
+    }
+    std::cout << std::endl;
+    int machine2 = 0;
+    std::cout << "Machine 2:" << std::endl;
+    for (int i = 0; i < m_machine2.size(); i++)
+    {
+        std::cout << m_machine2[i] << " ";
+        machine2 += m_machine2[i].GetPj();
+    }
+    std::cout << std::endl;
+    std::cout << "Cmax: " << std::max(machine2, machine1) << std::endl;
+    m_machine1.clear();
+    m_machine2.clear();
+}
+void Problem::DynamicProgramming2D(const std::vector<Task> &tasks) const
+{
+
     // prepare dimentions
     int pSum = 0;
-    for (int i = 0; i < m_tasks.size(); i++)
-        pSum += m_tasks[i].GetPj();
-    int rows = m_tasks.size(), cols = pSum;
+    for (int i = 0; i < tasks.size(); i++)
+        pSum += tasks[i].GetPj();
+    int rows = tasks.size(), cols = pSum;
 
     // create matrix
     int **matrix = new int *[rows];
@@ -286,7 +273,7 @@ void Problem::DynamicProgramming2D()
     for (int r = 0; r < rows; r++)
     {
         check.push_back(false);
-        arr.push_back(m_tasks[r].GetPj());
+        arr.push_back(tasks[r].GetPj());
 
         // for each length of sub-array, call the Combination().
         for (int i = 0; i < r; i++)
@@ -313,7 +300,7 @@ void Problem::DynamicProgramming2D()
         r++; // get back to last r which has 1
         tasksIdFrorMachine1.push_back(r);
         // move to next colum directed by Pj
-        c = c - m_tasks[r].GetPj();
+        c = c - tasks[r].GetPj();
     }
 
     // remove duplicats
@@ -321,32 +308,46 @@ void Problem::DynamicProgramming2D()
     tasksIdFrorMachine1.erase(unique(tasksIdFrorMachine1.begin(), tasksIdFrorMachine1.end()), tasksIdFrorMachine1.end());
 
     // devide on machines
-    for (int i = 0; i < m_tasks.size(); i++)
+    for (int i = 0; i < tasks.size(); i++)
     {
-        auto it = std::find(tasksIdFrorMachine1.begin(), tasksIdFrorMachine1.end(), (m_tasks[i].GetTaskId() - 1)); // there is numeration from 1
+        auto it = std::find(tasksIdFrorMachine1.begin(), tasksIdFrorMachine1.end(), (tasks[i].GetTaskId() - 1)); // there is numeration from 1
         if (it != tasksIdFrorMachine1.end())
             m_machine1.push_back(m_tasks[i]);
         else
             m_machine2.push_back(m_tasks[i]);
     }
+}
 
+void Problem::FPTAS(const int k) const
+{
+    std::vector<Task> tasks = {};
+    for (int i = 0; i < m_tasks.size(); i++)
+    {
+        tasks.push_back(Task(m_tasks[i].GetPj() / k, m_tasks[i].GetTaskId()));
+    }
+    std::cout << std::endl;
+
+    DynamicProgramming2D(tasks);
     // display information
     int machine1 = 0;
+    std::cout << "FPTAS scheduling" << std::endl;
     std::cout << "Machine 1:" << std::endl;
     for (int i = 0; i < m_machine1.size(); i++)
     {
-        std::cout << m_machine1[i] << " ";
-        machine1+=m_machine1[i].GetPj();
+
+        std::cout << m_tasks[m_machine1[i].GetTaskId() - 1] << " ";
+        machine1 += m_tasks[m_machine1[i].GetTaskId() - 1].GetPj();
     }
     std::cout << std::endl;
     int machine2 = 0;
     std::cout << "Machine 2:" << std::endl;
     for (int i = 0; i < m_machine2.size(); i++)
     {
-        std::cout << m_machine2[i] << " ";
-        machine2+=m_machine2[i].GetPj();
+        std::cout << m_tasks[m_machine2[i].GetTaskId() - 1] << " ";
+        machine2 += m_tasks[m_machine2[i].GetTaskId() - 1].GetPj();
     }
     std::cout << std::endl;
     std::cout << "Cmax: " << std::max(machine2, machine1) << std::endl;
-
+    m_machine1.clear();
+    m_machine2.clear();
 }
