@@ -47,7 +47,7 @@ public:
     void FPTAS(const int k) const;
     //Na 4.5
     void CompleteReview_3() const;
-    void PTAS() const;
+    void PTAS_2(int k) const;
     // Na 5.0
 
     void DisplayTasks();
