@@ -323,7 +323,7 @@ void Problem::FPTAS(const int k) const
     std::vector<Task> tasks = {};
     for (int i = 0; i < m_tasks.size(); i++)
     {
-        tasks.push_back(Task(m_tasks[i].GetPj() / k, m_tasks[i].GetTaskId()));
+        tasks.push_back(Task(m_tasks[i].GetPj() / k + 1, m_tasks[i].GetTaskId()));
     }
     std::cout << std::endl;
 

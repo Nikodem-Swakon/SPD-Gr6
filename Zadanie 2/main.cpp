@@ -113,9 +113,9 @@ int main(int argc, char *argv[])
     //problem.LSA();
     //problem.CompleteReview_2();
     //problem.DisplayTasks();
-    //problem.DynamicProgramming2D();
-    //problem.FPTAS(2);
-    problem.PTAS_2(2);
+    problem.DynamicProgramming2D();
+    problem.FPTAS(2);
+    // problem.PTAS_2(2);
     
     return 0;
 }
