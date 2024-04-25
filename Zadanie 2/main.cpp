@@ -5,6 +5,7 @@
 #include <cctype>
 #include <string>
 #include <filesystem>
+#include <chrono>
 
 #include "Task.hpp"
 #include "Solution.hpp"
@@ -109,13 +110,20 @@ int main(int argc, char *argv[])
     std::vector<Task> taskVector;
     readFromFile(filename, taskVector);
     Problem problem(taskVector);
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     //problem.LPT();
     //problem.LSA();
-    //problem.CompleteReview_2();
+    //
+    
+    problem.CompleteReview_2();
+    
     //problem.DisplayTasks();
     //problem.DynamicProgramming2D();
     //problem.FPTAS(2);
-    problem.PTAS_2(2);
-    
+    //problem.PTAS_2(2);
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+std::cout << "Time taken: " << duration.count() << " microseconds" << std::endl;
+
     return 0;
 }
