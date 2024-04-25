@@ -482,3 +482,54 @@ void Problem::PTAS_2(const int k) const
 
 }
 
+void Problem::CompleteReview_3() const{
+
+}
+
+std::tuple<std::vector<Task>,std::vector<Task>,std::vector<Task>> PTAS_CR_3(const std::vector<Task>& tasks){
+
+}
+std::tuple<std::vector<Task>,std::vector<Task>,std::vector<Task>,std::tuple<int,int,int>>PTAS_LSA_3(const std::vector<Task>& tasks, int P1_time, int P2_time, int P3_time){
+    
+}
+
+void Problem::PTAS_3(int k) const{
+    std::vector<Task> tasks = m_tasks;
+    // Step 1: Sort tasks by their processing time in descending order
+    std::sort(tasks.begin(), tasks.end(), [](const Task& a, const Task& b) {
+        return a.GetPj() > b.GetPj();
+    });
+
+    // Step 2: Take first 'k' amount of tasks and sort them using CompleteReview_2()
+    std::vector<Task> firstKTasks(tasks.begin(), tasks.begin() + k);
+    std::tuple<std::vector<Task>,std::vector<Task>,std::vector<Task>> schedule = PTAS_CR_3(firstKTasks);
+    std::vector<Task> machine_1 = std::get<0>(schedule);
+    std::vector<Task> machine_2 = std::get<1>(schedule);
+    std::vector<Task> machine_3 = std::get<2>(schedule);
+
+    int machine1_time=0;
+    int machine2_time=0;
+    int machine3_time=0;
+    for (int i=0; i<machine_1.size();i++) {
+        machine1_time+=machine_1[i].GetPj();
+    }
+    for (int i=0; i<machine_2.size();i++) {
+        machine2_time+=machine_2[i].GetPj();
+    }
+    for (int i=0; i<machine_3.size();i++) {
+        machine2_time+=machine_3[i].GetPj();
+    }
+
+    // Step 3: Take the rest of the tasks and sort them using LSA()
+    std::vector<Task> restTasks(tasks.begin() + k, tasks.end());
+    //std::pair<std::vector<Task>, std::vector<Task>> schedule2 = PTAS_LSA(restTasks, machine1_time, machine2_time);
+    auto result = PTAS_LSA_3(restTasks, machine1_time, machine2_time, machine3_time);
+    
+    std::vector<Task> machine_1 = std::get<0>(schedule);
+    std::vector<Task> machine_2 = std::get<1>(schedule);
+    std::vector<Task> machine_3 = std::get<2>(schedule);
+    std::tuple<int,int,int> time = std::get<3>(schedule);
+    machine1_time=std::get<0>(time);
+    machine2_time=std::get<1>(time);
+    machine3_time=std::get<2>(time);
+}
