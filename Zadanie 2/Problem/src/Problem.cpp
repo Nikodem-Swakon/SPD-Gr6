@@ -183,42 +183,6 @@ int CountCriterionOnTheMachine(std::vector<Task> machine)
     return sum;
 }
 
-void Combination(std::vector<int> a, int reqLen, int start, int currLen, std::vector<bool> check, int len, int **&matrix, int rows)
-{
-    // Return if the currLen is more than the required length.
-    if (currLen > reqLen)
-        return;
-    // If currLen is equal to required length then print the sequence.
-    else if (currLen == reqLen)
-    {
-        int sum = 0;
-        for (int i = 0; i < len; i++)
-        {
-            if (check[i] == true)
-            {
-                sum += a[i];
-            }
-        }
-        for (int i = len - 1; i < rows; i++)
-        {
-            matrix[i][sum] = 1;
-        }
-        return;
-    }
-    // If start equals to len then return since no further element left.
-    if (start == len)
-    {
-        return;
-    }
-    // For every index we have two options.
-    // First is, we select it, means put true in check[] and increment currLen and start.
-    check[start] = true;
-    Combination(a, reqLen, start + 1, currLen + 1, check, len, matrix, rows);
-    // Second is, we don't select it, means put false in check[] and only start incremented.
-    check[start] = false;
-    Combination(a, reqLen, start + 1, currLen, check, len, matrix, rows);
-}
-
 void Problem::DynamicProgramming2D() const
 {
     DynamicProgramming2D(m_tasks);
