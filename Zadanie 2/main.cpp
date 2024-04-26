@@ -113,10 +113,9 @@ int main(int argc, char *argv[])
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     //problem.LPT();
     //problem.LSA();
-    //
-    
-    problem.CompleteReview_2();
-    
+    //problem.CompleteReview_2();
+    //problem.CompleteReview_3();
+    problem.PTAS_3(2);
     //problem.DisplayTasks();
     //problem.DynamicProgramming2D();
     //problem.FPTAS(2);

@@ -43,11 +43,12 @@ public:
     // Na 3.5
     void CompleteReview_2() const;
     //Na 4.0
-    void DynamicProgramming3D() const;
     void FPTAS(const int k) const;
+    void PTAS_2(int k) const;
     //Na 4.5
     void CompleteReview_3() const;
-    void PTAS_2(int k) const;
+    void PTAS_3(int k) const;
+    void DynamicProgramming3D() const;
     // Na 5.0
 
     void DisplayTasks();

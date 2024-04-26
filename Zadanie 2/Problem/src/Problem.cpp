@@ -482,3 +482,224 @@ void Problem::PTAS_2(const int k) const
 
 }
 
+void Problem::CompleteReview_3() const
+{
+    std::vector<Task> temp = m_tasks; // Assuming m_tasks is a member variable
+    int num_tasks = temp.size();
+    int minCmax = INT_MAX;
+    std::vector<int> best_bitmask;
+
+    // Generate all possible bitmasks
+    for (int bitmask = 0; bitmask < (1 << (2 * num_tasks)); ++bitmask)
+    {
+        int P1_time = 0;
+        int P2_time = 0;
+        int P3_time = 0;
+
+        for (int i = 0; i < num_tasks; ++i)
+        {
+            int machine = (bitmask >> (2 * i)) & 3;
+            if (machine == 0)
+            {
+                P1_time += temp[i].GetPj();
+            }
+            else if (machine == 1)
+            {
+                P2_time += temp[i].GetPj();
+            }
+            else
+            {
+                P3_time += temp[i].GetPj();
+            }
+        }
+
+        int Cmax = std::max({P1_time, P2_time, P3_time});
+        if (Cmax < minCmax)
+        {
+            minCmax = Cmax;
+            best_bitmask = std::vector<int>(2 * num_tasks, 0);
+            for (int i = 0; i < num_tasks; ++i)
+            {
+                best_bitmask[2 * i] = (bitmask >> (2 * i)) & 1;
+                best_bitmask[2 * i + 1] = (bitmask >> (2 * i + 1)) & 1;
+            }
+        }
+    }
+
+    // Print the best schedule
+    std::cout << "Best schedule to minimize Cmax:\n";
+    for (int i = 0; i < num_tasks; ++i)
+    {
+        int machine = best_bitmask[2 * i] + 2 * best_bitmask[2 * i + 1];
+        if (machine == 0)
+        {
+            std::cout << "Task " << temp[i].GetTaskId() << " with processing time " << temp[i].GetPj() << " scheduled on machine 1\n";
+        }
+        else if (machine == 1)
+        {
+            std::cout << "Task " << temp[i].GetTaskId() << " with processing time " << temp[i].GetPj() << " scheduled on machine 2\n";
+        }
+        else
+        {
+            std::cout << "Task " << temp[i].GetTaskId() << " with processing time " << temp[i].GetPj() << " scheduled on machine 3\n";
+        }
+    }
+    std::cout << "Minimum Cmax: " << minCmax << std::endl;
+}
+
+std::tuple<std::vector<Task>,std::vector<Task>,std::vector<Task>> PTAS_CR_3(const std::vector<Task>& tasks)
+{
+    int num_tasks = tasks.size();
+    int minCmax = INT_MAX;
+    std::vector<int> best_bitmask;
+
+    // Generate all possible bitmasks
+    for (int bitmask = 0; bitmask < (1 << (2 * num_tasks)); ++bitmask)
+    {
+        int P1_time = 0;
+        int P2_time = 0;
+        int P3_time = 0;
+
+        for (int i = 0; i < num_tasks; ++i)
+        {
+            int machine = (bitmask >> (2 * i)) & 3;
+            if (machine == 0)
+            {
+                P1_time += tasks[i].GetPj();
+            }
+            else if (machine == 1)
+            {
+                P2_time += tasks[i].GetPj();
+            }
+            else
+            {
+                P3_time += tasks[i].GetPj();
+            }
+        }
+
+        int Cmax = std::max({P1_time, P2_time, P3_time});
+        if (Cmax < minCmax)
+        {
+            minCmax = Cmax;
+            best_bitmask = std::vector<int>(2 * num_tasks, 0);
+            for (int i = 0; i < num_tasks; ++i)
+            {
+                best_bitmask[2 * i] = (bitmask >> (2 * i)) & 1;
+                best_bitmask[2 * i + 1] = (bitmask >> (2 * i + 1)) & 1;
+            }
+        }
+    }
+
+    // Print the best schedule
+    std::vector<Task> temp_machine1;
+    std::vector<Task> temp_machine2;
+    std::vector<Task> temp_machine3;
+    for (int i = 0; i < num_tasks; ++i)
+    {
+        int machine = best_bitmask[2 * i] + 2 * best_bitmask[2 * i + 1];
+        if (machine == 0)
+        {
+            temp_machine1.push_back(tasks[i]);
+        }
+        else if (machine == 1)
+        {
+            temp_machine2.push_back(tasks[i]);
+        }
+        else
+        {
+            temp_machine3.push_back(tasks[i]);
+        }
+    }
+    return std::make_tuple(temp_machine1, temp_machine2, temp_machine3);
+}
+
+std::tuple<std::tuple<std::vector<Task>,std::vector<Task>,std::vector<Task>>,std::tuple<int,int,int>>PTAS_LSA_3(const std::vector<Task>& tasks, int P1_time, int P2_time, int P3_time){
+    std::vector<Task> rankedTasks = tasks;
+    std::vector<Task> P1; // Machine 1
+    std::vector<Task> P2; // Machine 2
+    std::vector<Task> P3; // Machine 3
+
+    for (int i = 0; i < rankedTasks.size(); i++)
+    {
+    if (P1_time <= P2_time && P1_time <= P3_time)
+    {
+        P1.push_back(rankedTasks[i]);
+        P1_time += rankedTasks[i].GetPj();
+    }
+    else if (P2_time <= P1_time && P2_time <= P3_time)
+    {
+        P2.push_back(rankedTasks[i]);
+        P2_time += rankedTasks[i].GetPj();
+    }
+    else
+    {
+        P3.push_back(rankedTasks[i]);
+        P3_time += rankedTasks[i].GetPj();
+    }
+    }
+    return std::make_tuple(std::make_tuple(P1, P2, P3), std::make_tuple(P1_time, P2_time, P3_time));
+}
+
+void Problem::PTAS_3(int k) const{
+    std::vector<Task> tasks = m_tasks;
+    // Step 1: Sort tasks by their processing time in descending order
+    std::sort(tasks.begin(), tasks.end(), [](const Task& a, const Task& b) {
+        return a.GetPj() > b.GetPj();
+    });
+
+    // Step 2: Take first 'k' amount of tasks and sort them using CompleteReview_2()
+    std::vector<Task> firstKTasks(tasks.begin(), tasks.begin() + k);
+    std::tuple<std::vector<Task>,std::vector<Task>,std::vector<Task>> schedule = PTAS_CR_3(firstKTasks);
+    std::vector<Task> machine_1 = std::get<0>(schedule);
+    std::vector<Task> machine_2 = std::get<1>(schedule);
+    std::vector<Task> machine_3 = std::get<2>(schedule);
+
+    int machine1_time=0;
+    int machine2_time=0;
+    int machine3_time=0;
+    for (int i=0; i<machine_1.size();i++) {
+        machine1_time+=machine_1[i].GetPj();
+    }
+    for (int i=0; i<machine_2.size();i++) {
+        machine2_time+=machine_2[i].GetPj();
+    }
+    for (int i=0; i<machine_3.size();i++) {
+        machine2_time+=machine_3[i].GetPj();
+    }
+
+    // Step 3: Take the rest of the tasks and sort them using LSA()
+    std::vector<Task> restTasks(tasks.begin() + k, tasks.end());
+    //std::pair<std::vector<Task>, std::vector<Task>> schedule2 = PTAS_LSA(restTasks, machine1_time, machine2_time);
+    //std::tuple<std::tuple<std::vector<Task>,std::vector<Task>,std::vector<Task>>,std::tuple<int,int,int>> 
+    auto [task, times] = PTAS_LSA_3(restTasks, machine1_time, machine2_time, machine3_time);
+    auto [temp1,temp2,temp3] = task;
+    //std::vector<Task> temp1 = std::get<1>(tasks);
+    auto [t1,t2,t3] = times;
+
+    machine1_time=t1;
+    machine2_time=t2;
+    machine3_time=t3;
+
+
+    machine_1.insert(machine_1.end(), temp1.begin(), temp1.end());
+    machine_2.insert(machine_2.end(), temp2.begin(), temp2.end());
+    machine_3.insert(machine_3.end(), temp3.begin(), temp3.end());
+
+    std::cout<<"Machine 1 tasks: ";
+    for (int i=0; i<machine_1.size();i++) {
+        //machine1_time+=machine1_tasks[i].GetPj();
+        std::cout<<machine_1[i].GetTaskId()<<", ";
+    }
+    std::cout<<std::endl<<"Machine 2 tasks: ";
+    for (int i=0; i<machine_2.size();i++) {
+        //machine2_time+=machine2_tasks[i].GetPj();
+        std::cout<<machine_2[i].GetTaskId()<<", ";
+    }
+    std::cout<<std::endl<<"Machine 3 tasks: ";
+    for (int i=0; i<machine_3.size();i++) {
+        //machine2_time+=machine2_tasks[i].GetPj();
+        std::cout<<machine_3[i].GetTaskId()<<", ";
+    }
+    int CMAX = std::max(machine1_time,std::max(machine2_time,machine3_time));
+    std::cout<<std::endl<<"CMAX: "<<CMAX<<std::endl;
+}
