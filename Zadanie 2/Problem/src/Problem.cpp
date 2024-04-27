@@ -354,8 +354,9 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
     int pSum = 0;
     for (int i = 0; i < tasks.size(); i++)
         pSum += tasks[i].GetPj();
-    int yzSize = std::max(maxPjTask.GetPj(), pSum / 3) + 1;
-    int xSize = tasks.size() + 1, ySize = yzSize, zSize = yzSize;
+    int xSize = std::max(maxPjTask.GetPj(), pSum / 3) + 1;
+    int yzSize = tasks.size() + 1;
+    int  ySize = yzSize, zSize = yzSize;
 
     std::cout << "xSize " << xSize << std::endl;
     std::cout << "ySize " << ySize << std::endl;
@@ -370,7 +371,7 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
         matrix[0][yz][0] = 1;
         matrix[0][0][yz] = 1;
     }
-    
+
     for (int x = 0; x < xSize; ++x)
     {
         std::cout << " -------- level " << x << " ------------ " << std::endl;
