@@ -19,6 +19,7 @@ private:
     std::vector<Task> m_tasks;
     mutable std::vector<Task> m_machine1;   // tasks ranked on first machine
     mutable std::vector<Task> m_machine2;   // tasks ranked on second machine
+    mutable std::vector<Task> m_machine3;   // tasks ranked on third machine
     int m_tasksNr;
 
     /* private methods */
@@ -28,6 +29,7 @@ private:
 
     void CompleteReview_alg(std::vector<Task>& tasks, int start, std::vector<std::vector<Task>>& permutations);
     void DynamicProgramming2D(const std::vector<Task> &tasks) const;
+    void DynamicProgramming3D(const std::vector<Task> &tasks) const;
 public:
     /* public methods */
     Problem(std::vector<Task> tasks);

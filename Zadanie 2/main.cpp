@@ -115,14 +115,15 @@ int main(int argc, char *argv[])
     //problem.LSA();
     //problem.CompleteReview_2();
     //problem.CompleteReview_3();
-    problem.PTAS_3(2);
+    // problem.PTAS_3(2);
     //problem.DisplayTasks();
     problem.DynamicProgramming2D();
-    problem.FPTAS(2);
+    // problem.FPTAS(2);
     //problem.PTAS_2(2);
-    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-std::cout << "Time taken: " << duration.count() << " microseconds" << std::endl;
+    problem.DynamicProgramming3D();
+//     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+//     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+// std::cout << "Time taken: " << duration.count() << " microseconds" << std::endl;
 
     return 0;
 }

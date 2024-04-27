@@ -249,6 +249,17 @@ void Problem::DynamicProgramming2D(const std::vector<Task> &tasks) const
         }
     }
 
+    // full fill teh matrix of zeros
+    for (int r = 0; r < rows; r++)
+    {
+        for (int c = 0; c < cols; c++)
+        {
+            std::cout << matrix[r][c] << " ";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+
     // find tasks which should be added to first machine
     std::vector<int> tasksIdFrorMachine1 = {};
     int r = rows - 1;
@@ -287,6 +298,73 @@ void Problem::DynamicProgramming2D(const std::vector<Task> &tasks) const
         else
             m_machine2.push_back(m_tasks[i]);
     }
+}
+
+void Problem::DynamicProgramming3D() const
+{
+    DynamicProgramming3D(m_tasks);
+    // display information
+    std::cout << "Dynamic Programming 3D scheduling" << std::endl;
+
+    int machine1 = 0;
+    std::cout << "Machine 1:" << std::endl;
+    for (int i = 0; i < m_machine1.size(); i++)
+    {
+        std::cout << m_machine1[i] << " ";
+        machine1 += m_machine1[i].GetPj();
+    }
+    std::cout << std::endl;
+
+    int machine2 = 0;
+    std::cout << "Machine 2:" << std::endl;
+    for (int i = 0; i < m_machine2.size(); i++)
+    {
+        std::cout << m_machine2[i] << " ";
+        machine2 += m_machine2[i].GetPj();
+    }
+    std::cout << std::endl;
+
+    int machine3 = 0;
+    std::cout << "Machine 3:" << std::endl;
+    for (int i = 0; i < m_machine3.size(); i++)
+    {
+        std::cout << m_machine3[i] << " ";
+        machine1 += m_machine3[i].GetPj();
+    }
+    std::cout << std::endl;
+    int max = std::max(machine2, machine1);
+    max = std::max(machine3, max);
+
+    std::cout << "Cmax: " << max << std::endl;
+    m_machine1.clear();
+    m_machine2.clear();
+    m_machine3.clear();
+}
+
+void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
+{
+    // prepare dimentions
+    Task maxPjTask = tasks[0];
+    auto maxPjTaskIterator = std::max_element(tasks.begin(), tasks.end(), [](const Task &a, const Task &b)
+                                      { return a.GetPj() < b.GetPj(); });
+    if (maxPjTaskIterator != tasks.end())
+        maxPjTask = *maxPjTaskIterator;
+    std::cout << "max pj " << maxPjTask.GetPj() << std::endl;
+
+    int pSum = 0;
+    for (int i = 0; i < tasks.size(); i++)
+        pSum += tasks[i].GetPj();
+    int taskTimeSum = std::max(maxPjTask.GetPj(), pSum / 3);
+    int xSize = tasks.size() + 1, ySize = taskTimeSum + 1, zSize = taskTimeSum + 1;
+
+    std::cout << "xSize " << xSize << std::endl;
+    std::cout << "ySize " << ySize << std::endl;
+    std::cout << "zSize " << zSize << std::endl;
+
+    // // create matrix
+    // int* matrix = new int[xSize * ySize * zSize];
+    // for (int i = 0; i < rows; ++i)
+    //     matrix[i] = new int[cols];
 }
 
 void Problem::FPTAS(const int k) const
