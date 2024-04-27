@@ -387,21 +387,6 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
         }
     }
 
-     for (int z = 1; z < ySize; z++)
-    {
-        for (int x = 0; x < xSize; x++)
-        {
-            if (matrix[x][0][z - 1] == 1)
-                 matrix[x][0][z] = 1;
-
-            if (x >= tasks[z - 1].GetPj())
-            {
-                if (matrix[x - tasks[z - 1].GetPj()][z - 1][0] == 1)
-                    matrix[x][0][z] = 1;
-            }
-        }
-    }
-
     for (int x = 0; x < xSize; ++x)
     {
         std::cout << " -------- level " << x << " ------------ " << std::endl;
