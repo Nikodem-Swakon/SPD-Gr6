@@ -361,7 +361,7 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
     std::cout << "ySize " << ySize << std::endl;
     std::cout << "zSize " << zSize << std::endl;
 
-    // create matrix
+    // create matrix and full fill of zeros
     std::vector<std::vector<std::vector<int>>> matrix(xSize,  std::vector<std::vector<int>>(ySize, std::vector<int>(zSize, 0)));
 
     for (int x = 0; x < xSize; ++x)
