@@ -353,53 +353,17 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
     int pSum = 0;
     for (int i = 0; i < tasks.size(); i++)
         pSum += tasks[i].GetPj();
-    int xSize = std::max(maxPjTask.GetPj(), pSum / 3) + 1;
-    int yzSize = tasks.size() + 1;
-    int ySize = yzSize, zSize = yzSize;
+    int nSize = std::max(maxPjTask.GetPj(), pSum / 3) + 1;
+    int xyzSize = tasks.size() + 1;
+    int xSize = xyzSize, ySize = xyzSize, zSize = xyzSize;
 
+    std::cout << "nSize " << nSize << std::endl;
     std::cout << "xSize " << xSize << std::endl;
     std::cout << "ySize " << ySize << std::endl;
     std::cout << "zSize " << zSize << std::endl;
 
     // create matrix and full fill of zeros
-    std::vector<std::vector<std::vector<int>>> matrix(xSize, std::vector<std::vector<int>>(ySize, std::vector<int>(zSize, 0)));
-
-    // ful fill the time response to 0 duration with 1
-    for (int yz = 0; yz < yzSize; yz++)
-    {
-        matrix[0][yz][0] = 1;
-        matrix[0][0][yz] = 1;
-    }
-
-    // full fill the matrixs
-    for (int y = 1; y < ySize; y++)
-    {
-        for (int x = 0; x < xSize; x++)
-        {
-            if (matrix[x][y - 1][0] == 1)
-                 matrix[x][y][0] = 1;
-
-            if (x >= tasks[y - 1].GetPj())
-            {
-                if (matrix[x - tasks[y - 1].GetPj()][y - 1][0] == 1)
-                    matrix[x][y][0] = 1;
-            }
-        }
-    }
-
-    for (int x = 0; x < xSize; ++x)
-    {
-        std::cout << " -------- level " << x << " ------------ " << std::endl;
-        for (int y = 0; y < ySize; ++y)
-        {
-            for (int z = 0; z < zSize; ++z)
-            {
-                std::cout << matrix[x][y][z] << " ";
-            }
-            std::cout << std::endl;
-        }
-    }
-
+    std::vector<std::vector<std::vector<std::vector<int>>>> matrix(nSize, std::vector<std::vector<std::vector<int>>>(xSize, std::vector<std::vector<int>>(ySize, std::vector<int>(zSize, 0))));
 }
 
 void Problem::FPTAS(const int k) const
