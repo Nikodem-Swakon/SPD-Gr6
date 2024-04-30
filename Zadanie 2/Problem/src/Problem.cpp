@@ -340,6 +340,8 @@ void Problem::DynamicProgramming3D() const
     m_machine3.clear();
 }
 
+/// @brief
+/// @param tasks vector with taks scheduled on machine
 void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
 {
     // prepare dimentions
@@ -363,9 +365,34 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
     std::cout << "zSize " << zSize << std::endl;
 
     // create matrix and full fill of zeros
-    std::vector<std::vector<std::vector<std::vector<int>>>> matrix(nSize, std::vector<std::vector<std::vector<int>>>(xSize, std::vector<std::vector<int>>(ySize, std::vector<int>(zSize, 0))));
+    std::vector<std::vector<std::vector<std::vector<int>>>> matrix(
+        nSize, std::vector<std::vector<std::vector<int>>>(
+                   xSize, std::vector<std::vector<int>>(
+                              ySize, std::vector<int>(
+                                         zSize, 0))));
+    matrix[0][0][0][0] = 1;
+
+    for (int n = 0; n < nSize; n++)
+    {
+
+        for (int x = 0; x < xSize; x++)
+        {
+            for (int y = 0; y < ySize; y++)
+            {
+                for (int z = 0; z < zSize; z++)
+                {
+                    std::cout << matrix[n][x][y][z] << " ";
+                }
+                std::cout << std::endl;
+            }
+            std::cout << std::endl;
+            std::cout << std::endl;
+        }
+    }
 }
 
+/// @brief
+/// @param k numebr of devide time in tasks
 void Problem::FPTAS(const int k) const
 {
     std::vector<Task> tasks = {};
