@@ -350,14 +350,14 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
                                               { return a.GetPj() < b.GetPj(); });
     if (maxPjTaskIterator != tasks.end())
         maxPjTask = *maxPjTaskIterator;
-    std::cout << "max pj " << maxPjTask.GetPj() << std::endl;
 
     int pSum = 0;
     for (int i = 0; i < tasks.size(); i++)
         pSum += tasks[i].GetPj();
-    int nSize = std::max(maxPjTask.GetPj(), pSum / 3) + 1;
-    int xyzSize = tasks.size() + 1;
-    int xSize = xyzSize, ySize = xyzSize, zSize = xyzSize;
+
+    int nSize = tasks.size() + 1;
+    int xyzSize = std::max(maxPjTask.GetPj(), pSum) + 1;
+    int xSize = xyzSize, ySize = xyzSize, zSize = 0;
 
     std::cout << "nSize " << nSize << std::endl;
     std::cout << "xSize " << xSize << std::endl;
@@ -365,30 +365,133 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
     std::cout << "zSize " << zSize << std::endl;
 
     // create matrix and full fill of zeros
-    std::vector<std::vector<std::vector<std::vector<int>>>> matrix(
-        nSize, std::vector<std::vector<std::vector<int>>>(
-                   xSize, std::vector<std::vector<int>>(
-                              ySize, std::vector<int>(
-                                         zSize, 0))));
-    matrix[0][0][0][0] = 1;
+    std::vector<std::vector<std::vector<int>>> matrix(
+        nSize, std::vector<std::vector<int>>(
+                   xSize, std::vector<int>(
+                              ySize, 0)));
 
-    for (int n = 0; n < nSize; n++)
+    matrix[0][0][0] = 1;
+
+    // full fill the matrix
+    for (int n = 1; n < nSize; n++)
     {
-
         for (int x = 0; x < xSize; x++)
         {
             for (int y = 0; y < ySize; y++)
             {
-                for (int z = 0; z < zSize; z++)
+                int pj = tasks[n - 1].GetPj();
+                if (x - pj >= 0)
                 {
-                    std::cout << matrix[n][x][y][z] << " ";
+                    if (matrix[n - 1][x - pj][y])
+                        matrix[n][x][y] = 1;
                 }
-                std::cout << std::endl;
+                if (y - pj >= 0)
+                {
+                    if (matrix[n - 1][x][y - pj])
+                        matrix[n][x][y] = 1;
+                }
+                // if (z - pj >= 0)
+                // {
+                //     if (matrix[n - 1][x][y][z - pj])
+                //         matrix[n][x][y][z] = 1;
+                // }
             }
-            std::cout << std::endl;
-            std::cout << std::endl;
         }
     }
+
+    for (int n = 0; n < nSize; n++)
+    {
+        std::cout << "for n " << n << std::endl;
+        for (int x = 0; x < xSize; x++)
+        {
+            for (int y = 0; y < ySize; y++)
+            {
+
+                std::cout << matrix[n][x][y] << " ";
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::endl;
+    }
+
+    // find optimal scheduling
+    std::vector<int> tasksIdFrorMachine1 = {};
+    std::vector<int> tasksIdFrorMachine2 = {};
+    std::vector<int> tasksIdFrorMachine3 = {};
+    int tv = xyzSize - 1;
+    int xn = nSize - 1;
+
+    // find last one
+    while (matrix[xn][tv][xyzSize - 1] == 0)
+    {
+        tv--;
+    }
+
+    // find on machine 1
+    // while (tv > 0)
+    // {
+    //     while ((matrix[n][tv][y][z] != 0))
+    //     {
+    //         --n;
+    //         if (n < 0)
+    //             break;
+    //     }
+    //     n++; // get back to last r which has 1
+    //     tasksIdFrorMachine1.push_back(n - 1);
+
+    //     // move to next colum directed by Pj
+    //     tv = tv - tasks[n - 1].GetPj();
+    // }
+
+    tv = xyzSize - 1;
+    xn = nSize - 1;
+
+    // find last one
+    while (matrix[xn][tv][xyzSize - 1] == 0)
+    {
+        tv--;
+    }
+
+    // find on machine 1
+    // while (tv > 0)
+    // {
+    //     while ((matrix[n][x][tv][z] != 0))
+    //     {
+    //         --n;
+    //         if (n < 0)
+    //             break;
+    //     }
+    //     n++; // get back to last r which has 1
+    //     tasksIdFrorMachine2.push_back(n - 1);
+
+    //     // move to next colum directed by Pj
+    //     tv = tv - tasks[n - 1].GetPj();
+    // }
+
+    tv = xyzSize - 1;
+    xn = nSize - 1;
+
+    // find last one
+    while (matrix[xn][tv][xyzSize - 1] == 0)
+    {
+        tv--;
+    }
+
+    // // find on machine 1
+    // while (tv > 0)
+    // {
+    //     while ((matrix[n][x][y][tv] != 0))
+    //     {
+    //         --n;
+    //         if (n < 0)
+    //             break;
+    //     }
+    //     n++; // get back to last r which has 1
+    //     tasksIdFrorMachine3.push_back(n - 1);
+
+    //     // move to next colum directed by Pj
+    //     tv = tv - tasks[n - 1].GetPj();
+    // }
 }
 
 /// @brief
