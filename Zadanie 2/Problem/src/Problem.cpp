@@ -443,31 +443,6 @@ void Problem::DynamicProgramming3DBase(const std::vector<Task> &tasks) const
 
     cMax = maxTemp;
     std::cout << "cMax=" << cMax << std::endl;
-    // // find last one
-    // while (matrix[xn][tvx][tvy] == 0)
-    // {
-    //     for (tvy = 0; tvy < ySize; tvy++)
-    //     {
-    //          tv--;
-    //     }
-
-    // }
-
-    // find on machine 1
-    // while (tv > 0)
-    // {
-    //     while ((matrix[n][tv][y][z] != 0))
-    //     {
-    //         --n;
-    //         if (n < 0)
-    //             break;
-    //     }
-    //     n++; // get back to last r which has 1
-    //     tasksIdFrorMachine1.push_back(n - 1);
-
-    //     // move to next colum directed by Pj
-    //     tv = tv - tasks[n - 1].GetPj();
-    // }
 }
 
 /// @brief
