@@ -413,14 +413,53 @@ void Problem::DynamicProgramming3DBase(const std::vector<Task> &tasks) const
     std::vector<int> tasksIdFrorMachine1 = {};
     std::vector<int> tasksIdFrorMachine2 = {};
     std::vector<int> tasksIdFrorMachine3 = {};
-    int maxTemp = 0, tvxMax = 0;
-    int x = 0, y = xyzSize - 1, cMax = xyzSize - 1;
+    int maxTvx = xyzSize - 1, maxTvy = xyzSize - 1;
+    int x = xyzSize - 1, y = xyzSize - 1, cMax = xyzSize - 1;
     int xn = nSize - 1;
+    char maxAxis;
 
     std::cout << "x: " << x << std::endl;
     std::cout << "y: " << y << std::endl;
     std::cout << "xn: " << xn << std::endl;
 
+    // find max x
+    while (x >= 0 && y >= 0)
+    {
+        if (matrix[xn][x][y] == 1)
+            break;
+        y--;
+        if (y <= 0)
+        {
+            y = xyzSize - 1;
+            x--;
+        }
+    }
+    maxTvx = x;
+
+    x = xyzSize - 1;
+    y = xyzSize - 1;
+    // find max y
+    while (x >= 0 && y >= 0)
+    {
+        if (matrix[xn][x][y] == 1)
+            break;
+        x--;
+        if (x <= 0)
+        {
+            x = xyzSize - 1;
+            y--;
+        }
+    }
+    maxTvy = y;
+
+    if (maxTvx > maxTvy)
+        maxAxis = 'x';
+    else
+        maxAxis = 'y';
+    cMax = std::max(maxTvx, maxTvy);
+
+    x = xyzSize - 1;
+    y = xyzSize - 1;
     // find max
     do
     {
@@ -428,21 +467,156 @@ void Problem::DynamicProgramming3DBase(const std::vector<Task> &tasks) const
         if (matrix[xn][x][y] == 1)
         {
             std::cout << "zapisano" << std::endl;
-            maxTemp = y;
+            if (maxAxis == 'x')
+                cMax = x;
+            else    
+                cMax = y;
         }
 
-        x++;
-        if (x > y)
+        if (maxAxis == 'x')
+        {
+            y--;
+            if ( y <= 0)
+            {
+                std::cout << "poprawka" << std::endl;
+                x--;
+                y = x;
+                std::cout << "x " << x << " y " << y << std::endl;
+            }
+        }
+        else if (maxAxis == 'y')
+        {
+            x--;
+            if (x <= 0)
+            {
+                std::cout << "poprawka" << std::endl;
+                y--;
+                x = y;
+                std::cout << "x " << x << " y " << y << std::endl;
+            }
+        }
+
+    } while (x >= 0 && y >= 0);
+
+    std::cout << "cMax=" << cMax << std::endl;
+}
+
+/// @brief
+/// @param tasks vector with taks scheduled on machine
+void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
+{
+    // prepare dimentions
+    Task maxPjTask = tasks[0];
+    auto maxPjTaskIterator = std::max_element(tasks.begin(), tasks.end(), [](const Task &a, const Task &b)
+                                              { return a.GetPj() < b.GetPj(); });
+    if (maxPjTaskIterator != tasks.end())
+        maxPjTask = *maxPjTaskIterator;
+
+    int pSum = 0;
+    for (int i = 0; i < tasks.size(); i++)
+        pSum += tasks[i].GetPj();
+
+    int nSize = tasks.size() + 1;
+    int xyzSize = std::max(maxPjTask.GetPj(), pSum) + 1;
+    int xSize = xyzSize, ySize = xyzSize, zSize = xyzSize;
+
+    std::cout << "nSize " << nSize << std::endl;
+    std::cout << "xSize " << xSize << std::endl;
+    std::cout << "ySize " << ySize << std::endl;
+    std::cout << "zSize " << zSize << std::endl;
+
+    // create matrix and full fill of zeros
+    std::vector<std::vector<std::vector<std::vector<int>>>> matrix(
+        nSize, std::vector<std::vector<std::vector<int>>>(
+                   xSize, std::vector<std::vector<int>>(
+                              ySize, std::vector<int>(
+                                         zSize, 0))));
+
+    matrix[0][0][0][0] = 1;
+
+    // full fill the matrix
+    for (int n = 1; n < nSize; n++)
+    {
+        for (int x = 0; x < xSize; x++)
+        {
+            for (int y = 0; y < ySize; y++)
+            {
+                for (int z = 0; z < ySize; z++)
+                {
+                    int pj = tasks[n - 1].GetPj();
+                    if (x - pj >= 0)
+                    {
+                        if (matrix[n - 1][x - pj][y][z])
+                            matrix[n][x][y][z] = 1;
+                    }
+                    if (y - pj >= 0)
+                    {
+                        if (matrix[n - 1][x][y - pj][z])
+                            matrix[n][x][y][z] = 1;
+                    }
+                    if (y - pj >= 0)
+                    {
+                        if (matrix[n - 1][x][y][z - pj])
+                            matrix[n][x][y][z] = 1;
+                    }
+                }
+            }
+        }
+    }
+
+    for (int n = 0; n < nSize; n++)
+    {
+        std::cout << "for n " << n << std::endl;
+        for (int x = 0; x < xSize; x++)
+        {
+            std::cout << "for x " << x << std::endl;
+            for (int y = 0; y < ySize; y++)
+            {
+                for (int z = 0; z < ySize; z++)
+                {
+                    std::cout << matrix[n][x][y][z] << " ";
+                }
+                std::cout << std::endl;
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::endl;
+    }
+
+    // find optimal scheduling
+    std::vector<int> tasksIdFrorMachine1 = {};
+    std::vector<int> tasksIdFrorMachine2 = {};
+    std::vector<int> tasksIdFrorMachine3 = {};
+    int maxTemp = 0, tvxMax = 0;
+    int x = 0, z = 0, y = xyzSize - 1, cMax = xyzSize - 1;
+    int xn = nSize - 1;
+
+    std::cout << "x: " << x << std::endl;
+    std::cout << "y: " << y << std::endl;
+    std::cout << "xn: " << xn << std::endl;
+
+    // // find max
+    do
+    {
+        std::cout << "matrix[" << xn << "][" << x << "][" << y << "][" << z << "] = " << matrix[xn][x][y][z] << std::endl;
+        if (matrix[xn][x][y][z] == 1)
+        {
+            std::cout << "zapisano" << std::endl;
+            maxTemp = z;
+        }
+
+        y++;
+        if (y > z)
         {
             std::cout << "poprawka" << std::endl;
             y--;
             x = 0;
             std::cout << "x " << x << " y " << y << std::endl;
         }
-    } while (x <= y && x >= 0 && y > 0);
+    } while (x <= y && x >= 0 && y > 0 && z >= 0);
 
     cMax = maxTemp;
-    std::cout << "cMax=" << cMax << std::endl;
+    // std::cout << "cMax=" << cMax << std::endl;
 }
 
 /// @brief
