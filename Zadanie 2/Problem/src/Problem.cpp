@@ -301,7 +301,7 @@ void Problem::DynamicProgramming2D(const std::vector<Task> &tasks) const
 
 void Problem::DynamicProgramming3D() const
 {
-    DynamicProgramming3DBase(m_tasks);
+    DynamicProgramming3D(m_tasks);
     // display information
     std::cout << "Dynamic Programming 3D scheduling" << std::endl;
 
@@ -469,14 +469,14 @@ void Problem::DynamicProgramming3DBase(const std::vector<Task> &tasks) const
             std::cout << "zapisano" << std::endl;
             if (maxAxis == 'x')
                 cMax = x;
-            else    
+            else
                 cMax = y;
         }
 
         if (maxAxis == 'x')
         {
             y--;
-            if ( y <= 0)
+            if (y <= 0)
             {
                 std::cout << "poprawka" << std::endl;
                 x--;
@@ -564,59 +564,166 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
         }
     }
 
-    for (int n = 0; n < nSize; n++)
-    {
-        std::cout << "for n " << n << std::endl;
-        for (int x = 0; x < xSize; x++)
-        {
-            std::cout << "for x " << x << std::endl;
-            for (int y = 0; y < ySize; y++)
-            {
-                for (int z = 0; z < ySize; z++)
-                {
-                    std::cout << matrix[n][x][y][z] << " ";
-                }
-                std::cout << std::endl;
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
-    }
+    // for (int n = 0; n < nSize; n++)
+    // {
+    //     std::cout << "for n " << n << std::endl;
+    //     for (int x = 0; x < xSize; x++)
+    //     {
+    //         std::cout << "for x " << x << std::endl;
+    //         for (int y = 0; y < ySize; y++)
+    //         {
+    //             for (int z = 0; z < ySize; z++)
+    //             {
+    //                 std::cout << matrix[n][x][y][z] << " ";
+    //             }
+    //             std::cout << std::endl;
+    //         }
+    //         std::cout << std::endl;
+    //     }
+    //     std::cout << std::endl;
+    // }
 
     // find optimal scheduling
     std::vector<int> tasksIdFrorMachine1 = {};
     std::vector<int> tasksIdFrorMachine2 = {};
     std::vector<int> tasksIdFrorMachine3 = {};
-    int maxTemp = 0, tvxMax = 0;
-    int x = 0, z = 0, y = xyzSize - 1, cMax = xyzSize - 1;
+    int x = xyzSize - 1, y = xyzSize - 1, z = xyzSize - 1, cMax = xyzSize - 1;
     int xn = nSize - 1;
+    char maxAxis = 'a';
 
-    std::cout << "x: " << x << std::endl;
-    std::cout << "y: " << y << std::endl;
-    std::cout << "xn: " << xn << std::endl;
+    // std::cout << "x: " << x << std::endl;
+    // std::cout << "y: " << y << std::endl;
+    // std::cout << "z: " << z << std::endl;
+    // std::cout << "xn: " << xn << std::endl;
 
-    // // find max
+    // find max x
+    while (x >= 0 && y >= 0 && z >= 0)
+    {
+        for (y = xyzSize - 1; y > 0; y--)
+        {
+            for (z = xyzSize - 1; z > 0; z--)
+            {
+                if (matrix[xn][x][y][z] == 1)
+                    break;
+            }
+            if (matrix[xn][x][y][z] == 1)
+                break;
+        }
+        if (matrix[xn][x][y][z] == 1)
+            break;
+
+        x--;
+    }
+    const int maxTvx = x;
+
+    x = xyzSize - 1;
+    y = xyzSize - 1;
+    z = xyzSize - 1;
+    // find max y
+    while (x >= 0 && y >= 0 && z >= 0)
+    {
+        for (x = xyzSize - 1; x > 0; x--)
+        {
+            for (z = xyzSize - 1; z > 0; z--)
+            {
+                if (matrix[xn][x][y][z] == 1)
+                    break;
+            }
+            if (matrix[xn][x][y][z] == 1)
+                break;
+        }
+        if (matrix[xn][x][y][z] == 1)
+            break;
+
+        y--;
+    }
+    const int maxTvy = y;
+
+    x = xyzSize - 1;
+    y = xyzSize - 1;
+    z = xyzSize - 1;
+    // find max y
+    while (x >= 0 && y >= 0 && z >= 0)
+    {
+        for (x = xyzSize - 1; x > 0; x--)
+        {
+            for (y = xyzSize - 1; y > 0; y--)
+            {
+                if (matrix[xn][x][y][z] == 1)
+                    break;
+            }
+            if (matrix[xn][x][y][z] == 1)
+                break;
+        }
+        if (matrix[xn][x][y][z] == 1)
+            break;
+
+        z--;
+    }
+    const int maxTvz = z;
+
+    cMax = std::max(std::max(maxTvx, maxTvy), maxTvz);
+
+    if (cMax == maxTvx)
+        maxAxis = 'x';
+    else if (cMax == maxTvx)
+        maxAxis = 'y';
+    else if (cMax == maxTvx)
+        maxAxis = 'z';
+
+    x = xyzSize - 1;
+    y = xyzSize - 1;
+    z = xyzSize - 1;
+
+    // std::cout << "cMax " << cMax << " dla osi " << maxAxis << std::endl;
+    // std::cout << "minimalizacja cMaxa" << std::endl;
+    // find max
     do
     {
-        std::cout << "matrix[" << xn << "][" << x << "][" << y << "][" << z << "] = " << matrix[xn][x][y][z] << std::endl;
-        if (matrix[xn][x][y][z] == 1)
-        {
-            std::cout << "zapisano" << std::endl;
-            maxTemp = z;
-        }
+        // std::cout << "matrix[" << xn << "][" << x << "][" << y << "][" << z << "]= " << matrix[xn][x][y][z] << std::endl;
 
-        y++;
-        if (y > z)
+        if (maxAxis == 'x')
         {
-            std::cout << "poprawka" << std::endl;
+            x--;
+
+            for (y = x; y > 0; y--)
+            {
+                for (z = x; z > 0; z--)
+                {
+                    if (matrix[xn][x][y][z] == 1)
+                        cMax = x;
+                }
+            }
+        }
+        else if (maxAxis == 'y')
+        {
             y--;
-            x = 0;
-            std::cout << "x " << x << " y " << y << std::endl;
-        }
-    } while (x <= y && x >= 0 && y > 0 && z >= 0);
 
-    cMax = maxTemp;
-    // std::cout << "cMax=" << cMax << std::endl;
+            for (x = y; x > 0; x--)
+            {
+                for (z = y; z > 0; z--)
+                {
+                    if (matrix[xn][x][y][z] == 1)
+                        cMax = y;
+                }
+            }
+        }
+        else if (maxAxis == 'z')
+        {
+            z--;
+            for (x = z; x > 0; x--)
+            {
+                for (y = z; y > 0; y--)
+                {
+                    if (matrix[xn][x][y][z] == 1)
+                        cMax = z;
+                }
+            }
+        }
+
+    } while (x >= 0 && y >= 0 && z >= 0);
+
+    std::cout << "cMax=" << cMax << std::endl;
 }
 
 /// @brief
