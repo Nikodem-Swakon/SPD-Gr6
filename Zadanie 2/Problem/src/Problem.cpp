@@ -301,7 +301,7 @@ void Problem::DynamicProgramming2D(const std::vector<Task> &tasks) const
 
 void Problem::DynamicProgramming3D() const
 {
-    DynamicProgramming3D(m_tasks);
+    DynamicProgramming3DBase(m_tasks);
     // display information
     std::cout << "Dynamic Programming 3D scheduling" << std::endl;
 
@@ -342,7 +342,7 @@ void Problem::DynamicProgramming3D() const
 
 /// @brief
 /// @param tasks vector with taks scheduled on machine
-void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
+void Problem::DynamicProgramming3DBase(const std::vector<Task> &tasks) const
 {
     // prepare dimentions
     Task maxPjTask = tasks[0];
@@ -390,11 +390,6 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
                     if (matrix[n - 1][x][y - pj])
                         matrix[n][x][y] = 1;
                 }
-                // if (z - pj >= 0)
-                // {
-                //     if (matrix[n - 1][x][y][z - pj])
-                //         matrix[n][x][y][z] = 1;
-                // }
             }
         }
     }
@@ -418,14 +413,45 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
     std::vector<int> tasksIdFrorMachine1 = {};
     std::vector<int> tasksIdFrorMachine2 = {};
     std::vector<int> tasksIdFrorMachine3 = {};
-    int tv = xyzSize - 1;
+    int maxTemp = 0, tvxMax = 0;
+    int x = 0, y = xyzSize - 1, cMax = xyzSize - 1;
     int xn = nSize - 1;
 
-    // find last one
-    while (matrix[xn][tv][xyzSize - 1] == 0)
+    std::cout << "x: " << x << std::endl;
+    std::cout << "y: " << y << std::endl;
+    std::cout << "xn: " << xn << std::endl;
+
+    // find max
+    do
     {
-        tv--;
-    }
+        std::cout << "matrix[" << xn << "][" << x << "][" << y << "] = " << matrix[xn][x][y] << std::endl;
+        if (matrix[xn][x][y] == 1)
+        {
+            std::cout << "zapisano" << std::endl;
+            maxTemp = y;
+        }
+
+        x++;
+        if (x > y)
+        {
+            std::cout << "poprawka" << std::endl;
+            y--;
+            x = 0;
+            std::cout << "x " << x << " y " << y << std::endl;
+        }
+    } while (x <= y && x >= 0 && y > 0);
+
+    cMax = maxTemp;
+    std::cout << "cMax=" << cMax << std::endl;
+    // // find last one
+    // while (matrix[xn][tvx][tvy] == 0)
+    // {
+    //     for (tvy = 0; tvy < ySize; tvy++)
+    //     {
+    //          tv--;
+    //     }
+
+    // }
 
     // find on machine 1
     // while (tv > 0)
@@ -438,56 +464,6 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
     //     }
     //     n++; // get back to last r which has 1
     //     tasksIdFrorMachine1.push_back(n - 1);
-
-    //     // move to next colum directed by Pj
-    //     tv = tv - tasks[n - 1].GetPj();
-    // }
-
-    tv = xyzSize - 1;
-    xn = nSize - 1;
-
-    // find last one
-    while (matrix[xn][tv][xyzSize - 1] == 0)
-    {
-        tv--;
-    }
-
-    // find on machine 1
-    // while (tv > 0)
-    // {
-    //     while ((matrix[n][x][tv][z] != 0))
-    //     {
-    //         --n;
-    //         if (n < 0)
-    //             break;
-    //     }
-    //     n++; // get back to last r which has 1
-    //     tasksIdFrorMachine2.push_back(n - 1);
-
-    //     // move to next colum directed by Pj
-    //     tv = tv - tasks[n - 1].GetPj();
-    // }
-
-    tv = xyzSize - 1;
-    xn = nSize - 1;
-
-    // find last one
-    while (matrix[xn][tv][xyzSize - 1] == 0)
-    {
-        tv--;
-    }
-
-    // // find on machine 1
-    // while (tv > 0)
-    // {
-    //     while ((matrix[n][x][y][tv] != 0))
-    //     {
-    //         --n;
-    //         if (n < 0)
-    //             break;
-    //     }
-    //     n++; // get back to last r which has 1
-    //     tasksIdFrorMachine3.push_back(n - 1);
 
     //     // move to next colum directed by Pj
     //     tv = tv - tasks[n - 1].GetPj();

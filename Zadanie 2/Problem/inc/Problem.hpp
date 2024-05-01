@@ -30,6 +30,7 @@ private:
     void CompleteReview_alg(std::vector<Task>& tasks, int start, std::vector<std::vector<Task>>& permutations);
     void DynamicProgramming2D(const std::vector<Task> &tasks) const;
     void DynamicProgramming3D(const std::vector<Task> &tasks) const;
+    void DynamicProgramming3DBase(const std::vector<Task> &tasks) const;
 public:
     /* public methods */
     Problem(std::vector<Task> tasks);
