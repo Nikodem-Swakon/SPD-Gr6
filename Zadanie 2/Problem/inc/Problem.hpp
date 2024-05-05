@@ -23,6 +23,7 @@ private:
     mutable std::vector<Task> m_machine2; // tasks ranked on second machine
     mutable std::vector<Task> m_machine3; // tasks ranked on third machine
     int m_tasksNr;
+    mutable int m_cMax;
 
     /* private methods */
     Node CreateNodeQj(int lowBarier, Node parent, int upBarier) const;

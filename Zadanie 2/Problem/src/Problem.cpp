@@ -293,9 +293,20 @@ void Problem::DynamicProgramming2D(const std::vector<Task> &tasks) const
     {
         auto it = std::find(tasksIdFrorMachine1.begin(), tasksIdFrorMachine1.end(), (tasks[i].GetTaskId() - 1)); // there is numeration from 1
         if (it != tasksIdFrorMachine1.end())
-            m_machine1.push_back(m_tasks[i]);
+        {
+            if (tasks.size() != m_tasks.size())
+                m_machine1.push_back(tasks[i]);
+            else
+                m_machine1.push_back(m_tasks[i]);
+        }
+
         else
-            m_machine2.push_back(m_tasks[i]);
+        {
+            if (tasks.size() != m_tasks.size())
+                m_machine2.push_back(tasks[i]);
+            else
+                m_machine2.push_back(m_tasks[i]);
+        }
     }
 }
 
@@ -328,13 +339,14 @@ void Problem::DynamicProgramming3D() const
     for (int i = 0; i < m_machine3.size(); i++)
     {
         std::cout << m_machine3[i] << " ";
-        machine1 += m_machine3[i].GetPj();
+        machine3 += m_machine3[i].GetPj();
     }
     std::cout << std::endl;
     int max = std::max(machine2, machine1);
     max = std::max(machine3, max);
+    std::cout << "max? " << max << std::endl;
 
-    std::cout << "Cmax: " << max << std::endl;
+    std::cout << "Cmax: " << m_cMax << std::endl;
     m_machine1.clear();
     m_machine2.clear();
     m_machine3.clear();
@@ -564,46 +576,115 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
         }
     }
 
-    // for (int n = 0; n < nSize; n++)
-    // {
-    //     std::cout << "for n " << n << std::endl;
-    //     for (int x = 0; x < xSize; x++)
-    //     {
-    //         std::cout << "for x " << x << std::endl;
-    //         for (int y = 0; y < ySize; y++)
-    //         {
-    //             for (int z = 0; z < ySize; z++)
-    //             {
-    //                 std::cout << matrix[n][x][y][z] << " ";
-    //             }
-    //             std::cout << std::endl;
-    //         }
-    //         std::cout << std::endl;
-    //     }
-    //     std::cout << std::endl;
-    // }
-
     // find optimal scheduling
-    std::vector<int> tasksIdFrorMachine1 = {};
-    std::vector<int> tasksIdFrorMachine2 = {};
     std::vector<int> tasksIdFrorMachine3 = {};
     int x = xyzSize - 1, y = xyzSize - 1, z = xyzSize - 1, cMax = xyzSize - 1;
     int xn = nSize - 1;
     char maxAxis = 'n';
 
-    // std::cout << "x: " << x << std::endl;
-    // std::cout << "y: " << y << std::endl;
-    // std::cout << "z: " << z << std::endl;
-    // std::cout << "xn: " << xn << std::endl;
-
+    // find max axis and tv max for the axis
     cMax = FindTv(matrix, xn, maxAxis, xyzSize);
 
-    // std::cout << "cMax " << cMax << " dla osi " << maxAxis << std::endl;
-    // std::cout << "minimalizacja cMaxa" << std::endl;
+    // find tasks for machine 3
+    for (int n = 1; n < xn; n++)
+    {
+        int tvMax = FindTv(matrix, n, maxAxis, xyzSize);
+        bool exist = false;
+        // find 1 if exist
+        if (maxAxis == 'x')
+        {
+            for (int x = 0; x <= tvMax; x++)
+            {
+                exist = false;
+                for (int y = 0; y < ySize; y++)
+                {
+                    for (int z = 0; z < zSize; z++)
+                    {
+                        if (matrix[n][x][y][z] == 1)
+                        {
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (exist)
+                        break;
+                }
+                if (!exist)
+                    break;
+            }
+        }
+        else if (maxAxis == 'x')
+        {
+            for (int y = 0; y <= tvMax; y++)
+            {
+                exist = false;
+                for (int x = 0; x < ySize; x++)
+                {
+                    for (int z = 0; z < zSize; z++)
+                    {
+                        if (matrix[n][x][y][z] == 1)
+                        {
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (exist)
+                        break;
+                }
+                if (!exist)
+                    break;
+            }
+        }
+        else if (maxAxis == 'x')
+        {
+            for (int z = 0; z <= tvMax; z++)
+            {
+                exist = false;
+                for (int y = 0; y < ySize; y++)
+                {
+                    for (int x = 0; x < xSize; x++)
+                    {
+                        if (matrix[n][x][y][z] == 1)
+                        {
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (exist)
+                        break;
+                }
+                if (!exist)
+                    break;
+            }
+        }
+
+        if (exist)
+            tasksIdFrorMachine3.push_back(n - 1);
+    }
+
+    // find the rest of tasks
+    std::vector<Task> tasksForMachine1and2 = {};
+    for (int i = 0; i < tasks.size(); i++)
+    {
+        auto it = std::find(tasksIdFrorMachine3.begin(), tasksIdFrorMachine3.end(), (tasks[i].GetTaskId() - 1)); // there is numeration from 1
+        if (it != tasksIdFrorMachine3.end())
+        {
+            m_machine3.push_back(m_tasks[i]);
+            std::cout << "dodano do maszyny3 " << m_tasks[i] << std::endl;
+        }
+        else
+        {
+            tasksForMachine1and2.push_back(m_tasks[i]);
+            std::cout << "dodano do maszyny1i2 " << m_tasks[i] << std::endl;
+        }
+    }
+
+    // find optimal solution for 2 machines
+    DynamicProgramming2D(tasksForMachine1and2);
+
     // find max
     do
     {
-        // std::cout << "matrix[" << xn << "][" << x << "][" << y << "][" << z << "]= " << matrix[xn][x][y][z] << std::endl;
 
         if (maxAxis == 'x')
         {
@@ -647,8 +728,21 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
     } while (x >= 0 && y >= 0 && z >= 0);
 
     // find task for first machine
-
+    m_cMax = cMax;
     std::cout << "cMax=" << cMax << std::endl;
+
+    std::cout << "tasks ID From MAchine 3" << std::endl;
+    for (int i = 0; i < m_machine3.size(); i++)
+    {
+        std::cout << m_machine3[i] << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "tasks ID From tasksForMachine1and2" << std::endl;
+    for (int i = 0; i < tasksForMachine1and2.size(); i++)
+    {
+        std::cout << tasksForMachine1and2[i] << " ";
+    }
+    std::cout << std::endl;
 }
 
 int Problem::FindTv(cube &matrix, int xn, char &maxAxis, int xyzSize) const
