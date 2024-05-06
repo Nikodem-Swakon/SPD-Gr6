@@ -121,7 +121,7 @@ std::cout << "Time LPT: " << duration.count() << " microseconds" << std::endl;
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 std::cout << "Time LSA: " << duration.count() << " microseconds" << std::endl;
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-    problem.CompleteReview_2();
+     problem.CompleteReview_2();
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 std::cout << "Time CR2: " << duration.count() << " microseconds" << std::endl;
@@ -129,12 +129,12 @@ std::cout << "Time CR2: " << duration.count() << " microseconds" << std::endl;
 
 
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-    //problem.CompleteReview_3();
+    problem.CompleteReview_3();
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 std::cout << "Time CR3: " << duration.count() << " microseconds" << std::endl;
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-    problem.PTAS_3(2);
+    // problem.PTAS_3(2);
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 std::cout << "Time PTAS3: " << duration.count() << " microseconds" << std::endl;
@@ -158,6 +158,8 @@ std::cout << "Time FPTAS2: " << duration.count() << " microseconds" << std::endl
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 std::cout << "Time PTAS2: " << duration.count() << " microseconds" << std::endl;
+
+ problem.DynamicProgramming3D();
 
     return 0;
 }
