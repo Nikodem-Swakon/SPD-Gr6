@@ -134,7 +134,7 @@ std::cout << "Time CR2: " << duration.count() << " microseconds" << std::endl;
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 std::cout << "Time CR3: " << duration.count() << " microseconds" << std::endl;
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-    // problem.PTAS_3(2);
+     problem.PTAS_3(2);
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 std::cout << "Time PTAS3: " << duration.count() << " microseconds" << std::endl;
