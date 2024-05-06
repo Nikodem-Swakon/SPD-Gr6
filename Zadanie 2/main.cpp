@@ -111,18 +111,53 @@ int main(int argc, char *argv[])
     readFromFile(filename, taskVector);
     Problem problem(taskVector);
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-    //problem.LPT();
-    //problem.LSA();
-    //problem.CompleteReview_2();
-    //problem.CompleteReview_3();
-    problem.PTAS_3(2);
-    //problem.DisplayTasks();
-    //problem.DynamicProgramming2D();
-    //problem.FPTAS(2);
-    //problem.PTAS_2(2);
+    problem.LPT();
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-std::cout << "Time taken: " << duration.count() << " microseconds" << std::endl;
+std::cout << "Time LPT: " << duration.count() << " microseconds" << std::endl;
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+    problem.LSA();
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+std::cout << "Time LSA: " << duration.count() << " microseconds" << std::endl;
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+    problem.CompleteReview_2();
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+std::cout << "Time CR2: " << duration.count() << " microseconds" << std::endl;
+
+
+
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+    //problem.CompleteReview_3();
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+std::cout << "Time CR3: " << duration.count() << " microseconds" << std::endl;
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+    problem.PTAS_3(2);
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+std::cout << "Time PTAS3: " << duration.count() << " microseconds" << std::endl;
+    //std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+    //problem.DisplayTasks();
+    //std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    //auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+//std::cout << "Time LPT: " << duration.count() << " microseconds" << std::endl;
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+    problem.DynamicProgramming2D();
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+std::cout << "Time DP2: " << duration.count() << " microseconds" << std::endl;
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+    problem.FPTAS(2);
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+std::cout << "Time FPTAS2: " << duration.count() << " microseconds" << std::endl;
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+    problem.PTAS_2(2);
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+std::cout << "Time PTAS2: " << duration.count() << " microseconds" << std::endl;
 
     return 0;
 }
