@@ -346,7 +346,7 @@ void Problem::DynamicProgramming3D() const
     max = std::max(machine3, max);
     // std::cout << "max? " << max << std::endl;
 
-    std::cout << "Cmax: " << m_cMax << std::endl;
+    std::cout << "Cmax: " << m_cMax << std::endl;  // zmieniajac na max uzyskamy leszpe ale nadal złe wyniki
     m_machine1.clear();
     m_machine2.clear();
     m_machine3.clear();

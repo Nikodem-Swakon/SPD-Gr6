@@ -110,6 +110,7 @@ int main(int argc, char *argv[])
     std::vector<Task> taskVector;
     readFromFile(filename, taskVector);
     Problem problem(taskVector);
+    /*
 std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  LSA  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
 
     std::chrono::high_resolution_clock::time_point startLSA = std::chrono::high_resolution_clock::now();
@@ -147,13 +148,14 @@ std::chrono::high_resolution_clock::time_point startDynamicProgramming3D = std::
 std::cout << "Time DP3: " << durationDynamicProgramming3D.count() << " microseconds" << std::endl;
 std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COMPLETE REVIEV 2%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
 
+
     std::chrono::high_resolution_clock::time_point startCompleteReview_2 = std::chrono::high_resolution_clock::now();
      problem.CompleteReview_2();
     std::chrono::high_resolution_clock::time_point endCompleteReview_2 = std::chrono::high_resolution_clock::now();
     auto durationCompleteReview_2 = std::chrono::duration_cast<std::chrono::microseconds>(endCompleteReview_2 - startCompleteReview_2);
 std::cout << "Time CR2: " << durationCompleteReview_2.count() << " microseconds" << std::endl;
 std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   COMPLETE REVIEV 3%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
-
+*/
     std::chrono::high_resolution_clock::time_point startCompleteReview_3 = std::chrono::high_resolution_clock::now();
     problem.CompleteReview_3();
     std::chrono::high_resolution_clock::time_point endCompleteReview_3 = std::chrono::high_resolution_clock::now();
@@ -163,14 +165,14 @@ std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  PTAS 2 %%%%%%%%%%%%%%%%%%%
 
 
 
-
+/*
     std::chrono::high_resolution_clock::time_point startPTAS_2 = std::chrono::high_resolution_clock::now();
     problem.PTAS_2(2);
     std::chrono::high_resolution_clock::time_point endPTAS_2 = std::chrono::high_resolution_clock::now();
     auto durationPTAS_2 = std::chrono::duration_cast<std::chrono::microseconds>(endPTAS_2 - startPTAS_2);
 std::cout << "Time PTAS2: " << durationPTAS_2.count() << " microseconds" << std::endl;
 std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  PTAS 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
-
+*/
 
 
 
