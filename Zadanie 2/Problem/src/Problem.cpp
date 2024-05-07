@@ -103,7 +103,6 @@ void Problem::LSA() const
     }
     std::cout << std::endl;
 }
-// Permutation Problem::Dynamic_2() const {}
 
 void Problem::CompleteReview_2() const
 {
@@ -301,7 +300,8 @@ void Problem::DynamicProgramming2D(const std::vector<Task> &tasks) const
 
 void Problem::DynamicProgramming3D() const
 {
-    std::cout << std::endl <<  "Dyamic programming for 3 machines" << std::endl;
+    std::cout << std::endl
+              << "Dyamic programming for 3 machines" << std::endl;
     DynamicProgramming3D(m_tasks);
     // display information
 
@@ -334,7 +334,7 @@ void Problem::DynamicProgramming3D() const
     int max = std::max(machine2, machine1);
     max = std::max(machine3, max);
 
-    std::cout << "Cmax: " << m_cMax << std::endl;
+    std::cout << "Cmax: " << max << std::endl;
     m_machine1.clear();
     m_machine2.clear();
     m_machine3.clear();
@@ -344,130 +344,38 @@ void Problem::DynamicProgramming3D() const
 /// @param tasks vector with taks scheduled on machine
 void Problem::DynamicProgramming3DBase(const std::vector<Task> &tasks) const
 {
-    // prepare dimentions
-    Task maxPjTask = tasks[0];
-    auto maxPjTaskIterator = std::max_element(tasks.begin(), tasks.end(), [](const Task &a, const Task &b)
-                                              { return a.GetPj() < b.GetPj(); });
-    if (maxPjTaskIterator != tasks.end())
-        maxPjTask = *maxPjTaskIterator;
-
-    int pSum = 0;
-    for (int i = 0; i < tasks.size(); i++)
-        pSum += tasks[i].GetPj();
-
-    int nSize = tasks.size() + 1;
-    int xyzSize = std::max(maxPjTask.GetPj(), pSum) + 1;
-    int xSize = xyzSize, ySize = xyzSize, zSize = 0;
-
-    // create matrix and full fill of zeros
-    std::vector<std::vector<std::vector<int>>> matrix(
-        nSize, std::vector<std::vector<int>>(
-                   xSize, std::vector<int>(
-                              ySize, 0)));
-
-    matrix[0][0][0] = 1;
-
-    // full fill the matrix
-    for (int n = 1; n < nSize; n++)
-    {
-        for (int x = 0; x < xSize; x++)
-        {
-            for (int y = 0; y < ySize; y++)
-            {
-                int pj = tasks[n - 1].GetPj();
-                if (x - pj >= 0)
-                {
-                    if (matrix[n - 1][x - pj][y])
-                        matrix[n][x][y] = 1;
-                }
-                if (y - pj >= 0)
-                {
-                    if (matrix[n - 1][x][y - pj])
-                        matrix[n][x][y] = 1;
-                }
-            }
-        }
-    }
 
     // find optimal scheduling
-    std::vector<int> tasksIdFrorMachine1 = {};
-    std::vector<int> tasksIdFrorMachine2 = {};
-    std::vector<int> tasksIdFrorMachine3 = {};
-    int maxTvx = xyzSize - 1, maxTvy = xyzSize - 1;
-    int x = xyzSize - 1, y = xyzSize - 1, cMax = xyzSize - 1;
-    int xn = nSize - 1;
-    char maxAxis;
+    std::vector<Task> tasksFrorMachine1 = {};
+    std::vector<Task> tasksFrorMachine2 = {};
+    std::vector<Task> tasksFrorMachine3 = {};
 
-    // find max x
-    while (x >= 0 && y >= 0)
+    std::vector<Task> theRest = {};
+
+
+    DynamicProgramming2D(tasks);
+    for (int i = 0; i < m_machine1.size(); i++)
     {
-        if (matrix[xn][x][y] == 1)
-            break;
-        y--;
-        if (y <= 0)
-        {
-            y = xyzSize - 1;
-            x--;
-        }
+        tasksFrorMachine1.push_back(m_machine1[i]);
     }
-    maxTvx = x;
 
-    x = xyzSize - 1;
-    y = xyzSize - 1;
-    // find max y
-    while (x >= 0 && y >= 0)
+    for (int i = 0; i < m_machine2.size(); i++)
     {
-        if (matrix[xn][x][y] == 1)
-            break;
-        x--;
-        if (x <= 0)
-        {
-            x = xyzSize - 1;
-            y--;
-        }
+        theRest.push_back(m_machine2[i]);
     }
-    maxTvy = y;
 
-    if (maxTvx > maxTvy)
-        maxAxis = 'x';
-    else
-        maxAxis = 'y';
-    cMax = std::max(maxTvx, maxTvy);
-
-    x = xyzSize - 1;
-    y = xyzSize - 1;
-    // find max
-    do
+    m_machine1.clear();
+    m_machine2.clear();
+    DynamicProgramming2D(theRest);
+    for (int i = 0; i < m_machine1.size(); i++)
     {
-        if (matrix[xn][x][y] == 1)
-        {
-           
-            if (maxAxis == 'x')
-                cMax = x;
-            else
-                cMax = y;
-        }
+        tasksFrorMachine2.push_back(m_machine1[i]);
+    }
 
-        if (maxAxis == 'x')
-        {
-            y--;
-            if (y <= 0)
-            {
-                x--;
-                y = x;
-            }
-        }
-        else if (maxAxis == 'y')
-        {
-            x--;
-            if (x <= 0)
-            { 
-                y--;
-                x = y;
-            }
-        }
-
-    } while (x >= 0 && y >= 0);
+    for (int i = 0; i < m_machine2.size(); i++)
+    {
+        tasksFrorMachine3.push_back(m_machine2[i]);
+    }
 }
 
 /// @brief
