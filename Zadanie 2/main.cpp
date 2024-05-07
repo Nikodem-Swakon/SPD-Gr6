@@ -155,7 +155,7 @@ std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COMPLETE REVIEV 2%%%%%%%%%%
     auto durationCompleteReview_2 = std::chrono::duration_cast<std::chrono::microseconds>(endCompleteReview_2 - startCompleteReview_2);
 std::cout << "Time CR2: " << durationCompleteReview_2.count() << " microseconds" << std::endl;
 std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   COMPLETE REVIEV 3%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
-*/
+
     std::chrono::high_resolution_clock::time_point startCompleteReview_3 = std::chrono::high_resolution_clock::now();
     problem.CompleteReview_3();
     std::chrono::high_resolution_clock::time_point endCompleteReview_3 = std::chrono::high_resolution_clock::now();
@@ -163,19 +163,19 @@ std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   COMPLETE REVIEV 3%%%%%%%%
 std::cout << "Time CR3: " << durationCompleteReview_3.count() << " microseconds" << std::endl;
 std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  PTAS 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
 
+*/
 
 
-/*
     std::chrono::high_resolution_clock::time_point startPTAS_2 = std::chrono::high_resolution_clock::now();
     problem.PTAS_2(2);
     std::chrono::high_resolution_clock::time_point endPTAS_2 = std::chrono::high_resolution_clock::now();
     auto durationPTAS_2 = std::chrono::duration_cast<std::chrono::microseconds>(endPTAS_2 - startPTAS_2);
 std::cout << "Time PTAS2: " << durationPTAS_2.count() << " microseconds" << std::endl;
 std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  PTAS 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
-*/
 
 
 
+/*
     std::chrono::high_resolution_clock::time_point startPTAS_3 = std::chrono::high_resolution_clock::now();
      problem.PTAS_3(2);
     std::chrono::high_resolution_clock::time_point endPTAS_3 = std::chrono::high_resolution_clock::now();
@@ -194,7 +194,7 @@ std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     //auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 //std::cout << "Time LPT: " << duration.count() << " microseconds" << std::endl;
 
-
+*/
 
 
 
