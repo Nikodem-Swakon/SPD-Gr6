@@ -334,7 +334,7 @@ void Problem::DynamicProgramming3D() const
     int max = std::max(machine2, machine1);
     max = std::max(machine3, max);
 
-    std::cout << "Cmax: " << m_cMax << std::endl;
+    std::cout << "\033[1;31m Cmax: " << m_cMax << "\033[0m" << std::endl;
     m_machine1.clear();
     m_machine2.clear();
     m_machine3.clear();
