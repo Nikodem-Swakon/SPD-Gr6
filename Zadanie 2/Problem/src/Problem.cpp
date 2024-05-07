@@ -248,17 +248,6 @@ void Problem::DynamicProgramming2D(const std::vector<Task> &tasks) const
             }
         }
     }
-
-    for (int r = 0; r < rows; r++)
-    {
-        for (int c = 0; c < cols; c++)
-        {
-            std::cout << matrix[r][c] << " ";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-
     // find tasks which should be added to first machine
     std::vector<int> tasksIdFrorMachine1 = {};
     int r = rows - 1;
@@ -312,9 +301,9 @@ void Problem::DynamicProgramming2D(const std::vector<Task> &tasks) const
 
 void Problem::DynamicProgramming3D() const
 {
+    std::cout << std::endl <<  "Dyamic programming for 3 machines" << std::endl;
     DynamicProgramming3D(m_tasks);
     // display information
-    std::cout << "Dynamic Programming 3D scheduling" << std::endl;
 
     int machine1 = 0;
     std::cout << "Machine 1:" << std::endl;
@@ -344,7 +333,6 @@ void Problem::DynamicProgramming3D() const
     std::cout << std::endl;
     int max = std::max(machine2, machine1);
     max = std::max(machine3, max);
-    // std::cout << "max? " << max << std::endl;
 
     std::cout << "Cmax: " << m_cMax << std::endl;
     m_machine1.clear();
@@ -370,11 +358,6 @@ void Problem::DynamicProgramming3DBase(const std::vector<Task> &tasks) const
     int nSize = tasks.size() + 1;
     int xyzSize = std::max(maxPjTask.GetPj(), pSum) + 1;
     int xSize = xyzSize, ySize = xyzSize, zSize = 0;
-
-    std::cout << "nSize " << nSize << std::endl;
-    std::cout << "xSize " << xSize << std::endl;
-    std::cout << "ySize " << ySize << std::endl;
-    std::cout << "zSize " << zSize << std::endl;
 
     // create matrix and full fill of zeros
     std::vector<std::vector<std::vector<int>>> matrix(
@@ -406,21 +389,6 @@ void Problem::DynamicProgramming3DBase(const std::vector<Task> &tasks) const
         }
     }
 
-    for (int n = 0; n < nSize; n++)
-    {
-        std::cout << "for n " << n << std::endl;
-        for (int x = 0; x < xSize; x++)
-        {
-            for (int y = 0; y < ySize; y++)
-            {
-
-                std::cout << matrix[n][x][y] << " ";
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
-    }
-
     // find optimal scheduling
     std::vector<int> tasksIdFrorMachine1 = {};
     std::vector<int> tasksIdFrorMachine2 = {};
@@ -429,10 +397,6 @@ void Problem::DynamicProgramming3DBase(const std::vector<Task> &tasks) const
     int x = xyzSize - 1, y = xyzSize - 1, cMax = xyzSize - 1;
     int xn = nSize - 1;
     char maxAxis;
-
-    std::cout << "x: " << x << std::endl;
-    std::cout << "y: " << y << std::endl;
-    std::cout << "xn: " << xn << std::endl;
 
     // find max x
     while (x >= 0 && y >= 0)
@@ -475,10 +439,9 @@ void Problem::DynamicProgramming3DBase(const std::vector<Task> &tasks) const
     // find max
     do
     {
-        std::cout << "matrix[" << xn << "][" << x << "][" << y << "] = " << matrix[xn][x][y] << std::endl;
         if (matrix[xn][x][y] == 1)
         {
-            std::cout << "zapisano" << std::endl;
+           
             if (maxAxis == 'x')
                 cMax = x;
             else
@@ -490,27 +453,21 @@ void Problem::DynamicProgramming3DBase(const std::vector<Task> &tasks) const
             y--;
             if (y <= 0)
             {
-                std::cout << "poprawka" << std::endl;
                 x--;
                 y = x;
-                std::cout << "x " << x << " y " << y << std::endl;
             }
         }
         else if (maxAxis == 'y')
         {
             x--;
             if (x <= 0)
-            {
-                std::cout << "poprawka" << std::endl;
+            { 
                 y--;
                 x = y;
-                std::cout << "x " << x << " y " << y << std::endl;
             }
         }
 
     } while (x >= 0 && y >= 0);
-
-    std::cout << "cMax=" << cMax << std::endl;
 }
 
 /// @brief
@@ -531,11 +488,6 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
     int nSize = tasks.size() + 1;
     int xyzSize = std::max(maxPjTask.GetPj(), pSum) + 1;
     int xSize = xyzSize, ySize = xyzSize, zSize = xyzSize;
-
-    std::cout << "nSize " << nSize << std::endl;
-    std::cout << "xSize " << xSize << std::endl;
-    std::cout << "ySize " << ySize << std::endl;
-    std::cout << "zSize " << zSize << std::endl;
 
     // create matrix and full fill of zeros
     cube matrix(
@@ -670,12 +622,10 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
         if (it != tasksIdFrorMachine3.end())
         {
             m_machine3.push_back(m_tasks[i]);
-            std::cout << "dodano do maszyny3 " << m_tasks[i] << std::endl;
         }
         else
         {
             tasksForMachine1and2.push_back(m_tasks[i]);
-            std::cout << "dodano do maszyny1i2 " << m_tasks[i] << std::endl;
         }
     }
 
@@ -729,20 +679,6 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
 
     // find task for first machine
     m_cMax = cMax;
-    std::cout << "cMax=" << cMax << std::endl;
-
-    std::cout << "tasks ID From MAchine 3" << std::endl;
-    for (int i = 0; i < m_machine3.size(); i++)
-    {
-        std::cout << m_machine3[i] << " ";
-    }
-    std::cout << std::endl;
-    std::cout << "tasks ID From tasksForMachine1and2" << std::endl;
-    for (int i = 0; i < tasksForMachine1and2.size(); i++)
-    {
-        std::cout << tasksForMachine1and2[i] << " ";
-    }
-    std::cout << std::endl;
 }
 
 int Problem::FindTv(cube &matrix, int xn, char &maxAxis, int xyzSize) const
@@ -850,7 +786,6 @@ void Problem::FPTAS(const int k) const
     {
         tasks.push_back(Task(m_tasks[i].GetPj() / k + 1, m_tasks[i].GetTaskId()));
     }
-    std::cout << std::endl;
 
     DynamicProgramming2D(tasks);
     // display information
