@@ -334,7 +334,7 @@ void Problem::DynamicProgramming3D() const
     int max = std::max(machine2, machine1);
     max = std::max(machine3, max);
 
-    std::cout << "Cmax: " << max << std::endl;
+    std::cout << "Cmax: " << m_cMax << std::endl;
     m_machine1.clear();
     m_machine2.clear();
     m_machine3.clear();
@@ -351,7 +351,6 @@ void Problem::DynamicProgramming3DBase(const std::vector<Task> &tasks) const
     std::vector<Task> tasksFrorMachine3 = {};
 
     std::vector<Task> theRest = {};
-
 
     DynamicProgramming2D(tasks);
     for (int i = 0; i < m_machine1.size(); i++)
@@ -426,7 +425,7 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
                         if (matrix[n - 1][x][y - pj][z])
                             matrix[n][x][y][z] = 1;
                     }
-                    if (y - pj >= 0)
+                    if (z - pj >= 0)
                     {
                         if (matrix[n - 1][x][y][z - pj])
                             matrix[n][x][y][z] = 1;
@@ -529,11 +528,11 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
         auto it = std::find(tasksIdFrorMachine3.begin(), tasksIdFrorMachine3.end(), (tasks[i].GetTaskId() - 1)); // there is numeration from 1
         if (it != tasksIdFrorMachine3.end())
         {
-            m_machine3.push_back(m_tasks[i]);
+            m_machine3.push_back(tasks[i]);
         }
         else
         {
-            tasksForMachine1and2.push_back(m_tasks[i]);
+            tasksForMachine1and2.push_back(tasks[i]);
         }
     }
 
@@ -672,17 +671,14 @@ int Problem::FindTv(cube &matrix, int xn, char &maxAxis, int xyzSize) const
     {
         return maxTvz;
     }
-    else if (maxAxis == 'n')
-    {
-        if (cMax == maxTvx)
-            maxAxis = 'x';
-        else if (cMax == maxTvy)
-            maxAxis = 'y';
-        else if (cMax == maxTvz)
-            maxAxis = 'z';
-        return cMax = std::max(std::max(maxTvx, maxTvy), maxTvz);
-    }
-    return cMax;
+
+    if (cMax == maxTvx)
+        maxAxis = 'x';
+    else if (cMax == maxTvy)
+        maxAxis = 'y';
+    else if (cMax == maxTvz)
+        maxAxis = 'z';
+    return cMax = std::max(std::max(maxTvx, maxTvy), maxTvz);
 }
 
 /// @brief
