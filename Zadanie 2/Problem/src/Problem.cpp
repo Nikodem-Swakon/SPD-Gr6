@@ -566,7 +566,7 @@ void Problem::DynamicProgramming3D(const std::vector<Task> &tasks) const
                         if (matrix[n - 1][x][y - pj][z])
                             matrix[n][x][y][z] = 1;
                     }
-                    if (y - pj >= 0)
+                    if (z - pj >= 0)
                     {
                         if (matrix[n - 1][x][y][z - pj])
                             matrix[n][x][y][z] = 1;
