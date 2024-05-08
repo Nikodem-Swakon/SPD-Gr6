@@ -699,7 +699,7 @@ void Problem::FPTAS(const int k) const
     for (int i = 0; i < m_machine1.size(); i++)
     {
 
-        std::cout << m_tasks[m_machine1[i].GetTaskId() - 1] << " ";
+        // std::cout << m_tasks[m_machine1[i].GetTaskId() - 1] << " ";
         machine1 += m_tasks[m_machine1[i].GetTaskId() - 1].GetPj();
     }
     std::cout << std::endl;
@@ -707,7 +707,7 @@ void Problem::FPTAS(const int k) const
     std::cout << "Machine 2:" << std::endl;
     for (int i = 0; i < m_machine2.size(); i++)
     {
-        std::cout << m_tasks[m_machine2[i].GetTaskId() - 1] << " ";
+        // std::cout << m_tasks[m_machine2[i].GetTaskId() - 1] << " ";
         machine2 += m_tasks[m_machine2[i].GetTaskId() - 1].GetPj();
     }
     std::cout << std::endl;
@@ -836,14 +836,14 @@ void Problem::PTAS_2(const int k) const
     for (int i = 0; i < machine1_tasks.size(); i++)
     {
         // machine1_time+=machine1_tasks[i].GetPj();
-        std::cout << machine1_tasks[i].GetTaskId() << ", ";
+        // std::cout << machine1_tasks[i].GetTaskId() << ", ";
     }
     std::cout << std::endl
               << "Machine 2 tasks: ";
     for (int i = 0; i < machine2_tasks.size(); i++)
     {
         // machine2_time+=machine2_tasks[i].GetPj();
-        std::cout << machine2_tasks[i].GetTaskId() << ", ";
+        // std::cout << machine2_tasks[i].GetTaskId() << ", ";
     }
     int CMAX = std::max(machine1_time, machine2_time);
     std::cout << std::endl
@@ -1059,22 +1059,19 @@ void Problem::PTAS_3(int k) const
     std::cout << "Machine 1 tasks: ";
     for (int i = 0; i < machine_1.size(); i++)
     {
-        // machine1_time+=machine1_tasks[i].GetPj();
-        std::cout << machine_1[i].GetTaskId() << ", ";
+        // std::cout << machine_1[i].GetTaskId() << ", ";
     }
     std::cout << std::endl
               << "Machine 2 tasks: ";
     for (int i = 0; i < machine_2.size(); i++)
     {
-        // machine2_time+=machine2_tasks[i].GetPj();
-        std::cout << machine_2[i].GetTaskId() << ", ";
+        // std::cout << machine_2[i].GetTaskId() << ", ";
     }
     std::cout << std::endl
               << "Machine 3 tasks: ";
     for (int i = 0; i < machine_3.size(); i++)
     {
-        // machine2_time+=machine2_tasks[i].GetPj();
-        std::cout << machine_3[i].GetTaskId() << ", ";
+        // std::cout << machine_3[i].GetTaskId() << ", ";
     }
     int CMAX = std::max(machine1_time, std::max(machine2_time, machine3_time));
     std::cout << std::endl
