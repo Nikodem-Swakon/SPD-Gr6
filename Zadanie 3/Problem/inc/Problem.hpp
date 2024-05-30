@@ -11,7 +11,7 @@
 
 #define CRITICAL_NUMBER 12
 
-typedef std::vector<std::vector<std::vector<std::vector<int>>>> cube;
+typedef std::vector<std::vector<std::vector<std::vector<int>>>> cube; // is it needed?
 
 class Node;
 class Problem
@@ -19,23 +19,10 @@ class Problem
 private:
     /* private data */
     std::vector<Task> m_tasks;
-    mutable std::vector<Task> m_machine1; // tasks ranked on first machine
-    mutable std::vector<Task> m_machine2; // tasks ranked on second machine
-    mutable std::vector<Task> m_machine3; // tasks ranked on third machine
     int m_tasksNr;
     mutable int m_cMax;
 
     /* private methods */
-    Node CreateNodeQj(int lowBarier, Node parent, int upBarier) const;
-    Node CreateNodeRj(int lowBarier, Node parent, int upBarier) const;
-    int CountCriterionOnTheMachine(std::vector<Task> machine);
-
-    void CompleteReview_alg(std::vector<Task> &tasks, int start, std::vector<std::vector<Task>> &permutations);
-    void DynamicProgramming2D(const std::vector<Task> &tasks) const;
-    void DynamicProgramming3D(const std::vector<Task> &tasks) const;
-    void DynamicProgramming3DBase(const std::vector<Task> &tasks) const;
-    int FindTv(cube &matrix, int xn, char &maxAxis, int xyzSize) const;
-    
     int calculateMakespan(const std::vector<Task>& sequence) const;
 
 public:
@@ -47,7 +34,7 @@ public:
 
 
     // Na 3.0
-    void Complete_Review() const;
+    void CompleteReview() const;
     void NEH() const;
     // Na 3.0
     

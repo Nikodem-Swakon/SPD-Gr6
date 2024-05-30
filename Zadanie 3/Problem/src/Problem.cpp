@@ -99,7 +99,7 @@ void Problem::NEH() const{
     std::cout << "Final makespan: " << calculateMakespan(sequence) << std::endl;
 }
 
-void Problem::Complete_Review() const{
+void Problem::CompleteReview() const{
     if (m_tasks.empty()) return;
 
     std::vector<Task> bestSequence = m_tasks;
