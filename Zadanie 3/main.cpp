@@ -13,21 +13,8 @@
 #include "Pair.hpp"
 
 #define FILE_PATH "../text.txt"
-/*void extract(const std::string &line, Task &task)
-{
 
-    std::istringstream iss(line);
-    int value;
-    std::vector<int> values;
-    while (iss >> value)
-    { // read all values in the line
-        values.push_back(value);
-    }
-    task.SetTaskId(values[0]);
-    task.SetPj(values[1]);
-}
-*/
-
+// Full fill tasksVec with time of its operations
 int readFromFile(std::string &filename, std::vector<Task> &tasksVec)
 {
     std::ifstream file(filename);
@@ -37,8 +24,6 @@ int readFromFile(std::string &filename, std::vector<Task> &tasksVec)
         return 1;
     }
 
-    // std::vector<std::vector<int>> Machine;  //vector of vectors
-
     std::string line;        // For skipping first line
     bool isFirstLine = true; // For skipping first line
 
@@ -46,21 +31,20 @@ int readFromFile(std::string &filename, std::vector<Task> &tasksVec)
     { // Read file line by line
 
         if (isFirstLine)
-        { // For skipping first line
+        {                        // For skipping first line
             isFirstLine = false; // For skipping first line
             continue;            // Skip the first line
         }
 
-        
-            std::istringstream iss(line);
-            std::vector<int> values;
-            int value;
-            while (iss >> value)
-            {
-                iss >> value;
-                values.push_back(value); // Extract numbers from the line
-                //std::cout<<value<<std::endl;
-            }
+        std::istringstream iss(line);
+        std::vector<int> values;
+        int value;
+        while (iss >> value)
+        {
+            iss >> value;
+            values.push_back(value); // Extract numbers from the line
+            // std::cout<<value<<std::endl;
+        }
         Task task(values);
         tasksVec.push_back(task);
     }
@@ -69,6 +53,13 @@ int readFromFile(std::string &filename, std::vector<Task> &tasksVec)
     return 0;
 }
 
+void displayTasks(std::vector<Task> &tasks)
+{
+    for (int i = 0; i < tasks.size(); i++)
+    {
+        std::cout << i + 1 << ". " << tasks[i] << std::endl;
+    }
+}
 
 int main(int argc, char *argv[])
 
@@ -111,24 +102,26 @@ int main(int argc, char *argv[])
     }
 
     std::vector<Task> taskVector;
-    
+
     readFromFile(filename, taskVector);
     Problem problem(taskVector);
-    //problem.NEH();
-    problem.Complete_Review();
-        // ZOSTAWIONE JAKO WZÓR
-/*
-std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  LSA  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
 
-    std::chrono::high_resolution_clock::time_point startLSA = std::chrono::high_resolution_clock::now();
-    problem.LSA();
-    std::chrono::high_resolution_clock::time_point endLSA = std::chrono::high_resolution_clock::now();
-    auto durationLSA = std::chrono::duration_cast<std::chrono::microseconds>(endLSA - startLSA);
-std::cout << "Time LSA: " << durationLSA.count() << " microseconds" << std::endl;
-*//////////////////////////////////////////////////////////////
+    displayTasks(taskVector);
 
 
-
+    // tests:
+    // problem.NEH();
+    // problem.Complete_Review();
 
     return 0;
 }
+
+/* ZOSTAWIONE JAKO WZÓR
+ * std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  LSA  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
+ *
+ *    std::chrono::high_resolution_clock::time_point startLSA = std::chrono::high_resolution_clock::now();
+ *    problem.LSA();
+ *    std::chrono::high_resolution_clock::time_point endLSA = std::chrono::high_resolution_clock::now();
+ *    auto durationLSA = std::chrono::duration_cast<std::chrono::microseconds>(endLSA - startLSA);
+ * std::cout << "Time LSA: " << durationLSA.count() << " microseconds" << std::endl;
+ */

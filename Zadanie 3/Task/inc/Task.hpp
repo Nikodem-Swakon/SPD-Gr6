@@ -20,6 +20,7 @@ public:
 
     // Getters and Setters
     const std::vector<int> &GetValues() const { return m_values; }
+    int GetValuesSize() const {return m_values.size();}
     void SetValues(const std::vector<int> &values) { m_values = values; }
 
     // Access element
