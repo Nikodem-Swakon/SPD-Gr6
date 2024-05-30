@@ -2,12 +2,9 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <utility> //pair
 
 #include "Task.hpp"
 #include "Solution.hpp"
-// #include "Permutation.hpp"
-#include "Pair.hpp"
 
 #define CRITICAL_NUMBER 12
 
