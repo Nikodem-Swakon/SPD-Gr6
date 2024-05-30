@@ -109,7 +109,12 @@ int main(int argc, char *argv[])
     std::vector<Task> taskVector;
     readFromFile(filename, taskVector);
     Problem problem(taskVector);
+<<<<<<< HEAD
     std::cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  LSA  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+=======
+    
+std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  LSA  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
+>>>>>>> 61400485f9a9ffe8008e8b85426cac1ade0f7b95
 
     // std::chrono::high_resolution_clock::time_point startLSA = std::chrono::high_resolution_clock::now();
     // problem.LSA();
@@ -125,12 +130,22 @@ int main(int argc, char *argv[])
     // std::cout << "Time LPT: " << durationLPT.count() << " microseconds" << std::endl;
     // std::cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FPTAS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
 
+<<<<<<< HEAD
     // std::chrono::high_resolution_clock::time_point startFPTAS = std::chrono::high_resolution_clock::now();
     // problem.FPTAS(2);
     // std::chrono::high_resolution_clock::time_point endFPTAS = std::chrono::high_resolution_clock::now();
     // auto durationFPTAS = std::chrono::duration_cast<std::chrono::microseconds>(endFPTAS - startFPTAS);
     // std::cout << "Time FPTAS: " << durationFPTAS.count() << " microseconds" << std::endl;
     // std::cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%DYNAMIC PROGRAMING 2%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+=======
+    std::chrono::high_resolution_clock::time_point startFPTAS = std::chrono::high_resolution_clock::now();
+    problem.FPTAS(3);
+    std::chrono::high_resolution_clock::time_point endFPTAS = std::chrono::high_resolution_clock::now();
+    auto durationFPTAS = std::chrono::duration_cast<std::chrono::microseconds>(endFPTAS - startFPTAS);
+std::cout << "Time FPTAS: " << durationFPTAS.count() << " microseconds" << std::endl;
+/*
+std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%DYNAMIC PROGRAMING 2%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
+>>>>>>> 61400485f9a9ffe8008e8b85426cac1ade0f7b95
 
     // std::chrono::high_resolution_clock::time_point startDynamicProgramming2D = std::chrono::high_resolution_clock::now();
     // problem.DynamicProgramming2D();
@@ -146,19 +161,67 @@ int main(int argc, char *argv[])
     std::cout << "Time DP3: " << durationDynamicProgramming3D.count() << " microseconds" << std::endl;
     // std::cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COMPLETE REVIEV 2%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
 
+<<<<<<< HEAD
     // std::chrono::high_resolution_clock::time_point startCompleteReview_2 = std::chrono::high_resolution_clock::now();
     // problem.CompleteReview_2();
     // std::chrono::high_resolution_clock::time_point endCompleteReview_2 = std::chrono::high_resolution_clock::now();
     // auto durationCompleteReview_2 = std::chrono::duration_cast<std::chrono::microseconds>(endCompleteReview_2 - startCompleteReview_2);
     // std::cout << "Time CR2: " << durationCompleteReview_2.count() << " microseconds" << std::endl;
     std::cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   COMPLETE REVIEV 3%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+=======
+
+    std::chrono::high_resolution_clock::time_point startCompleteReview_2 = std::chrono::high_resolution_clock::now();
+     problem.CompleteReview_2();
+    std::chrono::high_resolution_clock::time_point endCompleteReview_2 = std::chrono::high_resolution_clock::now();
+    auto durationCompleteReview_2 = std::chrono::duration_cast<std::chrono::microseconds>(endCompleteReview_2 - startCompleteReview_2);
+std::cout << "Time CR2: " << durationCompleteReview_2.count() << " microseconds" << std::endl;
+std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   COMPLETE REVIEV 3%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
+>>>>>>> 61400485f9a9ffe8008e8b85426cac1ade0f7b95
 
     std::chrono::high_resolution_clock::time_point startCompleteReview_3 = std::chrono::high_resolution_clock::now();
     problem.CompleteReview_3();
     std::chrono::high_resolution_clock::time_point endCompleteReview_3 = std::chrono::high_resolution_clock::now();
     auto durationCompleteReview_3 = std::chrono::duration_cast<std::chrono::microseconds>(endCompleteReview_3 - startCompleteReview_3);
+<<<<<<< HEAD
     std::cout << "Time CR3: " << durationCompleteReview_3.count() << " microseconds" << std::endl;
     // std::cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  PTAS 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+=======
+std::cout << "Time CR3: " << durationCompleteReview_3.count() << " microseconds" << std::endl;
+*/
+std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  PTAS 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
+
+
+
+
+    std::chrono::high_resolution_clock::time_point startPTAS_2 = std::chrono::high_resolution_clock::now();
+    problem.PTAS_2(38);
+    std::chrono::high_resolution_clock::time_point endPTAS_2 = std::chrono::high_resolution_clock::now();
+    auto durationPTAS_2 = std::chrono::duration_cast<std::chrono::microseconds>(endPTAS_2 - startPTAS_2);
+std::cout << "Time PTAS2: " << durationPTAS_2.count() << " microseconds" << std::endl;
+std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  PTAS 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
+
+
+
+
+    std::chrono::high_resolution_clock::time_point startPTAS_3 = std::chrono::high_resolution_clock::now();
+     problem.PTAS_3(38);
+    std::chrono::high_resolution_clock::time_point endPTAS_3 = std::chrono::high_resolution_clock::now();
+    auto durationPTAS_3 = std::chrono::duration_cast<std::chrono::microseconds>(endPTAS_3 - startPTAS_3);
+std::cout << "Time PTAS3: " << durationPTAS_3.count() << " microseconds" << std::endl;
+std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
+
+
+
+
+
+
+    //std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+    //problem.DisplayTasks();
+    //std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    //auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+//std::cout << "Time LPT: " << duration.count() << " microseconds" << std::endl;
+
+>>>>>>> 61400485f9a9ffe8008e8b85426cac1ade0f7b95
 
     // std::chrono::high_resolution_clock::time_point startPTAS_2 = std::chrono::high_resolution_clock::now();
     // problem.PTAS_2(2);
