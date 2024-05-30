@@ -5,13 +5,14 @@ class Task
 {
 private:
     /* private data */
+    int m_id;
      // execution time
     std::vector<int> m_values;
 
 public:
     /* public methods */
     Task();
-    Task(const std::vector<int>& values);
+    Task(const std::vector<int>& values, int id);
     Task(const Task &task);
     ~Task();
 
@@ -33,6 +34,7 @@ public:
 };
 
 inline std::ostream &operator<<(std::ostream &out, const Task &task) {
+    out << task.m_id << ". ";
     for (const auto &val : task.GetValues()) {
         out << val << " ";
     }
