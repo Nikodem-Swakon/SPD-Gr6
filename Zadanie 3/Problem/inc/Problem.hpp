@@ -21,6 +21,7 @@ private:
 
     /* private methods */
     int calculateMakespan(const std::vector<Task>& sequence) const;
+    int CalculateCMax(const std::vector<Task>& sequence) const;
 
 public:
     /* public methods */

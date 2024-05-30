@@ -58,7 +58,7 @@ void displayTasks(std::vector<Task> &tasks)
 {
     for (int i = 0; i < tasks.size(); i++)
     {
-        std::cout << i + 1 << ". " << tasks[i] << std::endl;
+        std::cout << tasks[i] << std::endl;
     }
 }
 
@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
     readFromFile(filename, taskVector);
     Problem problem(taskVector);
 
-    // displayTasks(taskVector);
+    displayTasks(taskVector);
 
 
     // tests:

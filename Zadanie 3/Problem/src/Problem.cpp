@@ -6,6 +6,17 @@
 #include <tuple>
 #include <numeric>
 #include <algorithm> // std::sort
+
+/* additional functions */ 
+void printMatrix(const std::vector<std::vector<int>>& matrix) {
+    for (const auto& row : matrix) {
+        for (int val : row) {
+            std::cout << val << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
 /* constructors and destructors */
 Problem::Problem(std::vector<Task> tasks) : m_tasksNr(tasks.size())
 {
@@ -23,6 +34,28 @@ Problem::~Problem()
 }
 
 /* methods */
+int Problem::CalculateCMax(const std::vector<Task> &sequence) const
+{
+
+    int machineNum = sequence[0].GetValuesSize();
+    std::vector<std::vector<int>> CzPi(machineNum + 1, std::vector<int>(sequence.size() + 1, 0));
+
+    for (int i = 0; i < sequence.size() + 1; i++)
+        CzPi[0][i] = 0;
+
+    for (int z = 0; z < machineNum + 1; z++)
+        CzPi[z][0] = 0;
+
+    for (int z = 1; z < machineNum + 1; z++) // process iteration
+    {
+        for (int i = 1; i < sequence.size() + 1; i++) // task iteration
+        {
+            CzPi[z][i] = std::max(CzPi[z-1][i], CzPi[z][i-1]) + sequence[i-1].GetValueAt(z-1);
+        }
+    }
+
+    return CzPi[machineNum][sequence.size()];
+}
 
 // Na 3.0
 
@@ -173,18 +206,18 @@ void Problem::Jhonson() const
         std::vector<Task> tasksR = {};
         std::vector<Task> result = {};
 
+        // Setp 1. Devide tasks on Jl and Jr (TasksL and TasksR)
         for (int i = 0; i < m_tasks.size(); i++)
         {
             m_tasks[i].GetValueAt(0) < m_tasks[i].GetValueAt(1) ? tasksL.push_back(m_tasks[i]) : tasksR.push_back(m_tasks[i]);
         }
 
-        // sort non-decreasingly pj1
+        // Step 2. Sort Jl and Jr
         std::sort(tasksL.begin(), tasksL.end(), CompareTasksTasksDec);
 
-        // sort non-ascending pj2
         std::sort(tasksR.begin(), tasksR.end(), CompareTasksTasksAsc);
 
-        // concatenate TasksL and TasksR
+        // Step 3. Concatenate Jl with Jr
         result = tasksL;
         result.insert(result.end(), tasksR.begin(), tasksR.end());
 
@@ -192,6 +225,8 @@ void Problem::Jhonson() const
         {
             std::cout << task << std::endl;
         }
+
+        std::cout << "Cmax :" << CalculateCMax(result) << std::endl;
     }
 }
 
