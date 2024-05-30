@@ -26,6 +26,7 @@ int readFromFile(std::string &filename, std::vector<Task> &tasksVec)
 
     std::string line;        // For skipping first line
     bool isFirstLine = true; // For skipping first line
+    int taskId = 1;
 
     while (std::getline(file, line))
     { // Read file line by line
@@ -45,7 +46,7 @@ int readFromFile(std::string &filename, std::vector<Task> &tasksVec)
             values.push_back(value); // Extract numbers from the line
             // std::cout<<value<<std::endl;
         }
-        Task task(values);
+        Task task(values,taskId++);
         tasksVec.push_back(task);
     }
 
@@ -106,12 +107,13 @@ int main(int argc, char *argv[])
     readFromFile(filename, taskVector);
     Problem problem(taskVector);
 
-    displayTasks(taskVector);
+    // displayTasks(taskVector);
 
 
     // tests:
     // problem.NEH();
-    // problem.Complete_Review();
+    // problem.CompleteReview();
+    problem.Jhonson();
 
     return 0;
 }

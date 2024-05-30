@@ -5,6 +5,7 @@
 #include <chrono>
 #include <tuple>
 #include <numeric>
+#include <algorithm> // std::sort
 /* constructors and destructors */
 Problem::Problem(std::vector<Task> tasks) : m_tasksNr(tasks.size())
 {
@@ -148,6 +149,16 @@ void Problem::CompleteReview() const
 
 // Na 3.5
 
+bool CompareTasksTasksDec(const Task &a, const Task &b)
+{
+    return a.GetValueAt(0) < b.GetValueAt(0);
+}
+
+bool CompareTasksTasksAsc(const Task &a, const Task &b)
+{
+    return a.GetValueAt(0) > b.GetValueAt(0);
+}
+
 void Problem::Jhonson() const
 {
     if (m_tasks[0].GetValuesSize() > 2)
@@ -158,6 +169,29 @@ void Problem::Jhonson() const
     else
     {
         int Cmax = INT_MAX;
+        std::vector<Task> tasksL = {};
+        std::vector<Task> tasksR = {};
+        std::vector<Task> result = {};
+
+        for (int i = 0; i < m_tasks.size(); i++)
+        {
+            m_tasks[i].GetValueAt(0) < m_tasks[i].GetValueAt(1) ? tasksL.push_back(m_tasks[i]) : tasksR.push_back(m_tasks[i]);
+        }
+
+        // sort non-decreasingly pj1
+        std::sort(tasksL.begin(), tasksL.end(), CompareTasksTasksDec);
+
+        // sort non-ascending pj2
+        std::sort(tasksR.begin(), tasksR.end(), CompareTasksTasksAsc);
+
+        // concatenate TasksL and TasksR
+        result = tasksL;
+        result.insert(result.end(), tasksR.begin(), tasksR.end());
+
+        for (const auto &task : result)
+        {
+            std::cout << task << std::endl;
+        }
     }
 }
 
