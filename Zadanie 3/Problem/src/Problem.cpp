@@ -23,54 +23,7 @@ Problem::~Problem()
 
 /* methods */
 
-/*
-void Problem::LPT() const
-{ 
-    std::vector<Task> rankedTasks = m_tasks;
-    std::vector<Task> P1; // Machine 1
-    std::vector<Task> P2; // Machine 2
-    int P1_time = 0;      // Time of processing for machine 1
-    int P2_time = 0;      // Time of processing for machine 2
-
-    std::sort(rankedTasks.begin(), rankedTasks.end(), [](const Task &a, const Task &b)
-              { return a.GetPj() > b.GetPj(); }); // ascending order
-
-    for (int i = 0; i < rankedTasks.size(); i++)
-    {
-        if (P2_time >= P1_time)
-        {
-            P1.push_back(rankedTasks[i]);
-            P1_time += rankedTasks[i].GetPj();
-        }
-        else
-        {
-            P2.push_back(rankedTasks[i]);
-            P2_time += rankedTasks[i].GetPj();
-        }
-    }
-
-    int criterion = std::max(P2_time, P1_time);
-    std::cout << "Criterion: " << criterion << std::endl;
-    std::cout << "==================================" << std::endl;
-    std::cout << "Machine_nr_1: ";
-    for (int x = 0; x < P1.size(); x++)
-    {
-        std::cout << P1[x].GetTaskId() << ", ";
-    }
-    std::cout << std::endl
-              << "Machine_nr_2: ";
-    for (int y = 0; y < P2.size(); y++)
-    {
-        std::cout << P2[y].GetTaskId() << ", ";
-    }
-    std::cout << std::endl;
-    // Permutation solution(criterion, sortedTasks);
-    // return solution;
-}
-*/
-
-
-    // Na 3.0
+// Na 3.0
 
 int Problem::calculateMakespan(const std::vector<Task>& sequence) const {
     if (sequence.empty()) return 0;

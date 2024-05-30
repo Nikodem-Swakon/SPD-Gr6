@@ -39,8 +39,6 @@ private:
     int calculateMakespan(const std::vector<Task>& sequence) const;
 
 public:
-    //Problem(const std::vector<Task>& tasks) : m_tasks(tasks) {}
-
     /* public methods */
     Problem(std::vector<Task> tasks);
     ~Problem();
@@ -66,7 +64,7 @@ public:
     // Na 4.5
 
     // Na 5.0
-    void pro_PiO() const; // Wersja zaawansowana podziału i ograniczeń - już bardzo śmierdzi carlierem
+    void proPiO() const; // Wersja zaawansowana podziału i ograniczeń - już bardzo śmierdzi carlierem
     // Na 5.0
 
 
