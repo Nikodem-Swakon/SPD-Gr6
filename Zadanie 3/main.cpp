@@ -46,7 +46,7 @@ int readFromFile(std::string &filename, std::vector<Task> &tasksVec)
             values.push_back(value); // Extract numbers from the line
             // std::cout<<value<<std::endl;
         }
-        Task task(values,taskId++);
+        Task task(values, taskId++);
         tasksVec.push_back(task);
     }
 
@@ -56,16 +56,33 @@ int readFromFile(std::string &filename, std::vector<Task> &tasksVec)
 
 void displayTasks(std::vector<Task> &tasks)
 {
+    std::cout << "Tasks from the instance: " << std::endl;
     for (int i = 0; i < tasks.size(); i++)
     {
         std::cout << tasks[i] << std::endl;
     }
 }
 
-int main(int argc, char *argv[])
-
+void Jhnson(Problem &problem)
 {
+    std::cout << "---------------- Algorytm Jhnson'a" << std::endl;
+    problem.Jhonson();
+}
 
+void Neh(Problem &problem)
+{
+    std::cout << "---------------- Algorytm NEH" << std::endl;
+    problem.NEH();
+}
+
+void CompleteReview(Problem &problem)
+{
+    std::cout << "---------------- Algorytm Complete review" << std::endl;
+    problem.CompleteReview();
+}
+
+std::string ChoseFile()
+{
     std::cout << "tests" << std::endl;
     std::string currentpath = std::filesystem::current_path().string();
     std::string folderPath = currentpath + "/../Input";
@@ -87,7 +104,7 @@ int main(int argc, char *argv[])
     if (choice < 1 || choice >= index)
     {
         std::cerr << "Invalid choice." << std::endl;
-        return 1;
+        return "";
     }
 
     std::string filename;
@@ -102,6 +119,16 @@ int main(int argc, char *argv[])
         ++index;
     }
 
+    return filename;
+}
+
+int main(int argc, char *argv[])
+
+{
+    std::string filename = ChoseFile();
+    if(filename == "")
+        return 1;
+
     std::vector<Task> taskVector;
 
     readFromFile(filename, taskVector);
@@ -109,11 +136,10 @@ int main(int argc, char *argv[])
 
     displayTasks(taskVector);
 
-
     // tests:
-    // problem.NEH();
-    // problem.CompleteReview();
-    problem.Jhonson();
+    Jhnson(problem);
+    Neh(problem);
+    CompleteReview(problem);
 
     return 0;
 }
