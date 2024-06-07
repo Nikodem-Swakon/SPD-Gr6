@@ -23,6 +23,7 @@ public:
     const std::vector<int> &GetValues() const { return m_values; }
     int GetValuesSize() const {return m_values.size();}
     void SetValues(const std::vector<int> &values) { m_values = values; }
+    int GetId(){return m_id;}
 
     // Access element
     int GetValueAt(size_t index) const { return m_values.at(index); }

@@ -7,10 +7,13 @@
 #include <numeric>
 #include <algorithm> // std::sort
 
-/* additional functions */ 
-void printMatrix(const std::vector<std::vector<int>>& matrix) {
-    for (const auto& row : matrix) {
-        for (int val : row) {
+/* additional functions */
+void printMatrix(const std::vector<std::vector<int>> &matrix)
+{
+    for (const auto &row : matrix)
+    {
+        for (int val : row)
+        {
             std::cout << val << " ";
         }
         std::cout << std::endl;
@@ -50,7 +53,7 @@ int Problem::CalculateCMax(const std::vector<Task> &sequence) const
     {
         for (int i = 1; i < sequence.size() + 1; i++) // task iteration
         {
-            CzPi[z][i] = std::max(CzPi[z-1][i], CzPi[z][i-1]) + sequence[i-1].GetValueAt(z-1);
+            CzPi[z][i] = std::max(CzPi[z - 1][i], CzPi[z][i - 1]) + sequence[i - 1].GetValueAt(z - 1);
         }
     }
 
@@ -239,4 +242,32 @@ void Problem::Jhonson() const
 // Na 4.5
 
 // Na 5.0
+void Problem::BranchAndBound() const
+{
+}
+
+void Problem::GetNextPerm(std::vector<Task> &vec) const
+{
+    int n = vec.size();
+    int i = n - 2;
+    
+    while (i >= 0 && vec[i].GetId() >= vec[i + 1].GetId())
+    {
+        --i;
+    }
+
+    if (i >= 0)
+    {
+        int j = n - 1;
+        while (vec[j].GetId() <= vec[i].GetId())
+        {
+            --j;
+        }
+
+        std::swap(vec[i], vec[j]);
+    }
+
+    std::reverse(vec.begin() + i + 1, vec.end());
+}
+
 // Na 5.0

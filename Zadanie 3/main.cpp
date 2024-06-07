@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
 
 {
     std::string filename = ChoseFile();
-    if(filename == "")
+    if (filename == "")
         return 1;
 
     std::vector<Task> taskVector;

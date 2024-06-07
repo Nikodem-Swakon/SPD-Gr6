@@ -22,13 +22,13 @@ private:
     /* private methods */
     int calculateMakespan(const std::vector<Task>& sequence) const;
     int CalculateCMax(const std::vector<Task>& sequence) const;
-
 public:
     /* public methods */
     Problem(std::vector<Task> tasks);
     ~Problem();
 
     void GenerateInstance();
+    void GetNextPerm(std::vector<Task>& vec) const;
 
 
     // Na 3.0
@@ -45,13 +45,21 @@ public:
     // Na 4.0
 
     // Na 4.5
-    void PiO() const; //Podział i ograniczenia - a la'Carlier
+    void BasicBranchAndBound() const; //Podział i ograniczenia - a la'Carlier
     // Na 4.5
 
     // Na 5.0
-    void proPiO() const; // Wersja zaawansowana podziału i ograniczeń - już bardzo śmierdzi carlierem
+    void BranchAndBound() const; // Wersja zaawansowana podziału i ograniczeń - już bardzo śmierdzi carlierem
     // Na 5.0
 
 
     void DisplayTasks();
+};
+
+struct bbNode{
+	unsigned int	lev; // num of machine in the queue
+	bool*			set;
+	float			benef;
+	float			cost; // time of executing tasks
+	float			bound;
 };
