@@ -37,7 +37,7 @@ Problem::~Problem()
 }
 
 /* methods */
-int Problem::CalculateCMax(const std::vector<Task> &sequence) const
+int CalculateCMax(const std::vector<Task> &sequence)
 {
 
     int machineNum = sequence[0].GetValuesSize();
@@ -244,30 +244,36 @@ void Problem::Jhonson() const
 // Na 5.0
 void Problem::BranchAndBound() const
 {
+    std::vector<Task> vec = m_tasks;
+    std::vector<bbNode> nodesQueue;
+    int lowBarier = CalculateCMax(vec);
+    std::cout << "Low barrier: " << lowBarier << std::endl;
+    nodesQueue.push_back(bbNode(vec, 0)); // it is root
+
+    std::cout << "Generate nodes" << std::endl;
+    // Generate nodes for the n level
+    for (size_t i = 0; i < vec.size(); ++i) {
+        std::vector<Task> newPermutation = vec;
+        std::swap(newPermutation[0], newPermutation[i]);
+        nodesQueue.push_back(bbNode(newPermutation, 1));
+    }
+
+    std::cout << "Nodes" << std::endl;
+    // Wyświetlanie permutacji
+    while (!nodesQueue.empty()) {
+        bbNode node = nodesQueue.front();
+        std::cout << "Level: " << node.lev << ", Cost: " << node.cost << std::endl;
+        for (const Task& task : node.permutation) {
+            std::cout << "Task ID: " << task.GetId() << std::endl;
+        }
+        std::cout << "------" << std::endl;
+        nodesQueue.erase(nodesQueue.begin());
+    }
 }
 
 void Problem::GetNextPerm(std::vector<Task> &vec) const
 {
-    int n = vec.size();
-    int i = n - 2;
-    
-    while (i >= 0 && vec[i].GetId() >= vec[i + 1].GetId())
-    {
-        --i;
-    }
-
-    if (i >= 0)
-    {
-        int j = n - 1;
-        while (vec[j].GetId() <= vec[i].GetId())
-        {
-            --j;
-        }
-
-        std::swap(vec[i], vec[j]);
-    }
-
-    std::reverse(vec.begin() + i + 1, vec.end());
+    std::next_permutation(vec.begin(), vec.end());
 }
 
 // Na 5.0

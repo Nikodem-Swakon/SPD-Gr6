@@ -23,7 +23,7 @@ public:
     const std::vector<int> &GetValues() const { return m_values; }
     int GetValuesSize() const {return m_values.size();}
     void SetValues(const std::vector<int> &values) { m_values = values; }
-    int GetId(){return m_id;}
+    int GetId() const {return m_id;}
 
     // Access element
     int GetValueAt(size_t index) const { return m_values.at(index); }
@@ -32,6 +32,15 @@ public:
     // Operator overloads
     friend std::ostream &operator<<(std::ostream &out, const Task &task);
     friend bool operator==(const Task &task1, const Task &task2);
+
+    // Compare operators
+     bool operator<(const Task& other) const {
+        return m_id < other.m_id;
+    }
+
+    bool operator>(const Task& other) const {
+        return m_id > other.m_id;
+    }
 };
 
 inline std::ostream &operator<<(std::ostream &out, const Task &task) {
