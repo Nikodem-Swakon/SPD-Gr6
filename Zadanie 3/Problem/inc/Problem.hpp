@@ -10,7 +10,7 @@
 
 typedef std::vector<std::vector<std::vector<std::vector<int>>>> cube; // is it needed?
 
-class Node;
+class bbNode;
 class Problem
 {
 private:
@@ -21,6 +21,7 @@ private:
 
     /* private methods */
     int calculateMakespan(const std::vector<Task> &sequence) const;
+    void ShowNode(const bbNode &node) const;
 
 public:
     /* public methods */

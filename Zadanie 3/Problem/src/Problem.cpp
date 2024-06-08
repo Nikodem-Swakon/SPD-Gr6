@@ -246,29 +246,62 @@ void Problem::BranchAndBound() const
 {
     std::vector<Task> vec = m_tasks;
     std::vector<bbNode> nodesQueue;
-    int lowBarier = CalculateCMax(vec);
+    std::vector<bbNode> optimalNodesQueue;
+    int lowBarier = CalculateCMax(vec); // intialized solution, not optimal
     std::cout << "Low barrier: " << lowBarier << std::endl;
     nodesQueue.push_back(bbNode(vec, 0)); // it is root
 
-    while (!nodesQueue.empty()) {
+    while (!nodesQueue.empty())
+    {
         bbNode node = nodesQueue.front();
         nodesQueue.erase(nodesQueue.begin());
-        
-        // Wyświetlanie węzła
-        std::cout << "Level: " << node.lev << ", Cost: " << node.cost << std::endl;
-        for (const Task& task : node.permutation) {
+
+        // Show nodes
+        // ShowNode(node);
+
+        // Add node to cosidered solutions
+        if (node.lev == vec.size())
+        {
+            optimalNodesQueue.push_back(node);
+        }
+
+        // Branch
+        for (size_t i = node.lev; i < vec.size(); ++i)
+        {
+            std::vector<Task> newPermutation = node.permutation;
+            std::swap(newPermutation[node.lev], newPermutation[i]);
+            bbNode newNode(newPermutation, node.lev + 1);
+            if (newNode.cost < lowBarier) // check bound
+                nodesQueue.push_back(newNode);
+        }
+    }
+
+    auto minCostNodeIt = std::min_element(optimalNodesQueue.begin(), optimalNodesQueue.end(), [](const bbNode &a, const bbNode &b)
+                                          { return a.cost < b.cost; });
+    if (minCostNodeIt != optimalNodesQueue.end())
+    {
+        bbNode minCostNode = *minCostNodeIt;
+        std::cout << "Best makespan: " <<  minCostNode.cost << std::endl;
+        std::cout << "Best sequence: " << std::endl;
+        for (const Task &task : minCostNode.permutation)
+        {
+            std::cout <<  task << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "No nodes found in the optimalNodesQueue." << std::endl;
+    }
+}
+
+void Problem::ShowNode(const bbNode &node) const
+{
+    std::cout << "Level: " << node.lev << ", Cost: " << node.cost << std::endl;
+        for (const Task &task : node.permutation)
+        {
             std::cout << "Task ID: " << task.GetId() << std::endl;
         }
         std::cout << "------" << std::endl;
-
-        // Rozgałęzianie
-        for (size_t i = node.lev; i < vec.size(); ++i) {
-            std::cout << "i: " << i << std::endl;
-            std::vector<Task> newPermutation = node.permutation;
-            std::swap(newPermutation[node.lev], newPermutation[i]);
-            nodesQueue.push_back(bbNode(newPermutation, node.lev + 1));
-        }
-    }
 }
 
 void Problem::GetNextPerm(std::vector<Task> &vec) const
