@@ -140,6 +140,7 @@ int main(int argc, char *argv[])
     // Jhnson(problem);
     // Neh(problem);
     // CompleteReview(problem);
+    problem.BranchAndBound();
 
     return 0;
 }

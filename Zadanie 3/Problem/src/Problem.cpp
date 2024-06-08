@@ -250,24 +250,24 @@ void Problem::BranchAndBound() const
     std::cout << "Low barrier: " << lowBarier << std::endl;
     nodesQueue.push_back(bbNode(vec, 0)); // it is root
 
-    std::cout << "Generate nodes" << std::endl;
-    // Generate nodes for the n level
-    for (size_t i = 0; i < vec.size(); ++i) {
-        std::vector<Task> newPermutation = vec;
-        std::swap(newPermutation[0], newPermutation[i]);
-        nodesQueue.push_back(bbNode(newPermutation, 1));
-    }
-
-    std::cout << "Nodes" << std::endl;
-    // Wyświetlanie permutacji
     while (!nodesQueue.empty()) {
         bbNode node = nodesQueue.front();
+        nodesQueue.erase(nodesQueue.begin());
+        
+        // Wyświetlanie węzła
         std::cout << "Level: " << node.lev << ", Cost: " << node.cost << std::endl;
         for (const Task& task : node.permutation) {
             std::cout << "Task ID: " << task.GetId() << std::endl;
         }
         std::cout << "------" << std::endl;
-        nodesQueue.erase(nodesQueue.begin());
+
+        // Rozgałęzianie
+        for (size_t i = node.lev; i < vec.size(); ++i) {
+            std::cout << "i: " << i << std::endl;
+            std::vector<Task> newPermutation = node.permutation;
+            std::swap(newPermutation[node.lev], newPermutation[i]);
+            nodesQueue.push_back(bbNode(newPermutation, node.lev + 1));
+        }
     }
 }
 
