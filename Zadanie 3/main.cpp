@@ -81,6 +81,12 @@ void CompleteReview(Problem &problem)
     problem.CompleteReview();
 }
 
+void BoundAndBrnahc(Problem &problem)
+{
+    std::cout << "---------------- Algorytm Bound And Brnahc" << std::endl;
+    problem.BranchAndBound();
+}
+
 std::string ChoseFile()
 {
     std::cout << "tests" << std::endl;
@@ -140,7 +146,7 @@ int main(int argc, char *argv[])
     Jhnson(problem);
     Neh(problem);
     CompleteReview(problem);
-    problem.BranchAndBound();
+    BoundAndBrnahc(problem);
 
     return 0;
 }
