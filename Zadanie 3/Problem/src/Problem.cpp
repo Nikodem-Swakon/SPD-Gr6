@@ -156,21 +156,24 @@ void Problem::CompleteReview() const
     int bestMakespan = std::numeric_limits<int>::max();
 
     std::vector<Task> currentSequence = m_tasks;
-    int x = 0;
+    //int x = 0;
     // Generate all permutations of the task sequence
     do
     {
+        
         int currentMakespan = calculateMakespan(currentSequence);
+       
         if (currentMakespan < bestMakespan)
         {
             bestMakespan = currentMakespan;
             bestSequence = currentSequence;
-            std::cout << "Current perm num: " << x << std::endl;
-            x++;
+             std::cout<<"curr_best_makespan: "<<bestMakespan<<std::endl;
+            //std::cout << "Current perm num: " << x << std::endl;
+            //x++;
         }
     } while (std::next_permutation(currentSequence.begin(), currentSequence.end(), [](const Task &a, const Task &b)
                                    {
-                                       return a.GetValues() < b.GetValues(); // Comparison based on execution times
+                                       return a.GetValues() > b.GetValues(); // Comparison based on execution times
                                    }));
 
     // Print the best sequence and its makespan
