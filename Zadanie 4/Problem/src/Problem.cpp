@@ -105,4 +105,82 @@ void Problem::GetNextPerm(std::vector<Task> &vec) const
     std::next_permutation(vec.begin(), vec.end());
 }
 
-// Na 5.0
+// Implementacja algorytmow
+
+std::vector<std::vector<Task>> Problem::GetNeighborsAPEX(const std::vector<Task> vec)
+{
+    std::vector<std::vector<Task>> neighbors;
+    for (size_t i = 0; i < vec.size() - 1; i++)
+    {
+        std::vector<Task> neighbor = vec;
+        std::swap(neighbor[i], neighbor[i + 1]);
+        neighbors.push_back(neighbor);
+    }
+
+    return neighbors;
+}
+
+/**
+ * @brief 
+ * 
+ * @param xInit poczatkowe rozwiaznie, od ktorego rozpoczynamy przeszukiwanie
+ * @param maxIter ile razy szukac nowego sasiedztwa
+ * @param tabuListSize jak dlugo "wychodzic" z rozwiazanie optymalnego LOKALNIE
+ */
+void Problem::TabuSearch(const std::vector<Task> &xInit, int maxIter, int tabuListSize)
+{
+    std::vector<Task> xCurrentSolution = xInit;
+    std::vector<Task> xSolution = xInit;
+
+    std::vector<std::vector<Task>> tabuList;
+    // Znajdź najlepsze rozwiazanie w sasiedztwie
+    for (int i = 0; i < maxIter; i++)
+    {
+        // Pobierz sasiedztwo najlepszego rozwiazania i zapisz jego kryterium
+        std::vector<std::vector<Task>> neighbors = GetNeighborsAPEX(xCurrentSolution);
+        std::vector<Task> xbestNeighbor = xCurrentSolution;
+        int bestNeighborCMax = CalculateCMax(xCurrentSolution);
+
+        // Znajdz najlepsze rozwiazanie w tym sasiedztwie
+        for (const std::vector<Task> &neighbor : neighbors)
+        {
+            // Jeśli rozwiązanie znajduje się juz w TabuList - pomin
+            if (std::find(tabuList.begin(), tabuList.end(), neighbor) == tabuList.end())
+            {
+                int neighborCMax = CalculateCMax(neighbor);
+                // Jesli rozwiaznanie jest lepsza - zapisz
+                if (bestNeighborCMax > neighborCMax)
+                {
+                    xbestNeighbor = neighbor;
+                    bestNeighborCMax = neighborCMax;
+                }
+            }
+        }
+
+        // Zapisz najlepsze rozwiazanie w tym sasiedztwie do tabuList, uwzgledniajac jego dopuszczaly rozmiar
+        xCurrentSolution = xbestNeighbor;
+        tabuList.push_back(xCurrentSolution);
+        if (tabuList.size() > tabuListSize)
+        {
+            tabuList.erase(tabuList.begin());
+        }
+
+        // Jesli znalezione rozwiazanie jest lepsze niz dotychczasewe, zapisz je 
+        if(CalculateCMax(xCurrentSolution) < CalculateCMax(xSolution))
+        {
+            xSolution = xCurrentSolution;
+        }
+    }
+
+    DisplayTasks(xSolution);
+}
+
+void Problem::DisplayTasks(const std::vector<Task> &vec)
+{
+    std::cout << "Best makespan: " <<  CalculateCMax(vec) << std::endl;
+    std::cout << "Best sequence: " << std::endl;
+        for (const Task &task : vec)
+        {
+            std::cout <<  task << std::endl;
+        }
+}

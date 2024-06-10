@@ -19,6 +19,7 @@ private:
     /* private methods */
     int calculateMakespan(const std::vector<Task> &sequence) const;
     void ShowNode(const bbNode &node) const;
+    std::vector<std::vector<Task>> GetNeighborsAPEX(const std::vector<Task> vec); // APEX neighborhood
 
 public:
     /* public methods */
@@ -28,28 +29,10 @@ public:
     void GenerateInstance();
     void GetNextPerm(std::vector<Task> &vec) const;
 
-    void DisplayTasks();
+    void DisplayTasks(const std::vector<Task> &vec);
+
+    void TabuSearch(const std::vector<Task> &xInit, int maxIter, int tabuListSize);
 };
 
 int CalculateCMax(const std::vector<Task> &sequence);
 
-struct bbNode
-{
-    unsigned int lev; // num of machine in the queue
-    std::vector<Task> permutation;
-    int cost; // time of executing tasks
-
-    bbNode(const std::vector<Task> &perm, unsigned int level)
-        : lev(level), permutation(perm)
-    {
-        if (level != 0)
-        {
-            std::vector<Task> subvector(permutation.begin(), permutation.begin() + level);
-            cost = CalculateCMax(subvector);
-        }
-        else
-        {
-            cost = 0;
-        }
-    }
-};

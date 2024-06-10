@@ -61,7 +61,6 @@ void displayTasks(std::vector<Task> &tasks)
     }
 }
 
-
 std::string ChoseFile()
 {
     std::cout << "tests" << std::endl;
@@ -103,6 +102,20 @@ std::string ChoseFile()
     return filename;
 }
 
+/**
+ * @brief
+ *
+ * @param vec zadania dla poszczegolnych maszyn
+ * @param problem zawiera zestaw algorytmow
+ * @param maxIter ile razy szukac nowego sasiedztwa
+ * @param tabuListSize jak dlugo "wychodzic" z rozwiazanie optymalnego LOKALNIE
+ */
+void TabuSearch(std::vector<Task> &vec, Problem &problem, int maxIter, int tabuListSize)
+{
+    std::cout << "Tabu search solution with maxIter " << maxIter << " and tabuListSize " << tabuListSize << std::endl;
+    problem.TabuSearch(vec, maxIter, tabuListSize);
+}
+
 int main(int argc, char *argv[])
 
 {
@@ -116,6 +129,9 @@ int main(int argc, char *argv[])
     Problem problem(taskVector);
 
     displayTasks(taskVector);
+
+    // Algorytmy rozwiazujace zadanie -- testy
+    TabuSearch(taskVector, problem, 80, 10);
 
     return 0;
 }
