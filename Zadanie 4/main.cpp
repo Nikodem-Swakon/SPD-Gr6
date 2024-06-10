@@ -8,9 +8,7 @@
 #include <chrono>
 
 #include "Task.hpp"
-#include "Solution.hpp"
 #include "Problem.hpp"
-#include "Pair.hpp"
 
 #define FILE_PATH "../text.txt"
 
@@ -63,29 +61,6 @@ void displayTasks(std::vector<Task> &tasks)
     }
 }
 
-void Jhnson(Problem &problem)
-{
-    std::cout << "---------------- Algorytm Jhnson'a" << std::endl;
-    problem.Jhonson();
-}
-
-void Neh(Problem &problem)
-{
-    std::cout << "---------------- Algorytm NEH" << std::endl;
-    problem.NEH();
-}
-
-void CompleteReview(Problem &problem)
-{
-    std::cout << "---------------- Algorytm Complete review" << std::endl;
-    problem.CompleteReview();
-}
-
-void BoundAndBrnahc(Problem &problem)
-{
-    std::cout << "---------------- Algorytm Bound And Brnach" << std::endl;
-    problem.BranchAndBound();
-}
 
 std::string ChoseFile()
 {
@@ -141,12 +116,6 @@ int main(int argc, char *argv[])
     Problem problem(taskVector);
 
     displayTasks(taskVector);
-
-    // tests:
-    Jhnson(problem);
-    Neh(problem);
-    // CompleteReview(problem);
-    BoundAndBrnahc(problem);
 
     return 0;
 }
