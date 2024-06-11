@@ -176,13 +176,6 @@ void Problem::TabuSearch(const std::vector<Task> &xInit, int maxIter, int tabuLi
     DisplayTasks(xSolution);
 }
 
-int countNextTemp(int temp, int iter, int tempN, int temp0, int maxIter)
-{
-    int t = temp0 / iter;
-    double lambda = pow(static_cast<double>(tempN) / temp0, 1.0 / maxIter);
-    return static_cast<int>(t * lambda);
-}
-
 /**
  * @brief
  *
@@ -243,6 +236,8 @@ void Problem::SimulatedAnnealing(const std::vector<Task> &xInit, int maxIter, in
         // Zaktualizuj wartosc temperatury stygniecia
         temp = fun(temp, i, tempN, initTemp, maxIter);
     }
+
+    DisplayTasks(xSolution);
 }
 
 void Problem::DisplayTasks(const std::vector<Task> &vec)
