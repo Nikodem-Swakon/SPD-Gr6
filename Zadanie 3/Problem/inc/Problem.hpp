@@ -20,6 +20,7 @@ private:
     mutable int m_cMax;
 
     /* private methods */
+    int calculatePartialMakespan(const std::vector<Task>& sequence, const Task& newTask, size_t position, std::vector<std::vector<int>>& partialCompletionTimes) const;
     int calculateMakespan(const std::vector<Task> &sequence) const;
     void ShowNode(const bbNode &node) const;
 
