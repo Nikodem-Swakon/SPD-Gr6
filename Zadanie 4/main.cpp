@@ -116,6 +116,22 @@ void TabuSearch(std::vector<Task> &vec, Problem &problem, int maxIter, int tabuL
     problem.TabuSearch(vec, maxIter, tabuListSize);
 }
 
+/**
+ * @brief 
+ * 
+ * @param vec zadania dla poszczegolnych maszyn
+ * @param problem zawiera zestaw algorytmow
+ * @param maxIter ile razy szukac nowego sasiedztwa
+ * @param initTemp poczatkowa temperatura
+ * @param tempN koncowa temperatura
+ * @param fun funkcja do obliczania kolejnych temperatur
+ */
+void SimulatedAnnealing(const std::vector<Task> &vec, Problem &problem, int maxIter, int initTemp, int tempN, funType fun)
+{
+    std::cout << "Simulated annealingwith with maxIter " << maxIter << ", t0 " << initTemp << " and tN " << tempN << std::endl;
+    problem.SimulatedAnnealing(vec, maxIter, initTemp, tempN, fun);
+}
+
 int main(int argc, char *argv[])
 
 {
@@ -131,8 +147,8 @@ int main(int argc, char *argv[])
     displayTasks(taskVector);
 
     // Algorytmy rozwiazujace zadanie -- testy
-    // TabuSearch(taskVector, problem, 80, 10);
-    problem.SimulatedAnnealing(taskVector, 100, 50, 2, CountNextTemp);
+    TabuSearch(taskVector, problem, 20, 2);
+    SimulatedAnnealing(taskVector, problem, 200000, 50, 2, CountNextTemp);
 
     return 0;
 }
