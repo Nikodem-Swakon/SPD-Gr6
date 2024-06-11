@@ -131,7 +131,8 @@ int main(int argc, char *argv[])
     displayTasks(taskVector);
 
     // Algorytmy rozwiazujace zadanie -- testy
-    TabuSearch(taskVector, problem, 80, 10);
+    // TabuSearch(taskVector, problem, 80, 10);
+    problem.SimulatedAnnealing(taskVector, 100, 50, 2, CountNextTemp);
 
     return 0;
 }

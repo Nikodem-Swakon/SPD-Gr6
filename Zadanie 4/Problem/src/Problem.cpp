@@ -177,22 +177,38 @@ void Problem::TabuSearch(const std::vector<Task> &xInit, int maxIter, int tabuLi
 }
 
 /**
- * @brief
+ * @brief Oblicza temperaturę dla następnego kroku
+ *
+ * @param temp Aktualna temperatura
+ * @param tempN Temperatura końcowa
+ * @param temp0 Temperatura początkowa
+ * @param maxIter Liczba iteracji
+ * @return int Następna temperatura
+ */
+int CountNextTemp(int temp, int tempN, int temp0, int maxIter)
+{
+    double t = temp;
+    double lambda = pow(static_cast<double>(tempN) / temp0, 1.0 / maxIter);
+    return static_cast<int>(t * lambda);
+}
+
+/**
+ * @brief algorytm symulowanego wyzarzania
  *
  * @param xInit poczatkowe rozwiaznie, od ktorego rozpoczynamy przeszukiwanie
  * @param maxIter ile razy szukac nowego sasiedztwa
  * @param tempN temperatura koncowa, blisak 0
- * @param initTemp poczatkowa wartosc temperatury studzenia
+ * @param temp0 poczatkowa wartosc temperatury studzenia
  */
-void Problem::SimulatedAnnealing(const std::vector<Task> &xInit, int maxIter, int initTemp, int tempN, funType fun)
+void Problem::SimulatedAnnealing(const std::vector<Task> &xInit, int maxIter, int temp0, int tempN, funType fun)
 {
-    int temp = initTemp;
+    int temp = temp0;
     std::vector<Task> xCurrentSolution = xInit;
     std::vector<Task> xSolution = xInit;
     int currentCMax = CalculateCMax(xCurrentSolution);
     int bestCMax = currentCMax;
 
-    for (int i = 0; i < maxIter; i++)
+    for (int i = 1; i <= maxIter; i++)
     {
         // Pobierz sasiedztwo najlepszego rozwiazania i zapisz jego kryterium
         std::vector<std::vector<Task>> neighbors = GetNeighborsAPEX(xCurrentSolution);
@@ -234,7 +250,9 @@ void Problem::SimulatedAnnealing(const std::vector<Task> &xInit, int maxIter, in
         }
 
         // Zaktualizuj wartosc temperatury stygniecia
-        temp = fun(temp, i, tempN, initTemp, maxIter);
+        temp = fun(temp, tempN, temp0, maxIter);
+        if (temp < tempN)
+            break;
     }
 
     DisplayTasks(xSolution);
