@@ -176,11 +176,11 @@ void Problem::TabuSearch(const std::vector<Task> &xInit, int maxIter, int tabuLi
     DisplayTasks(xSolution);
 }
 
-int countNextTemp( int temp, int iter, int tempN, int temp0, int maxIter)
+int countNextTemp(int temp, int iter, int tempN, int temp0, int maxIter)
 {
-    int t = temp0/iter; 
-    int lambda = pow(tempN/temp0, 1/maxIter);
-    return t*lambda;
+    int t = temp0 / iter;
+    double lambda = pow(static_cast<double>(tempN) / temp0, 1.0 / maxIter);
+    return static_cast<int>(t * lambda);
 }
 
 /**
@@ -196,13 +196,15 @@ void Problem::SimulatedAnnealing(const std::vector<Task> &xInit, int maxIter, in
     int temp = initTemp;
     std::vector<Task> xCurrentSolution = xInit;
     std::vector<Task> xSolution = xInit;
+    int currentCMax = CalculateCMax(xCurrentSolution);
+    int bestCMax = currentCMax;
 
     for (int i = 0; i < maxIter; i++)
     {
         // Pobierz sasiedztwo najlepszego rozwiazania i zapisz jego kryterium
         std::vector<std::vector<Task>> neighbors = GetNeighborsAPEX(xCurrentSolution);
         std::vector<Task> xbestNeighbor = xCurrentSolution;
-        int bestNeighborCMax = CalculateCMax(xCurrentSolution);
+        int bestNeighborCMax = currentCMax;
 
         // Znajdz najlepsze rozwiazanie w tym sasiedztwie
         for (const std::vector<Task> &neighbor : neighbors)
@@ -218,7 +220,7 @@ void Problem::SimulatedAnnealing(const std::vector<Task> &xInit, int maxIter, in
             }
             else
             {
-                int randValue = std::rand() / RAND_MAX; // losowa wartosc od 0 do 1
+                double randValue = static_cast<double>(std::rand()) / RAND_MAX; // losowa wartosc od 0 do 1
                 if (randValue < exp(-delta / temp))
                 {
                     xbestNeighbor = neighbor;
@@ -226,6 +228,19 @@ void Problem::SimulatedAnnealing(const std::vector<Task> &xInit, int maxIter, in
                 }
             }
         }
+
+        // Aktualizuj biezace rozwiazanie
+        xCurrentSolution = xbestNeighbor;
+        currentCMax = bestNeighborCMax;
+
+        // Jesli znalezlismy lepsze rozwiazanie, zapisz je
+        if (currentCMax < bestCMax)
+        {
+            xSolution = xCurrentSolution;
+            bestCMax = currentCMax;
+        }
+
+        // Zaktualizuj wartosc temperatury stygniecia
         temp = fun(temp, i, tempN, initTemp, maxIter);
     }
 }
