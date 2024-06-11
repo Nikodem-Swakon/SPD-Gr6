@@ -239,6 +239,112 @@ void Problem::Jhonson() const
 // Na 3.5
 
 // Na 4.0
+int Problem::calculatePartialMakespan(const std::vector<Task>& sequence, const Task& newTask, size_t position, std::vector<std::vector<int>>& partialCompletionTimes) const {
+    int numMachines = newTask.GetValues().size();
+    int numJobs = sequence.size() + 1;
+
+    // Create a new completion times matrix with an additional row for the new task
+    std::vector<std::vector<int>> completionTimes(numJobs, std::vector<int>(numMachines, 0));
+    
+    // Copy the existing partial completion times up to the insertion point
+    for (size_t i = 0; i < position; ++i) {
+        completionTimes[i] = partialCompletionTimes[i];
+    }
+
+    // Insert the new task and update the completion times
+    for (int j = 0; j < numMachines; ++j) {
+        if (position == 0 && j == 0) {
+            completionTimes[position][j] = newTask.GetValues()[j];
+        } else if (position == 0) {
+            completionTimes[position][j] = completionTimes[position][j - 1] + newTask.GetValues()[j];
+        } else if (j == 0) {
+            completionTimes[position][j] = completionTimes[position - 1][j] + newTask.GetValues()[j];
+        } else {
+            completionTimes[position][j] = std::max(completionTimes[position - 1][j], completionTimes[position][j - 1]) + newTask.GetValues()[j];
+        }
+    }
+
+    // Update the completion times for the tasks after the inserted task
+    for (size_t i = position + 1; i < numJobs; ++i) {
+        for (int j = 0; j < numMachines; ++j) {
+            if (j == 0) {
+                completionTimes[i][j] = completionTimes[i - 1][j] + sequence[i - 1].GetValues()[j];
+            } else {
+                completionTimes[i][j] = std::max(completionTimes[i - 1][j], completionTimes[i][j - 1]) + sequence[i - 1].GetValues()[j];
+            }
+        }
+    }
+
+    return completionTimes[numJobs - 1][numMachines - 1];
+}
+
+void Problem::FNEH() const {
+    std::vector<Task> rankedTasks = m_tasks;
+    int N = m_tasks.size();
+    if (N == 0)
+        return;
+
+    // Step 1: Calculate total processing time for each task
+    std::vector<std::pair<int, Task>> totalProcessingTimes;
+    for (const auto& task : m_tasks) {
+        int totalProcessingTime = std::accumulate(task.GetValues().begin(), task.GetValues().end(), 0);
+        totalProcessingTimes.push_back({totalProcessingTime, task});
+    }
+
+    // Step 2: Sort tasks in non-increasing order of their total processing times
+    std::sort(totalProcessingTimes.begin(), totalProcessingTimes.end(), [](const std::pair<int, Task>& a, const std::pair<int, Task>& b) {
+        return a.first > b.first;
+    });
+
+    // Step 3: Build the sequence using the NEH heuristic
+    std::vector<Task> sequence;
+    std::vector<std::vector<int>> partialCompletionTimes; // Matrix to hold partial completion times
+
+    for (const auto& [totalTime, task] : totalProcessingTimes) {
+        std::vector<Task> bestSequence = sequence;
+        int bestMakespan = std::numeric_limits<int>::max();
+        
+        // Try inserting the task at all positions in the current sequence
+        for (size_t i = 0; i <= sequence.size(); ++i) {
+            int makespan = calculatePartialMakespan(sequence, task, i, partialCompletionTimes);
+            
+            if (makespan < bestMakespan) {
+                bestMakespan = makespan;
+                bestSequence = sequence;
+                bestSequence.insert(bestSequence.begin() + i, task);
+            }
+        }
+        
+        sequence = bestSequence;
+
+        // Update the partial completion times matrix with the best sequence
+        partialCompletionTimes = std::vector<std::vector<int>>(sequence.size(), std::vector<int>(task.GetValues().size(), 0));
+        for (size_t i = 0; i < sequence.size(); ++i) {
+            for (size_t j = 0; j < task.GetValues().size(); ++j) {
+                if (i == 0 && j == 0) {
+                    partialCompletionTimes[i][j] = sequence[i].GetValues()[j];
+                } else if (i == 0) {
+                    partialCompletionTimes[i][j] = partialCompletionTimes[i][j - 1] + sequence[i].GetValues()[j];
+                } else if (j == 0) {
+                    partialCompletionTimes[i][j] = partialCompletionTimes[i - 1][j] + sequence[i].GetValues()[j];
+                } else {
+                    partialCompletionTimes[i][j] = std::max(partialCompletionTimes[i - 1][j], partialCompletionTimes[i][j - 1]) + sequence[i].GetValues()[j];
+                }
+            }
+        }
+    }
+
+    // Print the final sequence and makespan
+    std::cout << "Final task sequence:\n";
+    for (const auto& task : sequence) {
+        std::cout << task << std::endl;
+    }
+
+    // Calculate the final makespan using the last partialCompletionTimes matrix
+    int finalMakespan = partialCompletionTimes.back().back();
+    std::cout << "Final makespan: " << finalMakespan << std::endl;
+}
+
 // Na 4.0
 
 // Na 4.5

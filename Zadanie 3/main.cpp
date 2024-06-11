@@ -72,13 +72,27 @@ void Jhnson(Problem &problem)
 void Neh(Problem &problem)
 {
     std::cout << "---------------- Algorytm NEH" << std::endl;
+    auto start = std::chrono::steady_clock::now();
     problem.NEH();
+    auto end = std::chrono::steady_clock::now();
+    std::chrono::duration<double, std::milli> elapsedMilliseconds = end - start;
+    std::cout << "Time for FNEH: " << elapsedMilliseconds.count() << " ms" << std::endl;
 }
 
 void CompleteReview(Problem &problem)
 {
     std::cout << "---------------- Algorytm Complete review" << std::endl;
     problem.CompleteReview();
+}
+
+void FNEH(Problem &problem)
+{
+    std::cout << "---------------- Algorytm FNEH" << std::endl;
+    auto start = std::chrono::steady_clock::now();
+    problem.FNEH();
+    auto end = std::chrono::steady_clock::now();
+    std::chrono::duration<double, std::milli> elapsedMilliseconds = end - start;
+    std::cout << "Time for FNEH: " << elapsedMilliseconds.count() << " ms" << std::endl;
 }
 
 void BoundAndBrnahc(Problem &problem)
@@ -144,9 +158,13 @@ int main(int argc, char *argv[])
 
     // tests:
     //Jhnson(problem);
-    //Neh(problem);
+    
+    Neh(problem);
+    
     //CompleteReview(problem);
-    BoundAndBrnahc(problem);
+    //BoundAndBrnahc(problem);
+    FNEH(problem);
+    
 
     return 0;
 }
