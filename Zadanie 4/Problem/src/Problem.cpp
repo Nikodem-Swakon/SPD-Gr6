@@ -6,6 +6,7 @@
 #include <tuple>
 #include <numeric>
 #include <algorithm> // std::sort
+#include <cmath>
 
 /* additional functions */
 void printMatrix(const std::vector<std::vector<int>> &matrix)
@@ -121,8 +122,8 @@ std::vector<std::vector<Task>> Problem::GetNeighborsAPEX(const std::vector<Task>
 }
 
 /**
- * @brief 
- * 
+ * @brief
+ *
  * @param xInit poczatkowe rozwiaznie, od ktorego rozpoczynamy przeszukiwanie
  * @param maxIter ile razy szukac nowego sasiedztwa
  * @param tabuListSize jak dlugo "wychodzic" z rozwiazanie optymalnego LOKALNIE
@@ -165,8 +166,8 @@ void Problem::TabuSearch(const std::vector<Task> &xInit, int maxIter, int tabuLi
             tabuList.erase(tabuList.begin());
         }
 
-        // Jesli znalezione rozwiazanie jest lepsze niz dotychczasewe, zapisz je 
-        if(CalculateCMax(xCurrentSolution) < CalculateCMax(xSolution))
+        // Jesli znalezione rozwiazanie jest lepsze niz dotychczasewe, zapisz je
+        if (CalculateCMax(xCurrentSolution) < CalculateCMax(xSolution))
         {
             xSolution = xCurrentSolution;
         }
@@ -175,12 +176,66 @@ void Problem::TabuSearch(const std::vector<Task> &xInit, int maxIter, int tabuLi
     DisplayTasks(xSolution);
 }
 
+int countNextTemp( int temp, int iter, int tempN, int temp0, int maxIter)
+{
+    int t = temp0/iter; 
+    int lambda = pow(tempN/temp0, 1/maxIter);
+    return t*lambda;
+}
+
+/**
+ * @brief
+ *
+ * @param xInit poczatkowe rozwiaznie, od ktorego rozpoczynamy przeszukiwanie
+ * @param maxIter ile razy szukac nowego sasiedztwa
+ * @param tempN temperatura koncowa, blisak 0
+ * @param initTemp poczatkowa wartosc temperatury studzenia
+ */
+void Problem::SimulatedAnnealing(const std::vector<Task> &xInit, int maxIter, int initTemp, int tempN, funType fun)
+{
+    int temp = initTemp;
+    std::vector<Task> xCurrentSolution = xInit;
+    std::vector<Task> xSolution = xInit;
+
+    for (int i = 0; i < maxIter; i++)
+    {
+        // Pobierz sasiedztwo najlepszego rozwiazania i zapisz jego kryterium
+        std::vector<std::vector<Task>> neighbors = GetNeighborsAPEX(xCurrentSolution);
+        std::vector<Task> xbestNeighbor = xCurrentSolution;
+        int bestNeighborCMax = CalculateCMax(xCurrentSolution);
+
+        // Znajdz najlepsze rozwiazanie w tym sasiedztwie
+        for (const std::vector<Task> &neighbor : neighbors)
+        {
+
+            int neighborCMax = CalculateCMax(neighbor);
+            int delta = neighborCMax - bestNeighborCMax;
+            // Jesli rozwiaznanie jest lepsza - zapisz
+            if (delta < 0)
+            {
+                xbestNeighbor = neighbor;
+                bestNeighborCMax = neighborCMax;
+            }
+            else
+            {
+                int randValue = std::rand() / RAND_MAX; // losowa wartosc od 0 do 1
+                if (randValue < exp(-delta / temp))
+                {
+                    xbestNeighbor = neighbor;
+                    bestNeighborCMax = neighborCMax;
+                }
+            }
+        }
+        temp = fun(temp, i, tempN, initTemp, maxIter);
+    }
+}
+
 void Problem::DisplayTasks(const std::vector<Task> &vec)
 {
-    std::cout << "Best makespan: " <<  CalculateCMax(vec) << std::endl;
+    std::cout << "Best makespan: " << CalculateCMax(vec) << std::endl;
     std::cout << "Best sequence: " << std::endl;
-        for (const Task &task : vec)
-        {
-            std::cout <<  task << std::endl;
-        }
+    for (const Task &task : vec)
+    {
+        std::cout << task << std::endl;
+    }
 }

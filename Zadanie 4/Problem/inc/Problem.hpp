@@ -7,6 +7,8 @@
 
 #define CRITICAL_NUMBER 12
 
+typedef int( * funType )( int, int, int, int, int );
+
 class bbNode;
 class Problem
 {
@@ -32,6 +34,7 @@ public:
     void DisplayTasks(const std::vector<Task> &vec);
 
     void TabuSearch(const std::vector<Task> &xInit, int maxIter, int tabuListSize);
+    void SimulatedAnnealing(const std::vector<Task> &xInit, int maxIter, int initTemp, int tempN, funType fun );
 };
 
 int CalculateCMax(const std::vector<Task> &sequence);
