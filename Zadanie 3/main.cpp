@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
 
     // tests:
     // Jhnson(problem);
-    Neh(problem);
+    // Neh(problem);
     // CompleteReview(problem);
     BoundAndBrnach(problem);
 

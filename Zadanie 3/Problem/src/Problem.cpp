@@ -244,25 +244,32 @@ void Problem::Jhonson() const
 
 // Na 5.0
 
-int Problem::CalculateLoweBound(int level, std::vector<Task> scheduled) const
+int Problem::CalculateLowerBound(int level, std::vector<Task> scheduled) const
 {
-    std::vector<Task> subvector(scheduled.begin(), scheduled.begin() + level);
-    std::cout << "Subvector dla poziomu " << level << "." << std::endl;
-    DisplayTasks(subvector);
-    int costScheduled = CalculateCMax(subvector);
-
-    int est = 0;
-    for (Task task : m_tasks)
+    if (level != 0)
     {
-        est += task.GetValueAt(task.GetValuesSize() - 1);
-    }
+        std::vector<Task> subvector(scheduled.begin(), scheduled.begin() + level);
+        std::cout << "Subvector dla poziomu " << level << "." << std::endl;
+        DisplayTasks(subvector);
+        int costScheduled = CalculateCMax(subvector);
 
-    for (int j = 0; j < level; j++)
+        int est = 0;
+        for (Task task : m_tasks)
+        {
+            est += task.GetValueAt(task.GetValuesSize() - 1);
+        }
+
+        for (int j = 0; j < level; j++)
+        {
+            est -= scheduled[j].GetValueAt(scheduled[j].GetValuesSize() - 1);
+        }
+
+        return costScheduled + est;
+    }
+    else
     {
-        est -= scheduled[j].GetValueAt(scheduled[j].GetValuesSize() - 1);
+        return CalculateCMax(scheduled);
     }
-
-    return costScheduled + est;
 }
 
 int Problem::CalculateUpperBound(int level, std::vector<Task> scheduled) const
@@ -275,7 +282,6 @@ void Problem::DisplayTasks(std::vector<Task> &tasks) const
     for (Task task : tasks)
     {
         std::cout << task << std::endl;
-        ;
     }
 }
 
@@ -288,6 +294,8 @@ void Problem::BranchAndBound() const
 
     int globalUpperBound = INT_MAX;
     bbNode root(vec, 0);
+    root.lowerBound = CalculateLowerBound(root.lev, root.permutation);
+    root.upperBound = CalculateUpperBound(root.lev, root.permutation);
     nodesQueue.push_back(root); // it is root
     std::cout << "Low barrier: " << root.lowerBound << std::endl;
     std::cout << "Upper barrier: " << root.upperBound << std::endl;
@@ -303,6 +311,7 @@ void Problem::BranchAndBound() const
 
         if (node.upperBound < globalUpperBound)
         {
+            std::cout << "Przypisz nowe rozwiazanie " << std::endl;
             globalUpperBound = node.upperBound;
             result = node.permutation;
         }
@@ -321,7 +330,7 @@ void Problem::BranchAndBound() const
                 bbNode newNode(newPermutation, node.lev + 1);
 
                 // Oblicz dolne ograniczenie tego noda
-                newNode.lowerBound = CalculateLoweBound(newNode.lev, newNode.permutation);
+                newNode.lowerBound = CalculateLowerBound(newNode.lev, newNode.permutation);
                 newNode.upperBound = CalculateUpperBound(newNode.lev, newNode.permutation);
 
                 std::cout << "LB: " << newNode.lowerBound << " i UB: " << newNode.upperBound << std::endl;

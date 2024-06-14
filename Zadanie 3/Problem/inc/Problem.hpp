@@ -22,7 +22,7 @@ private:
     /* private methods */
     int calculateMakespan(const std::vector<Task> &sequence) const;
     void ShowNode(const bbNode &node) const;
-    int CalculateLoweBound(int level, std::vector<Task> scheduled) const;
+    int CalculateLowerBound(int level, std::vector<Task> scheduled) const;
     int CalculateUpperBound(int level, std::vector<Task> scheduled) const;
 
 public:
