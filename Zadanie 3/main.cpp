@@ -81,7 +81,7 @@ void CompleteReview(Problem &problem)
     problem.CompleteReview();
 }
 
-void BoundAndBrnahc(Problem &problem)
+void BoundAndBrnach(Problem &problem)
 {
     std::cout << "---------------- Algorytm Bound And Brnach" << std::endl;
     problem.BranchAndBound();
@@ -143,10 +143,10 @@ int main(int argc, char *argv[])
     displayTasks(taskVector);
 
     // tests:
-    Jhnson(problem);
+    // Jhnson(problem);
     Neh(problem);
     // CompleteReview(problem);
-    BoundAndBrnahc(problem);
+    BoundAndBrnach(problem);
 
     return 0;
 }

@@ -6,6 +6,7 @@
 #include <tuple>
 #include <numeric>
 #include <algorithm> // std::sort
+#include <set>
 
 /* additional functions */
 void printMatrix(const std::vector<std::vector<int>> &matrix)
@@ -242,66 +243,112 @@ void Problem::Jhonson() const
 // Na 4.5
 
 // Na 5.0
+
+int Problem::CalculateLoweBound(int level, std::vector<Task> scheduled) const
+{
+    std::vector<Task> subvector(scheduled.begin(), scheduled.begin() + level);
+    std::cout << "Subvector dla poziomu " << level << "." << std::endl;
+    DisplayTasks(subvector);
+    int costScheduled = CalculateCMax(subvector);
+
+    int est = 0;
+    for (Task task : m_tasks)
+    {
+        est += task.GetValueAt(task.GetValuesSize() - 1);
+    }
+
+    for (int j = 0; j < level; j++)
+    {
+        est -= scheduled[j].GetValueAt(scheduled[j].GetValuesSize() - 1);
+    }
+
+    return costScheduled + est;
+}
+
+int Problem::CalculateUpperBound(int level, std::vector<Task> scheduled) const
+{
+    return CalculateCMax(scheduled);
+}
+
+void Problem::DisplayTasks(std::vector<Task> &tasks) const
+{
+    for (Task task : tasks)
+    {
+        std::cout << task << std::endl;
+        ;
+    }
+}
+
 void Problem::BranchAndBound() const
 {
     std::vector<Task> vec = m_tasks;
+    std::vector<Task> result = {};
     std::vector<bbNode> nodesQueue;
-    std::vector<bbNode> optimalNodesQueue;
-    int lowBarier = CalculateCMax(vec); // intialized solution, not optimal
-    std::cout << "Low barrier: " << lowBarier << std::endl;
-    nodesQueue.push_back(bbNode(vec, 0)); // it is root
+    std::set<std::vector<Task>> visitedPermutations;
+
+    int globalUpperBound = INT_MAX;
+    bbNode root(vec, 0);
+    nodesQueue.push_back(root); // it is root
+    std::cout << "Low barrier: " << root.lowerBound << std::endl;
+    std::cout << "Upper barrier: " << root.upperBound << std::endl;
 
     while (!nodesQueue.empty())
     {
+        std::cout << "Analiza nastepego noda" << std::endl;
         bbNode node = nodesQueue.front();
         nodesQueue.erase(nodesQueue.begin());
 
-        // Show nodes
-        // ShowNode(node);
+        // Poka nody
+        ShowNode(node);
 
-        // Add node to cosidered solutions
-        if (node.lev == vec.size())
+        if (node.upperBound < globalUpperBound)
         {
-            optimalNodesQueue.push_back(node);
+            globalUpperBound = node.upperBound;
+            result = node.permutation;
         }
 
-        // Branch
+        std::cout << "Tworzenie galezi" << std::endl;
+        // Podziel na dzieci tego węzła
         for (size_t i = node.lev; i < vec.size(); ++i)
         {
             std::vector<Task> newPermutation = node.permutation;
             std::swap(newPermutation[node.lev], newPermutation[i]);
-            bbNode newNode(newPermutation, node.lev + 1);
-            if (newNode.cost < lowBarier) // check bound
-                nodesQueue.push_back(newNode);
-        }
-    }
+            if (visitedPermutations.find(newPermutation) == visitedPermutations.end())
+            {
+                visitedPermutations.insert(newPermutation);
 
-    auto minCostNodeIt = std::min_element(optimalNodesQueue.begin(), optimalNodesQueue.end(), [](const bbNode &a, const bbNode &b)
-                                          { return a.cost < b.cost; });
-    if (minCostNodeIt != optimalNodesQueue.end())
-    {
-        bbNode minCostNode = *minCostNodeIt;
-        std::cout << "Best makespan: " <<  minCostNode.cost << std::endl;
-        std::cout << "Best sequence: " << std::endl;
-        for (const Task &task : minCostNode.permutation)
-        {
-            std::cout <<  task << std::endl;
+                std::cout << "Zaakceptowany node: " << std::endl;
+                bbNode newNode(newPermutation, node.lev + 1);
+
+                // Oblicz dolne ograniczenie tego noda
+                newNode.lowerBound = CalculateLoweBound(newNode.lev, newNode.permutation);
+                newNode.upperBound = CalculateUpperBound(newNode.lev, newNode.permutation);
+
+                std::cout << "LB: " << newNode.lowerBound << " i UB: " << newNode.upperBound << std::endl;
+
+                if (newNode.lowerBound < globalUpperBound)
+                {
+                    std::cout << "Dodano noda do kolejki" << std::endl;
+                    nodesQueue.push_back(newNode);
+                }
+            }
         }
     }
-    else
-    {
-        std::cout << "No nodes found in the optimalNodesQueue." << std::endl;
-    }
+    std::cout << "Solution" << std::endl;
+
+    DisplayTasks(result);
+
+    std::cout << "Cmax :" << CalculateCMax(result) << std::endl;
 }
 
 void Problem::ShowNode(const bbNode &node) const
 {
-    std::cout << "Level: " << node.lev << ", Cost: " << node.cost << std::endl;
-        for (const Task &task : node.permutation)
-        {
-            std::cout << "Task ID: " << task.GetId() << std::endl;
-        }
-        std::cout << "------" << std::endl;
+    std::cout << "Level: " << node.lev << ", LB: " << node.lowerBound << ", UB: " << node.upperBound << std::endl;
+    for (const Task &task : node.permutation)
+    {
+        std::cout << "Task ID: " << task.GetId() << std::endl;
+    }
+    std::cout << "------" << std::endl;
 }
 
 void Problem::GetNextPerm(std::vector<Task> &vec) const

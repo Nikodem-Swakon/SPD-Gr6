@@ -22,6 +22,8 @@ private:
     /* private methods */
     int calculateMakespan(const std::vector<Task> &sequence) const;
     void ShowNode(const bbNode &node) const;
+    int CalculateLoweBound(int level, std::vector<Task> scheduled) const;
+    int CalculateUpperBound(int level, std::vector<Task> scheduled) const;
 
 public:
     /* public methods */
@@ -52,28 +54,20 @@ public:
     void BranchAndBound() const; // Wersja zaawansowana podziału i ograniczeń - już bardzo śmierdzi carlierem
     // Na 5.0
 
-    void DisplayTasks();
+    void DisplayTasks(std::vector<Task> &tasks) const;
 };
 
 int CalculateCMax(const std::vector<Task> &sequence);
 
 struct bbNode
 {
-    unsigned int lev; // num of machine in the queue
+    unsigned int lev; // ile adan jest "uszeregowanych"
     std::vector<Task> permutation;
-    int cost; // time of executing tasks
+    int lowerBound; // czas wykonywanie "uszeregogowanych" zadan + oszacowanie reszty
+    int upperBound;
 
     bbNode(const std::vector<Task> &perm, unsigned int level)
-        : lev(level), permutation(perm)
+        : lev(level), permutation(perm), lowerBound(0), upperBound(INT_MAX)
     {
-        if (level != 0)
-        {
-            std::vector<Task> subvector(permutation.begin(), permutation.begin() + level);
-            cost = CalculateCMax(subvector);
-        }
-        else
-        {
-            cost = 0;
-        }
     }
 };
