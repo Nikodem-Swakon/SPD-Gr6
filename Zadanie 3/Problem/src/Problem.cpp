@@ -249,8 +249,8 @@ int Problem::CalculateLowerBound(int level, std::vector<Task> scheduled) const
     if (level != 0)
     {
         std::vector<Task> subvector(scheduled.begin(), scheduled.begin() + level);
-        std::cout << "Subvector dla poziomu " << level << "." << std::endl;
-        DisplayTasks(subvector);
+        // std::cout << "Subvector dla poziomu " << level << "." << std::endl;
+        // DisplayTasks(subvector);
         int costScheduled = CalculateCMax(subvector);
 
         int est = 0;
@@ -297,26 +297,26 @@ void Problem::BranchAndBound() const
     root.lowerBound = CalculateLowerBound(root.lev, root.permutation);
     root.upperBound = CalculateUpperBound(root.lev, root.permutation);
     nodesQueue.push_back(root); // it is root
-    std::cout << "Low barrier: " << root.lowerBound << std::endl;
-    std::cout << "Upper barrier: " << root.upperBound << std::endl;
+    // std::cout << "Low barrier: " << root.lowerBound << std::endl;
+    // std::cout << "Upper barrier: " << root.upperBound << std::endl;
 
     while (!nodesQueue.empty())
     {
-        std::cout << "Analiza nastepego noda" << std::endl;
+        // std::cout << "Analiza nastepego noda" << std::endl;
         bbNode node = nodesQueue.front();
         nodesQueue.erase(nodesQueue.begin());
 
         // Poka nody
-        ShowNode(node);
+        // ShowNode(node);
 
         if (node.upperBound < globalUpperBound)
         {
-            std::cout << "Przypisz nowe rozwiazanie " << std::endl;
+            // std::cout << "Przypisz nowe rozwiazanie " << std::endl;
             globalUpperBound = node.upperBound;
             result = node.permutation;
         }
 
-        std::cout << "Tworzenie galezi" << std::endl;
+        // std::cout << "Tworzenie galezi" << std::endl;
         // Podziel na dzieci tego węzła
         for (size_t i = node.lev; i < vec.size(); ++i)
         {
@@ -326,18 +326,18 @@ void Problem::BranchAndBound() const
             {
                 visitedPermutations.insert(newPermutation);
 
-                std::cout << "Zaakceptowany node: " << std::endl;
+                // std::cout << "Zaakceptowany node: " << std::endl;
                 bbNode newNode(newPermutation, node.lev + 1);
 
                 // Oblicz dolne ograniczenie tego noda
                 newNode.lowerBound = CalculateLowerBound(newNode.lev, newNode.permutation);
                 newNode.upperBound = CalculateUpperBound(newNode.lev, newNode.permutation);
 
-                std::cout << "LB: " << newNode.lowerBound << " i UB: " << newNode.upperBound << std::endl;
+                // std::cout << "LB: " << newNode.lowerBound << " i UB: " << newNode.upperBound << std::endl;
 
                 if (newNode.lowerBound < globalUpperBound)
                 {
-                    std::cout << "Dodano noda do kolejki" << std::endl;
+                    // std::cout << "Dodano noda do kolejki" << std::endl;
                     nodesQueue.push_back(newNode);
                 }
             }

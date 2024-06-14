@@ -143,9 +143,9 @@ int main(int argc, char *argv[])
     displayTasks(taskVector);
 
     // tests:
-    // Jhnson(problem);
-    // Neh(problem);
-    // CompleteReview(problem);
+    Jhnson(problem);
+    Neh(problem);
+    CompleteReview(problem);
     BoundAndBrnach(problem);
 
     return 0;
