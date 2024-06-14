@@ -159,11 +159,11 @@ int main(int argc, char *argv[])
     // tests:
     //Jhnson(problem);
     
-    Neh(problem);
+    // Neh(problem);
     
     //CompleteReview(problem);
-    //BoundAndBrnahc(problem);
-    FNEH(problem);
+    BoundAndBrnahc(problem);
+    // FNEH(problem);
     
 
     return 0;
