@@ -7,6 +7,7 @@
 #include <numeric>
 #include <algorithm> // std::sort
 #include <cmath>
+#include <random>
 
 /* additional functions */
 void printMatrix(const std::vector<std::vector<int>> &matrix)
@@ -201,59 +202,57 @@ int CountNextTemp(int temp, int tempN, int temp0, int maxIter)
 void Problem::SimulatedAnnealing(int maxIter, int temp0, int tempN, funType fun)
 {
     int temp = temp0;
-    std::vector<Task> xCurrentSolution = m_tasks;
-    std::vector<Task> xSolution = m_tasks;
-    int currentCMax = CalculateCMax(xCurrentSolution);
-    int bestCMax = currentCMax;
-
-    for (int i = 1; i <= maxIter; i++)
+    std::vector<Task> currentSolution = m_tasks;
+    std::vector<Task> acceptedSolution = m_tasks;
+    std::vector<Task> finalSolution = m_tasks;
+    int currentCMax = CalculateCMax(currentSolution);
+    int acceptedCMax = currentCMax;
+    int finalCMax = currentCMax;
+    while (temp > tempN)
     {
-        // Pobierz sasiedztwo najlepszego rozwiazania i zapisz jego kryterium
-        std::vector<std::vector<Task>> neighbors = GetNeighborsAPEX(xCurrentSolution);
-        std::vector<Task> xbestNeighbor = xCurrentSolution;
-        int bestNeighborCMax = currentCMax;
-
-        // Znajdz najlepsze rozwiazanie w tym sasiedztwie
-        for (const std::vector<Task> &neighbor : neighbors)
+        for (int i = 1; i <= maxIter; i++)
         {
+            std::vector<Task> newSolution = acceptedSolution;
+            std::random_device rd;
+            std::mt19937 g(rd());
 
-            int neighborCMax = CalculateCMax(neighbor);
-            int delta = neighborCMax - bestNeighborCMax;
-            // Jesli rozwiaznanie jest lepsza - zapisz
-            if (delta < 0)
+            // Wymieszaj wektor
+            std::shuffle(newSolution.begin(), newSolution.end(), g);
+            std::cout << "New Perm" << std::endl;
+            // DisplayTasks(newSolution);
+            int newCMax = CalculateCMax(newSolution);
+            int delta = newCMax - acceptedCMax;
+
+            if (delta < 0) // Jesli rozwiaznanie jest lepsza - zapisz
             {
-                xbestNeighbor = neighbor;
-                bestNeighborCMax = neighborCMax;
+                // std::cout << "Zaakceptowane" << std::endl;
+                acceptedSolution = newSolution;
+                acceptedCMax = newCMax;
             }
             else
             {
                 double randValue = static_cast<double>(std::rand()) / RAND_MAX; // losowa wartosc od 0 do 1
                 if (randValue < exp(-delta / temp))
                 {
-                    xbestNeighbor = neighbor;
-                    bestNeighborCMax = neighborCMax;
+                    acceptedSolution = newSolution;
+                    acceptedCMax = newCMax;
                 }
             }
+
+            // Jesli znalezlismy lepsze rozwiazanie, zapisz je
+            if (acceptedCMax < finalCMax)
+            {
+                finalSolution = acceptedSolution;
+                finalCMax = acceptedCMax;
+            }
         }
-
-        // Aktualizuj biezace rozwiazanie
-        xCurrentSolution = xbestNeighbor;
-        currentCMax = bestNeighborCMax;
-
-        // Jesli znalezlismy lepsze rozwiazanie, zapisz je
-        if (currentCMax < bestCMax)
-        {
-            xSolution = xCurrentSolution;
-            bestCMax = currentCMax;
-        }
-
         // Zaktualizuj wartosc temperatury stygniecia
         temp = fun(temp, tempN, temp0, maxIter);
         if (temp < tempN)
             break;
     }
 
-    DisplayTasks(xSolution);
+    DisplayTasks(finalSolution);
 }
 
 void Problem::DisplayTasks(const std::vector<Task> &vec)
