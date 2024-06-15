@@ -150,7 +150,7 @@ void Problem::NEH() const
     */
 
     std::cout << "Solution" << std::endl;
-    DisplayTasks(sequence);
+    //DisplayTasks(sequence);
     std::cout << "\033[0;32m Cmax: \033[1;32m" << CalculateCMax(sequence) << "\033[0m" << std::endl;
 }
 
@@ -306,89 +306,157 @@ int Problem::calculatePartialMakespan(const std::vector<Task> &sequence, const T
 
 void Problem::FNEH() const
 {
-    std::vector<Task> rankedTasks = m_tasks;
-    int N = m_tasks.size();
-    if (N == 0)
-        return;
+std::vector<Task> rankedTasks = m_tasks;
+    int N = m_tasks.size(); // number of tasks
+    int M = m_tasks[0].GetValues().size(); //number of machines
+    //std::cout<<"M: "<<M<<std::endl;
+    if (N == 0) return;
 
     // Step 1: Calculate total processing time for each task
     std::vector<std::pair<int, Task>> totalProcessingTimes;
-    for (const auto &task : m_tasks)
-    {
+    for (const auto& task : m_tasks) {
         int totalProcessingTime = std::accumulate(task.GetValues().begin(), task.GetValues().end(), 0);
         totalProcessingTimes.push_back({totalProcessingTime, task});
     }
 
     // Step 2: Sort tasks in non-increasing order of their total processing times
-    std::sort(totalProcessingTimes.begin(), totalProcessingTimes.end(), [](const std::pair<int, Task> &a, const std::pair<int, Task> &b)
-              { return a.first > b.first; });
+    std::sort(totalProcessingTimes.begin(), totalProcessingTimes.end(), [](const std::pair<int, Task>& a, const std::pair<int, Task>& b) {
+        return a.first > b.first;
+    });
 
-    // Step 3: Build the sequence using the NEH heuristic
-    std::vector<Task> sequence;
-    std::vector<std::vector<int>> partialCompletionTimes; // Matrix to hold partial completion times
+    // Initialize sequence with the first task from m_tasks
+    std::vector<Task> sequence = { m_tasks[0] };
+    totalProcessingTimes.erase(std::remove_if(totalProcessingTimes.begin(), totalProcessingTimes.end(),
+                                              [&](const std::pair<int, Task>& p) { return p.second.GetValues() == m_tasks[0].GetValues(); }),
+                               totalProcessingTimes.end());
 
-    for (const auto &[totalTime, task] : totalProcessingTimes)
-    {
+    // Step 3: Build the sequence using the QNEH heuristic
+    for (size_t index = 0; index < totalProcessingTimes.size(); ++index) { //for each task
+        const Task& task = totalProcessingTimes[index].second;
         std::vector<Task> bestSequence = sequence;
-        int bestMakespan = std::numeric_limits<int>::max();
+        int bestCMax = std::numeric_limits<int>::max();
 
         // Try inserting the task at all positions in the current sequence
-        for (size_t i = 0; i <= sequence.size(); ++i)
-        {
-            int makespan = calculatePartialMakespan(sequence, task, i, partialCompletionTimes);
+        for (size_t i = 0; i <= sequence.size(); ++i) { //for each machine
+            std::vector<Task> tempSequence = sequence;
+            tempSequence.insert(tempSequence.begin() + i, task);
 
-            if (makespan < bestMakespan)
-            {
-                bestMakespan = makespan;
-                bestSequence = sequence;
-                bestSequence.insert(bestSequence.begin() + i, task);
+            int CMax = CalculateCMaxX(tempSequence);
+
+            if (CMax < bestCMax) {
+                bestCMax = CMax;
+                bestSequence = tempSequence;
             }
         }
 
         sequence = bestSequence;
+    }
 
-        // Update the partial completion times matrix with the best sequence
-        partialCompletionTimes = std::vector<std::vector<int>>(sequence.size(), std::vector<int>(task.GetValues().size(), 0));
-        for (size_t i = 0; i < sequence.size(); ++i)
-        {
-            for (size_t j = 0; j < task.GetValues().size(); ++j)
-            {
-                if (i == 0 && j == 0)
-                {
-                    partialCompletionTimes[i][j] = sequence[i].GetValues()[j];
-                }
-                else if (i == 0)
-                {
-                    partialCompletionTimes[i][j] = partialCompletionTimes[i][j - 1] + sequence[i].GetValues()[j];
-                }
-                else if (j == 0)
-                {
-                    partialCompletionTimes[i][j] = partialCompletionTimes[i - 1][j] + sequence[i].GetValues()[j];
-                }
-                else
-                {
-                    partialCompletionTimes[i][j] = std::max(partialCompletionTimes[i - 1][j], partialCompletionTimes[i][j - 1]) + sequence[i].GetValues()[j];
-                }
+    std::cout << "Solution" << std::endl;
+    //DisplayTasks(sequence);
+    std::cout << "\033[0;32m Cmax: \033[1;32m" << CalculateCMaxX(sequence) << "\033[0m" << std::endl;
+}
+
+int Problem::CalculateCMaxY(const std::vector<Task>& sequence) const {
+    if (sequence.empty()) return 0;
+
+    int numTasks = sequence.size();
+    int numMachines = sequence[0].GetValues().size();
+    std::vector<std::vector<int>> completionTimes(numTasks, std::vector<int>(numMachines, 0));
+
+    // Initialize the completion times for the first task
+    completionTimes[0][0] = sequence[0].GetValues()[0];
+    for (int m = 1; m < numMachines; ++m) {
+        completionTimes[0][m] = completionTimes[0][m - 1] + sequence[0].GetValues()[m];
+    }
+
+    // Calculate the completion times for the rest of the tasks
+    for (int t = 1; t < numTasks; ++t) {
+        completionTimes[t][0] = completionTimes[t - 1][0] + sequence[t].GetValues()[0];
+        for (int m = 1; m < numMachines; ++m) {
+            completionTimes[t][m] = std::max(completionTimes[t - 1][m], completionTimes[t][m - 1]) + sequence[t].GetValues()[m];
+        }
+    }
+
+    return completionTimes[numTasks - 1][numMachines - 1];
+}
+
+std::pair<std::vector<int>, std::vector<int>> Problem::CalculateTables(const std::vector<Task>& schedule, const Task& task) const {
+    int numTasks = schedule.size();
+    int numMachines = task.GetValues().size();
+    std::vector<int> incomingTable(numMachines, 0);
+    std::vector<int> outgoingTable(numMachines, 0);
+
+    // Calculate incoming table
+    for (int m = 0; m < numMachines; ++m) {
+        if (m == 0) {
+            incomingTable[m] = (numTasks > 0 ? schedule[numTasks - 1].GetValues()[m] : 0) + task.GetValues()[m];
+        } else {
+            int prevTaskTime = numTasks > 0 ? incomingTable[m - 1] : 0;
+            int prevMachineTime = numTasks > 0 ? schedule[numTasks - 1].GetValues()[m] : 0;
+            incomingTable[m] = std::max(prevTaskTime, prevMachineTime) + task.GetValues()[m];
+        }
+    }
+
+    // Calculate outgoing table
+    for (int m = numMachines - 1; m >= 0; --m) {
+        if (m == numMachines - 1) {
+            outgoingTable[m] = task.GetValues()[m];
+        } else {
+            int nextTaskTime = outgoingTable[m + 1];
+            int nextMachineTime = numTasks > 0 ? schedule[numTasks - 1].GetValues()[m] : 0;
+            outgoingTable[m] = std::max(nextTaskTime, nextMachineTime) + task.GetValues()[m];
+        }
+    }
+
+    return {incomingTable, outgoingTable};
+}
+
+int Problem::CalculateCMaxX(const std::vector<Task>& sequence) const {
+    if (sequence.empty()) return 0;
+
+    int numMachines = sequence[0].GetValues().size();
+    std::vector<int> endTimes(numMachines, 0);
+
+    for (const auto& task : sequence) {
+        for (int m = 0; m < numMachines; ++m) {
+            if (m == 0) {
+                endTimes[m] += task.GetValues()[m];
+            } else {
+                endTimes[m] = std::max(endTimes[m], endTimes[m - 1]) + task.GetValues()[m];
             }
         }
     }
 
-    /* UJEDNOLICILAM WYSWIETLANIE, to jest stary kod
+    return endTimes[numMachines - 1];
+}
 
-        // // Print the final sequence and makespan
-        // std::cout << "Final task sequence:\n";
-        // for (const auto& task : sequence) {
-        //     std::cout << task << std::endl;
-        // }
+int Problem::CalculateCMaxQuick(int position, const std::vector<int>& incomingTable, const std::vector<int>& outgoingTable, const Task& task, const std::vector<Task>& sequence) const {
+    int numMachines = incomingTable.size();
+    std::vector<int> endTimes(numMachines, 0);
 
-        // // Calculate the final makespan using the last partialCompletionTimes matrix
-        // int finalMakespan = partialCompletionTimes.back().back();
-        // std::cout << "Final makespan: " << finalMakespan << std::endl;
-    */
+    // Calculate end times for the existing sequence
+    for (const auto& seqTask : sequence) {
+        for (int m = 0; m < numMachines; ++m) {
+            if (m == 0) {
+                endTimes[m] += seqTask.GetValues()[m];
+            } else {
+                endTimes[m] = std::max(endTimes[m], endTimes[m - 1]) + seqTask.GetValues()[m];
+            }
+        }
+    }
 
-    std::cout << "Solution" << std::endl;
-    DisplayTasks(sequence);
-    std::cout << "\033[0;32m Cmax: \033[1;32m" << CalculateCMax(sequence) << "\033[0m" << std::endl;
+    // Calculate Cmax by inserting the task
+    int CMax = 0;
+    for (int m = 0; m < numMachines; ++m) {
+        if (m == 0) {
+            CMax = std::max(CMax, endTimes[m] + task.GetValues()[m]);
+        } else {
+            CMax = std::max(CMax, std::max(endTimes[m], endTimes[m - 1]) + task.GetValues()[m]);
+        }
+    }
+
+    return CMax;
 }
 
 // Na 4.0

@@ -117,7 +117,7 @@ std::string ChoseFile()
 {
     std::cout << "tests" << std::endl;
     std::string currentpath = std::filesystem::current_path().string();
-    std::string folderPath = currentpath + "/../Input";
+    std::string folderPath = currentpath + "/../Input/Old";
 
     // Display list of files in the folder
     std::cout << "Files available as input data:" << std::endl;
@@ -169,10 +169,10 @@ int main(int argc, char *argv[])
     displayTasks(taskVector);
 
     // tests:
-    Jhnson(problem);
+    //Jhnson(problem);
     Neh(problem);
-    CompleteReview(problem);
-    BoundAndBrnahc(problem);
+    //CompleteReview(problem);
+    //BoundAndBrnahc(problem);
     FNEH(problem);
 
     return 0;
