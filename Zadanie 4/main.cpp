@@ -111,13 +111,17 @@ std::string ChoseFile()
  */
 void TabuSearch(Problem &problem, int maxIter, int tabuListSize)
 {
-    std::cout << "Tabu search solution with maxIter " << maxIter << " and tabuListSize " << tabuListSize << std::endl;
-    problem.TabuSearch( maxIter, tabuListSize);
+    std::cout << "--------------------------------- " << "\033[0;35m Tabu search solution with \033[1;35m maxIter " << maxIter << " \033[0;35m and \033[1;35m tabuListSize " << tabuListSize << " \033[0m " << std::endl;
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+    problem.TabuSearch(maxIter, tabuListSize);
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "\033[0;36m Time: \033[1;36m  " << duration.count() << "\033[0;36m microseconds \033[0m" << std::endl;
 }
 
 /**
- * @brief 
- * 
+ * @brief
+ *
  * @param problem zawiera zestaw algorytmow
  * @param maxIter ile razy szukac nowego sasiedztwa
  * @param initTemp poczatkowa temperatura
@@ -126,8 +130,12 @@ void TabuSearch(Problem &problem, int maxIter, int tabuListSize)
  */
 void SimulatedAnnealing(Problem &problem, int maxIter, int initTemp, int tempN, funType fun)
 {
-    std::cout << "Simulated annealingwith with maxIter " << maxIter << ", t0 " << initTemp << " and tN " << tempN << std::endl;
+    std::cout << "--------------------------------- " << "\033[0;35m Simulated annealingwith with \033[1;35m maxIter " << maxIter << "\033[0;35m , \033[1;35m t0 " << initTemp << " \033[0;35m and \033[1;35m tN " << tempN << " \033[0m " << std::endl;
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     problem.SimulatedAnnealing(maxIter, initTemp, tempN, fun);
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "\033[0;36m Time: \033[1;36m  " << duration.count() << "\033[0;36m microseconds \033[0m" << std::endl;
 }
 
 int main(int argc, char *argv[])
@@ -145,7 +153,7 @@ int main(int argc, char *argv[])
     displayTasks(taskVector);
 
     // Algorytmy rozwiazujace zadanie -- testy
-    // TabuSearch(problem, 20, 2);
+    TabuSearch(problem, 20, 2);
     SimulatedAnnealing(problem, 2, 50, 2, CountNextTemp);
 
     return 0;

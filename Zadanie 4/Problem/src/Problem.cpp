@@ -173,7 +173,9 @@ void Problem::TabuSearch(int maxIter, int tabuListSize)
         }
     }
 
+    std::cout << "Solution" << std::endl;
     DisplayTasks(xSolution);
+    std::cout << "\033[0;32m Cmax: \033[1;32m" << CalculateCMax(xSolution) << "\033[0m" << std::endl;
 }
 
 /**
@@ -218,7 +220,7 @@ void Problem::SimulatedAnnealing(int maxIter, int temp0, int tempN, funType fun)
 
             // Wymieszaj wektor
             std::shuffle(newSolution.begin(), newSolution.end(), g);
-            std::cout << "New Perm" << std::endl;
+            // std::cout << "New Perm" << std::endl;
             // DisplayTasks(newSolution);
             int newCMax = CalculateCMax(newSolution);
             int delta = newCMax - acceptedCMax;
@@ -252,14 +254,14 @@ void Problem::SimulatedAnnealing(int maxIter, int temp0, int tempN, funType fun)
             break;
     }
 
+    std::cout << "Solution" << std::endl;
     DisplayTasks(finalSolution);
+    std::cout << "\033[0;32m Cmax: \033[1;32m" << CalculateCMax(finalSolution) << "\033[0m" << std::endl;
 }
 
 void Problem::DisplayTasks(const std::vector<Task> &vec)
 {
-    std::cout << "Best makespan: " << CalculateCMax(vec) << std::endl;
-    std::cout << "Best sequence: " << std::endl;
-    for (const Task &task : vec)
+    for (Task task : vec)
     {
         std::cout << task << std::endl;
     }
