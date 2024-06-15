@@ -139,13 +139,19 @@ void Problem::NEH() const
         sequence = bestSequence;
     }
 
-    // Print the final sequence and makespan
-    std::cout << "Final task sequence:\n";
-    for (const auto &task : sequence)
-    {
-        std::cout << task << std::endl;
-    }
-    std::cout << "Final makespan: " << calculateMakespan(sequence) << std::endl;
+    /* UJEDNOLICILAM WYSWIETLANIE, to jest stay kod
+        // // Print the final sequence and makespan
+        // std::cout << "Final task sequence:\n";
+        // for (const auto &task : sequence)
+        // {
+        //     std::cout << task << std::endl;
+        // }
+        // std::cout << "Final makespan: " << calculateMakespan(sequence) << std::endl;
+    */
+
+    std::cout << "Solution" << std::endl;
+    DisplayTasks(sequence);
+    std::cout << "\033[0;32m Cmax: \033[1;32m" << CalculateCMax(sequence) << "\033[0m" << std::endl;
 }
 
 void Problem::CompleteReview() const
@@ -157,33 +163,40 @@ void Problem::CompleteReview() const
     int bestMakespan = std::numeric_limits<int>::max();
 
     std::vector<Task> currentSequence = m_tasks;
-    //int x = 0;
-    // Generate all permutations of the task sequence
+    // int x = 0;
+    //  Generate all permutations of the task sequence
     do
     {
-        
+
         int currentMakespan = calculateMakespan(currentSequence);
-       
+
         if (currentMakespan < bestMakespan)
         {
             bestMakespan = currentMakespan;
             bestSequence = currentSequence;
-             std::cout<<"curr_best_makespan: "<<bestMakespan<<std::endl;
-            //std::cout << "Current perm num: " << x << std::endl;
-            //x++;
+            std::cout << "curr_best_makespan: " << bestMakespan << std::endl;
+            // std::cout << "Current perm num: " << x << std::endl;
+            // x++;
         }
     } while (std::next_permutation(currentSequence.begin(), currentSequence.end(), [](const Task &a, const Task &b)
                                    {
                                        return a.GetValues() > b.GetValues(); // Comparison based on execution times
                                    }));
 
-    // Print the best sequence and its makespan
-    std::cout << "Best task sequence:\n";
-    for (const auto &task : bestSequence)
-    {
-        std::cout << task << std::endl;
-    }
-    std::cout << "Best makespan: " << bestMakespan << std::endl;
+    /* UJEDNOLICILAM WYSWETLANIE, to jest stary kod
+
+        // // Print the best sequence and its makespan
+        // std::cout << "Best task sequence:\n";
+        // for (const auto &task : bestSequence)
+        // {
+        //     std::cout << task << std::endl;
+        // }
+        // std::cout << "Best makespan: " << bestMakespan << std::endl;
+    */
+
+    std::cout << "Solution" << std::endl;
+    DisplayTasks(bestSequence);
+    std::cout << "\033[0;32m Cmax: \033[1;32m" << CalculateCMax(bestSequence) << "\033[0m" << std::endl;
 }
 // Na 3.0
 
@@ -228,49 +241,61 @@ void Problem::Jhonson() const
         result = tasksL;
         result.insert(result.end(), tasksR.begin(), tasksR.end());
 
-        for (const auto &task : result)
-        {
-            std::cout << task << std::endl;
-        }
-
-        std::cout << "Cmax :" << CalculateCMax(result) << std::endl;
+        std::cout << "Solution" << std::endl;
+        DisplayTasks(result);
+        std::cout << "\033[0;32m Cmax: \033[1;32m" << CalculateCMax(result) << "\033[0m" << std::endl;
     }
 }
 
 // Na 3.5
 
 // Na 4.0
-int Problem::calculatePartialMakespan(const std::vector<Task>& sequence, const Task& newTask, size_t position, std::vector<std::vector<int>>& partialCompletionTimes) const {
+int Problem::calculatePartialMakespan(const std::vector<Task> &sequence, const Task &newTask, size_t position, std::vector<std::vector<int>> &partialCompletionTimes) const
+{
     int numMachines = newTask.GetValues().size();
     int numJobs = sequence.size() + 1;
 
     // Create a new completion times matrix with an additional row for the new task
     std::vector<std::vector<int>> completionTimes(numJobs, std::vector<int>(numMachines, 0));
-    
+
     // Copy the existing partial completion times up to the insertion point
-    for (size_t i = 0; i < position; ++i) {
+    for (size_t i = 0; i < position; ++i)
+    {
         completionTimes[i] = partialCompletionTimes[i];
     }
 
     // Insert the new task and update the completion times
-    for (int j = 0; j < numMachines; ++j) {
-        if (position == 0 && j == 0) {
+    for (int j = 0; j < numMachines; ++j)
+    {
+        if (position == 0 && j == 0)
+        {
             completionTimes[position][j] = newTask.GetValues()[j];
-        } else if (position == 0) {
+        }
+        else if (position == 0)
+        {
             completionTimes[position][j] = completionTimes[position][j - 1] + newTask.GetValues()[j];
-        } else if (j == 0) {
+        }
+        else if (j == 0)
+        {
             completionTimes[position][j] = completionTimes[position - 1][j] + newTask.GetValues()[j];
-        } else {
+        }
+        else
+        {
             completionTimes[position][j] = std::max(completionTimes[position - 1][j], completionTimes[position][j - 1]) + newTask.GetValues()[j];
         }
     }
 
     // Update the completion times for the tasks after the inserted task
-    for (size_t i = position + 1; i < numJobs; ++i) {
-        for (int j = 0; j < numMachines; ++j) {
-            if (j == 0) {
+    for (size_t i = position + 1; i < numJobs; ++i)
+    {
+        for (int j = 0; j < numMachines; ++j)
+        {
+            if (j == 0)
+            {
                 completionTimes[i][j] = completionTimes[i - 1][j] + sequence[i - 1].GetValues()[j];
-            } else {
+            }
+            else
+            {
                 completionTimes[i][j] = std::max(completionTimes[i - 1][j], completionTimes[i][j - 1]) + sequence[i - 1].GetValues()[j];
             }
         }
@@ -279,7 +304,8 @@ int Problem::calculatePartialMakespan(const std::vector<Task>& sequence, const T
     return completionTimes[numJobs - 1][numMachines - 1];
 }
 
-void Problem::FNEH() const {
+void Problem::FNEH() const
+{
     std::vector<Task> rankedTasks = m_tasks;
     int N = m_tasks.size();
     if (N == 0)
@@ -287,63 +313,82 @@ void Problem::FNEH() const {
 
     // Step 1: Calculate total processing time for each task
     std::vector<std::pair<int, Task>> totalProcessingTimes;
-    for (const auto& task : m_tasks) {
+    for (const auto &task : m_tasks)
+    {
         int totalProcessingTime = std::accumulate(task.GetValues().begin(), task.GetValues().end(), 0);
         totalProcessingTimes.push_back({totalProcessingTime, task});
     }
 
     // Step 2: Sort tasks in non-increasing order of their total processing times
-    std::sort(totalProcessingTimes.begin(), totalProcessingTimes.end(), [](const std::pair<int, Task>& a, const std::pair<int, Task>& b) {
-        return a.first > b.first;
-    });
+    std::sort(totalProcessingTimes.begin(), totalProcessingTimes.end(), [](const std::pair<int, Task> &a, const std::pair<int, Task> &b)
+              { return a.first > b.first; });
 
     // Step 3: Build the sequence using the NEH heuristic
     std::vector<Task> sequence;
     std::vector<std::vector<int>> partialCompletionTimes; // Matrix to hold partial completion times
 
-    for (const auto& [totalTime, task] : totalProcessingTimes) {
+    for (const auto &[totalTime, task] : totalProcessingTimes)
+    {
         std::vector<Task> bestSequence = sequence;
         int bestMakespan = std::numeric_limits<int>::max();
-        
+
         // Try inserting the task at all positions in the current sequence
-        for (size_t i = 0; i <= sequence.size(); ++i) {
+        for (size_t i = 0; i <= sequence.size(); ++i)
+        {
             int makespan = calculatePartialMakespan(sequence, task, i, partialCompletionTimes);
-            
-            if (makespan < bestMakespan) {
+
+            if (makespan < bestMakespan)
+            {
                 bestMakespan = makespan;
                 bestSequence = sequence;
                 bestSequence.insert(bestSequence.begin() + i, task);
             }
         }
-        
+
         sequence = bestSequence;
 
         // Update the partial completion times matrix with the best sequence
         partialCompletionTimes = std::vector<std::vector<int>>(sequence.size(), std::vector<int>(task.GetValues().size(), 0));
-        for (size_t i = 0; i < sequence.size(); ++i) {
-            for (size_t j = 0; j < task.GetValues().size(); ++j) {
-                if (i == 0 && j == 0) {
+        for (size_t i = 0; i < sequence.size(); ++i)
+        {
+            for (size_t j = 0; j < task.GetValues().size(); ++j)
+            {
+                if (i == 0 && j == 0)
+                {
                     partialCompletionTimes[i][j] = sequence[i].GetValues()[j];
-                } else if (i == 0) {
+                }
+                else if (i == 0)
+                {
                     partialCompletionTimes[i][j] = partialCompletionTimes[i][j - 1] + sequence[i].GetValues()[j];
-                } else if (j == 0) {
+                }
+                else if (j == 0)
+                {
                     partialCompletionTimes[i][j] = partialCompletionTimes[i - 1][j] + sequence[i].GetValues()[j];
-                } else {
+                }
+                else
+                {
                     partialCompletionTimes[i][j] = std::max(partialCompletionTimes[i - 1][j], partialCompletionTimes[i][j - 1]) + sequence[i].GetValues()[j];
                 }
             }
         }
     }
 
-    // Print the final sequence and makespan
-    std::cout << "Final task sequence:\n";
-    for (const auto& task : sequence) {
-        std::cout << task << std::endl;
-    }
+    /* UJEDNOLICILAM WYSWIETLANIE, to jest stary kod
 
-    // Calculate the final makespan using the last partialCompletionTimes matrix
-    int finalMakespan = partialCompletionTimes.back().back();
-    std::cout << "Final makespan: " << finalMakespan << std::endl;
+        // // Print the final sequence and makespan
+        // std::cout << "Final task sequence:\n";
+        // for (const auto& task : sequence) {
+        //     std::cout << task << std::endl;
+        // }
+
+        // // Calculate the final makespan using the last partialCompletionTimes matrix
+        // int finalMakespan = partialCompletionTimes.back().back();
+        // std::cout << "Final makespan: " << finalMakespan << std::endl;
+    */
+
+    std::cout << "Solution" << std::endl;
+    DisplayTasks(sequence);
+    std::cout << "\033[0;32m Cmax: \033[1;32m" << CalculateCMax(sequence) << "\033[0m" << std::endl;
 }
 
 // Na 4.0
@@ -452,11 +497,10 @@ void Problem::BranchAndBound() const
             }
         }
     }
+
     std::cout << "Solution" << std::endl;
-
     DisplayTasks(result);
-
-    std::cout << "Cmax :" << CalculateCMax(result) << std::endl;
+    std::cout << "\033[0;32m Cmax: \033[1;32m" << CalculateCMax(result) << "\033[0m" << std::endl;
 }
 
 void Problem::ShowNode(const bbNode &node) const

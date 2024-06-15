@@ -65,40 +65,52 @@ void displayTasks(std::vector<Task> &tasks)
 
 void Jhnson(Problem &problem)
 {
-    std::cout << "---------------- Algorytm Jhnson'a" << std::endl;
+    std::cout << "--------------------------------- "<< "\033[0;35m Algorytm Jhnson'a \033[0m" << std::endl;
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     problem.Jhonson();
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "\033[0;36m Time: \033[1;36m  " << duration.count() << "\033[0;36m microseconds \033[0m" << std::endl;
 }
 
 void Neh(Problem &problem)
 {
-    std::cout << "---------------- Algorytm NEH" << std::endl;
-    auto start = std::chrono::steady_clock::now();
+    std::cout << "--------------------------------- "<< "\033[0;35m Algorytm NEH \033[0m" << std::endl;
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     problem.NEH();
-    auto end = std::chrono::steady_clock::now();
-    std::chrono::duration<double, std::milli> elapsedMilliseconds = end - start;
-    std::cout << "Time for FNEH: " << elapsedMilliseconds.count() << " ms" << std::endl;
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "\033[0;36m Time: \033[1;36m  " << duration.count() << "\033[0;36m microseconds \033[0m" << std::endl;
 }
 
 void CompleteReview(Problem &problem)
 {
-    std::cout << "---------------- Algorytm Complete review" << std::endl;
+    std::cout << "--------------------------------- "<< "\033[0;35m Algorytm Complete review \033[0m" << std::endl;
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     problem.CompleteReview();
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "\033[0;36m Time: \033[1;36m  " << duration.count() << "\033[0;36m microseconds \033[0m" << std::endl;
 }
 
 void FNEH(Problem &problem)
 {
-    std::cout << "---------------- Algorytm FNEH" << std::endl;
-    auto start = std::chrono::steady_clock::now();
+    std::cout << "--------------------------------- "<< "\033[0;35m Algorytm FNEH \033[0m" << std::endl;
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     problem.FNEH();
-    auto end = std::chrono::steady_clock::now();
-    std::chrono::duration<double, std::milli> elapsedMilliseconds = end - start;
-    std::cout << "Time for FNEH: " << elapsedMilliseconds.count() << " ms" << std::endl;
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "\033[0;36m Time: \033[1;36m  " << duration.count() << "\033[0;36m microseconds \033[0m" << std::endl;
 }
 
 void BoundAndBrnahc(Problem &problem)
 {
-    std::cout << "---------------- Algorytm Bound And Brnach" << std::endl;
+    std::cout << "--------------------------------- "<< "\033[0;35m Algorytm Bound And Brnach \033[0m" << std::endl;
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     problem.BranchAndBound();
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "\033[0;36m Time: \033[1;36m  " << duration.count() << "\033[0;36m microseconds \033[0m" << std::endl;
 }
 
 std::string ChoseFile()
@@ -157,14 +169,11 @@ int main(int argc, char *argv[])
     displayTasks(taskVector);
 
     // tests:
-    //Jhnson(problem);
-    
-    // Neh(problem);
-    
-    //CompleteReview(problem);
+    Jhnson(problem);
+    Neh(problem);
+    CompleteReview(problem);
     BoundAndBrnahc(problem);
-    // FNEH(problem);
-    
+    FNEH(problem);
 
     return 0;
 }
@@ -172,9 +181,9 @@ int main(int argc, char *argv[])
 /* ZOSTAWIONE JAKO WZÓR
  * std::cout <<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  LSA  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<std::endl;
  *
- *    std::chrono::high_resolution_clock::time_point startLSA = std::chrono::high_resolution_clock::now();
+ *    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
  *    problem.LSA();
- *    std::chrono::high_resolution_clock::time_point endLSA = std::chrono::high_resolution_clock::now();
- *    auto durationLSA = std::chrono::duration_cast<std::chrono::microseconds>(endLSA - startLSA);
- * std::cout << "Time LSA: " << durationLSA.count() << " microseconds" << std::endl;
+ *    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+ *    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+ * std::cout << "Time LSA: " << duration.count() << " microseconds" << std::endl;
  */
