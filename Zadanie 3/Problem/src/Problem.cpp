@@ -139,11 +139,11 @@ void Problem::NEH() const
     }
 
     // Print the final sequence and makespan
-    std::cout << "Final task sequence:\n";
-    for (const auto &task : sequence)
-    {
-        std::cout << task << std::endl;
-    }
+    //std::cout << "Final task sequence:\n";
+    //for (const auto &task : sequence)
+    //{
+    //    std::cout << task << std::endl;
+    //}
     std::cout << "Final makespan: " << calculateMakespan(sequence) << std::endl;
 }
 
@@ -335,10 +335,10 @@ void Problem::FNEH() const {
     }
 
     // Print the final sequence and makespan
-    std::cout << "Final task sequence:\n";
-    for (const auto& task : sequence) {
-        std::cout << task << std::endl;
-    }
+    //std::cout << "Final task sequence:\n";
+    //for (const auto& task : sequence) {
+     //   std::cout << task << std::endl;
+    //}
 
     // Calculate the final makespan using the last partialCompletionTimes matrix
     int finalMakespan = partialCompletionTimes.back().back();
