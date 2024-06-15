@@ -154,9 +154,9 @@ int main(int argc, char *argv[])
 
     // Algorytmy rozwiazujace zadanie -- testy
     TabuSearch(problem, 500, 8);
-    SimulatedAnnealing(problem, 200, 300, 0, CountNextTemp);
     TabuSearch(problem, 1000, 8);
-    SimulatedAnnealing(problem, 500, 100, 0, CountNextTemp);
+    SimulatedAnnealing(problem, 200, 300, 0, CountNextTemp);
+    SimulatedAnnealing(problem, 200, 100, 0, CountNextTemp);
 
     return 0;
 }
