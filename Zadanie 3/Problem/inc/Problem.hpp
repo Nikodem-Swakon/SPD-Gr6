@@ -31,6 +31,8 @@ public:
     Problem(std::vector<Task> tasks);
     ~Problem();
 
+    int GetTasksNum(){return m_tasksNr;}
+
     void GenerateInstance();
     void GetNextPerm(std::vector<Task> &vec) const;
 

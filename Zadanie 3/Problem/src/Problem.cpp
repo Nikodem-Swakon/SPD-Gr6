@@ -174,7 +174,7 @@ void Problem::CompleteReview() const
         {
             bestMakespan = currentMakespan;
             bestSequence = currentSequence;
-            std::cout << "curr_best_makespan: " << bestMakespan << std::endl;
+            // std::cout << "curr_best_makespan: " << bestMakespan << std::endl;
             // std::cout << "Current perm num: " << x << std::endl;
             // x++;
         }
