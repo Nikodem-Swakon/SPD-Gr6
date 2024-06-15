@@ -132,8 +132,9 @@ void Problem::TabuSearch(int maxIter, int tabuListSize)
 {
     std::vector<Task> xCurrentSolution = m_tasks;
     std::vector<Task> xSolution = m_tasks;
-
     std::vector<std::vector<Task>> tabuList;
+    
+    int iter = 0;
     // Znajdź najlepsze rozwiazanie w sasiedztwie
     for (int i = 0; i < maxIter; i++)
     {
@@ -170,6 +171,15 @@ void Problem::TabuSearch(int maxIter, int tabuListSize)
         if (CalculateCMax(xCurrentSolution) < CalculateCMax(xSolution))
         {
             xSolution = xCurrentSolution;
+        }
+        else{
+            iter++;
+        }
+                
+        if(iter > 20)
+        {
+            std::reverse(xCurrentSolution.begin(), xCurrentSolution.end());
+            iter = 0;
         }
     }
 
