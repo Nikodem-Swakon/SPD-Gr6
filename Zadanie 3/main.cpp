@@ -65,7 +65,7 @@ void displayTasks(std::vector<Task> &tasks)
 
 void Jhnson(Problem &problem)
 {
-    std::cout << "--------------------------------- "<< "\033[0;35m Algorytm Jhnson'a \033[0m" << std::endl;
+    std::cout << "--------------------------------- " << "\033[0;35m Algorytm Jhnson'a \033[0m" << std::endl;
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     problem.Jhonson();
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
@@ -75,7 +75,7 @@ void Jhnson(Problem &problem)
 
 void Neh(Problem &problem)
 {
-    std::cout << "--------------------------------- "<< "\033[0;35m Algorytm NEH \033[0m" << std::endl;
+    std::cout << "--------------------------------- " << "\033[0;35m Algorytm NEH \033[0m" << std::endl;
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     problem.NEH();
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
@@ -85,7 +85,9 @@ void Neh(Problem &problem)
 
 void CompleteReview(Problem &problem)
 {
-    std::cout << "--------------------------------- "<< "\033[0;35m Algorytm Complete review \033[0m" << std::endl;
+    if (problem.GetTasksNum() > 11)
+        return;
+    std::cout << "--------------------------------- " << "\033[0;35m Algorytm Complete review \033[0m" << std::endl;
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     problem.CompleteReview();
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
@@ -95,7 +97,7 @@ void CompleteReview(Problem &problem)
 
 void FNEH(Problem &problem)
 {
-    std::cout << "--------------------------------- "<< "\033[0;35m Algorytm FNEH \033[0m" << std::endl;
+    std::cout << "--------------------------------- " << "\033[0;35m Algorytm FNEH \033[0m" << std::endl;
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     problem.FNEH();
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
@@ -105,7 +107,9 @@ void FNEH(Problem &problem)
 
 void BoundAndBrnahc(Problem &problem)
 {
-    std::cout << "--------------------------------- "<< "\033[0;35m Algorytm Bound And Brnach \033[0m" << std::endl;
+    if (problem.GetTasksNum() > 11)
+        return;
+    std::cout << "--------------------------------- " << "\033[0;35m Algorytm Bound And Brnach \033[0m" << std::endl;
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     problem.BranchAndBound();
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
@@ -169,11 +173,12 @@ int main(int argc, char *argv[])
     displayTasks(taskVector);
 
     // tests:
-    //Jhnson(problem);
+
+    CompleteReview(problem);
+    BoundAndBrnahc(problem);
     Neh(problem);
-    //CompleteReview(problem);
-    //BoundAndBrnahc(problem);
     FNEH(problem);
+    Jhnson(problem);
 
     return 0;
 }
