@@ -329,29 +329,6 @@ std::vector<Task> rankedTasks = m_tasks;
     totalProcessingTimes.erase(std::remove_if(totalProcessingTimes.begin(), totalProcessingTimes.end(),
                                               [&](const std::pair<int, Task>& p) { return p.second.GetValues() == m_tasks[0].GetValues(); }),
                                totalProcessingTimes.end());
-    int front_table[N][M]={};
-    int back_table[N][M]={};
-    auto tables = CalculateTables(sequence,m_tasks[0],front_table,back_table);
-    int* incomingTable = tables.first;
-    int* outgoingTable = tables.second;
-
-
-    std::cout << "Incoming Table: ";
-    for (int i = 0; i < M; ++i) {
-        std::cout << incomingTable[i] << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "Outgoing Table: ";
-    for (int i = 0; i < M; ++i) {
-        std::cout << outgoingTable[i] << " ";
-    }
-    std::cout << std::endl;
-
-    for (int i = 0; i < M; ++i) {
-            front_table[i] = incomingTable[i];
-            back_table[i] = outgoingTable[i];
-        }
 
     // Step 3: Build the sequence using the QNEH heuristic
     for (size_t index = 0; index < totalProcessingTimes.size(); ++index) { //for each task
@@ -404,19 +381,11 @@ int Problem::CalculateCMaxY(const std::vector<Task>& sequence) const {
     return completionTimes[numTasks - 1][numMachines - 1];
 }
 
-std::pair<int*, int*> Problem::CalculateTables(const std::vector<Task>& schedule, const Task& task, 
-                                               const int* initialIncomingTable, const int* initialOutgoingTable) const {
+std::pair<std::vector<int>, std::vector<int>> Problem::CalculateTables(const std::vector<Task>& schedule, const Task& task) const {
     int numTasks = schedule.size();
     int numMachines = task.GetValues().size();
-    // Create copies of the initial tables
-    int* incomingTable = new int[numMachines];
-    int* outgoingTable = new int[numMachines];
-
-    // Copy initial values to the new tables
-    for (int i = 0; i < numMachines; ++i) {
-        incomingTable[i] = initialIncomingTable[i];
-        outgoingTable[i] = initialOutgoingTable[i];
-    }
+    std::vector<int> incomingTable(numMachines, 0);
+    std::vector<int> outgoingTable(numMachines, 0);
 
     // Calculate incoming table
     for (int m = 0; m < numMachines; ++m) {

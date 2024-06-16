@@ -26,7 +26,7 @@ private:
     int CalculateLowerBound(int level, std::vector<Task> scheduled) const;
     int CalculateUpperBound(int level, std::vector<Task> scheduled) const;
 
-    std::pair<int*, int*>  CalculateTables(const std::vector<Task>& schedule, const Task& task,const int* initialIncomingTable, const int* initialOutgoingTable) const;
+    std::pair<std::vector<int>, std::vector<int>>  CalculateTables(const std::vector<Task>& schedule, const Task& task) const;
     int CalculateCMaxQuick(int position, const std::vector<int>& incomingTable, const std::vector<int>& outgoingTable, const Task& task, const std::vector<Task>& sequence) const;
     int CalculateCMaxX(const std::vector<Task> &sequence) const;
     int CalculateCMaxY(const std::vector<Task> &sequence) const;
